@@ -1,0 +1,66 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css">
+<style>
+/* 위시켓 포폴 표지 = 678x387 (≈1.75:1). 배경 1344x768 과 동일 비율.
+   이 발주의 핵심은 "공고 → 지원 → 선발 확정 원스톱"이라 사용자단·관리자단을
+   한 장에 겹쳐 '양단을 다 만든다'를 보여준다.
+   ⚠️ 창 안은 실제 프로토타입 렌더 픽셀 그대로. 왜곡·재생성 없음. */
+html,body{margin:0;padding:0}
+.stage{position:relative;width:1344px;height:768px;overflow:hidden;background:#e9ecef}
+.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.veil{position:absolute;inset:0;background:
+  linear-gradient(180deg,rgba(255,255,255,.30) 0%,rgba(255,255,255,0) 30%),
+  radial-gradient(118% 90% at 46% 54%,rgba(255,255,255,.22) 0%,rgba(24,38,36,.34) 100%)}
+
+.win{position:absolute;border-radius:11px;overflow:hidden;background:#fff}
+.chrome{height:28px;display:flex;align-items:center;gap:6px;padding:0 11px;background:#f2f4f7;border-bottom:1px solid #e4e7ec}
+.dot{width:8px;height:8px;border-radius:50%}
+.r{background:#ff5f57}.y{background:#febc2e}.g{background:#28c840}
+.addr{flex:1;margin-left:7px;height:16px;border-radius:8px;background:#fff;border:1px solid #e4e7ec;
+  display:flex;align-items:center;justify-content:center;font:500 8.5px ui-monospace,Menlo,monospace;color:#98a2b3}
+.win img{display:block;width:100%}
+
+/* 청년 — 크게, 뒤 */
+.youth{left:64px;top:104px;width:760px;
+  box-shadow:0 2px 6px rgba(16,28,26,.10),0 26px 56px -14px rgba(16,28,26,.34),0 0 0 1px rgba(16,28,26,.06)}
+/* 관리자 — 작게, 앞에 겹쳐 */
+.admin{right:60px;bottom:96px;width:600px;
+  box-shadow:0 3px 8px rgba(16,28,26,.14),0 34px 70px -16px rgba(16,28,26,.44),0 0 0 1px rgba(16,28,26,.06)}
+
+/* 역할 배지 */
+.tag{position:absolute;background:rgba(17,21,29,.9);color:#fff;font:800 11.5px 'Pretendard Variable',Pretendard,sans-serif;
+  letter-spacing:-.01em;padding:5px 11px;border-radius:6px;backdrop-filter:blur(4px)}
+.tag.a{left:64px;top:74px}
+.tag.b{right:60px;bottom:660px}
+
+/* 플로우 라벨 */
+.flow{position:absolute;left:64px;bottom:34px;display:flex;align-items:center;gap:9px;
+  background:rgba(17,21,29,.86);color:#fff;padding:9px 15px;border-radius:999px;
+  font:700 13px 'Pretendard Variable',Pretendard,sans-serif;letter-spacing:-.012em;backdrop-filter:blur(6px)}
+.flow em{font-style:normal;color:#5EEAD4}
+.flow .sep{color:#5b616b}
+</style>
+<div class="stage">
+  <img class="bg" src="./assets/bg-a.png">
+  <div class="veil"></div>
+
+  <span class="tag a">청년 — 공고 탐색 · 지원</span>
+  <div class="win youth">
+    <div class="chrome"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+      <span class="addr">/jobs</span></div>
+    <img src="./assets/cover-youth.png">
+  </div>
+
+  <span class="tag b">관리자 — 선발 · 성과 측정</span>
+  <div class="win admin">
+    <div class="chrome"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+      <span class="addr">/admin/stats</span></div>
+    <img src="./assets/cover-admin.png">
+  </div>
+
+  <div class="flow">
+    공고 <em>→</em> 지원 <em>→</em> 선발 확정 <em>→</em> 통계 반영
+    <span class="sep">|</span> 동작하는 프로토타입 <span class="sep">|</span> 제안용 데모
+  </div>
+</div>

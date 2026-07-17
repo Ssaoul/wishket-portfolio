@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>공고 → 지원 → 선발 확정 원스톱 플로우 — 제안용 프로토타입</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css">
+<style>
+/* ══════════════════════════════════════════════════════════════════
+   이 프로토타입이 증명하려는 것 — 발주의 핵심 목표 한 줄:
+     "공고 등록 → 지원 → 선발 확정이 원스톱으로 처리되는 웹사이트"
+   그래서 예쁜 화면이 아니라, 상태가 실제로 전파되는 걸 보여준다.
+     청년이 지원 → 관리자 목록에 즉시 등장 → 합격 처리
+       → 청년 마이페이지에 반영 → 통계 대시보드 갱신
+   ⚠️ 디자인 시안은 발주처가 Figma 로 제공하는 건이다.
+      이건 디자인 제안이 아니라 플로우·데이터 구조 검증용이다.
+   ══════════════════════════════════════════════════════════════════ */
+:root{
+  --brand:#0F766E; --brand-700:#0B5A54; --brand-50:#F0FDFA; --brand-100:#CCFBF1;
+  --n0:#fff; --n50:#FAFAFA; --n100:#F4F4F5; --n200:#E8E9EB; --n300:#D3D5D9;
+  --n400:#A1A5AD; --n500:#71757E; --n700:#3F434A; --n900:#17191D;
+  --ok:#15803D; --ok-bg:#F0FDF4; --no:#B91C1C; --no-bg:#FEF2F2; --wait:#B45309; --wait-bg:#FFFBEB;
+  --ease:cubic-bezier(.2,.7,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Pretendard Variable',Pretendard,-apple-system,system-ui,sans-serif;color:var(--n900);background:var(--n50);-webkit-font-smoothing:antialiased;font-feature-settings:'ss01','tnum'}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+.wrap{width:min(1180px,100% - 40px);margin-inline:auto}
+
+.notice{background:var(--n900);color:#fff;font-size:12.5px;font-weight:500;text-align:center;padding:9px 16px;letter-spacing:-.01em}
+.notice b{color:#5EEAD4;font-weight:700}
+
+/* 데모 조작판 — 역할 전환 */
+.demobar{background:#111318;border-bottom:1px solid #23262d;padding:11px 0}
+.demobar .wrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.demobar .lbl{color:#8B909A;font-size:12px;font-weight:700;letter-spacing:-.01em}
+.seg{display:flex;background:#1C1F26;border:1px solid #2A2E37;border-radius:8px;padding:3px;gap:3px}
+.seg button{padding:7px 14px;border-radius:6px;font-size:13px;font-weight:700;color:#8B909A;transition:.15s var(--ease)}
+.seg button.on{background:var(--brand);color:#fff}
+.hint{color:#6B7078;font-size:12px;margin-left:auto}
+.hint b{color:#5EEAD4}
+
+/* 앱 헤더 */
+.app{background:#fff;border-bottom:1px solid var(--n200)}
+.app .wrap{display:flex;align-items:center;height:62px;gap:30px}
+.logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:16.5px;letter-spacing:-.03em}
+.logo i{width:22px;height:22px;border-radius:6px;background:var(--brand);position:relative}
+.logo i::after{content:'';position:absolute;inset:6px auto auto 6px;width:10px;height:10px;border:2px solid #fff;border-radius:50%}
+.tabs2{display:flex;gap:4px;margin-left:12px}
+.tabs2 button{padding:8px 13px;border-radius:7px;font-size:14px;font-weight:600;color:var(--n500)}
+.tabs2 button.on{background:var(--brand-50);color:var(--brand)}
+.who{margin-left:auto;display:flex;align-items:center;gap:9px;font-size:13px;color:var(--n500)}
+.avt{width:28px;height:28px;border-radius:50%;background:var(--n200);display:grid;place-items:center;font-size:11px;font-weight:800;color:var(--n500)}
+
+main{padding:28px 0 70px;min-height:560px}
+h1{font-size:24px;letter-spacing:-.035em;font-weight:800}
+.sub{margin-top:6px;color:var(--n500);font-size:14px}
+
+/* 공고 카드 */
+.jobs{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}
+.job{background:#fff;border:1px solid var(--n200);border-radius:13px;padding:18px;transition:.18s var(--ease);cursor:pointer;text-align:left;display:flex;flex-direction:column}
+.job:hover{border-color:var(--brand);box-shadow:0 12px 28px -10px rgba(15,118,110,.2);transform:translateY(-2px)}
+.row{display:flex;align-items:center;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.chip{font-size:11px;font-weight:800;padding:3px 8px;border-radius:5px;letter-spacing:-.01em}
+.c-open{background:var(--brand-50);color:var(--brand)}
+.c-soon{background:var(--wait-bg);color:var(--wait)}
+.c-closed{background:var(--n100);color:var(--n400)}
+.c-region{background:var(--n100);color:var(--n700)}
+.job h3{font-size:15.5px;letter-spacing:-.025em;line-height:1.45;font-weight:700}
+.job .org{margin-top:6px;color:var(--n500);font-size:13px}
+.job .foot{margin-top:14px;padding-top:12px;border-top:1px solid var(--n200);display:flex;justify-content:space-between;font-size:12px;color:var(--n500)}
+.job .foot b{color:var(--n900);font-weight:700}
+
+/* 상세 / 폼 */
+.panel{background:#fff;border:1px solid var(--n200);border-radius:14px;padding:26px;margin-top:18px}
+.back{color:var(--n500);font-size:13px;font-weight:600;margin-bottom:14px;display:inline-flex;align-items:center;gap:5px}
+.back:hover{color:var(--n900)}
+.kv{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--n200);border:1px solid var(--n200);border-radius:10px;overflow:hidden;margin:18px 0}
+.kv div{background:#fff;padding:13px 15px}
+.kv span{display:block;font-size:11.5px;color:var(--n500);margin-bottom:4px}
+.kv b{font-size:14px;letter-spacing:-.02em}
+.desc{color:var(--n700);font-size:14.5px;line-height:1.8;white-space:pre-line}
+.btn{border-radius:9px;padding:12px 20px;font-size:14px;font-weight:700;transition:.15s var(--ease)}
+.btn-p{background:var(--brand);color:#fff}
+.btn-p:hover{background:var(--brand-700)}
+.btn-p:disabled{background:var(--n300);cursor:not-allowed}
+.btn-g{border:1px solid var(--n300);color:var(--n700)}
+.btn-g:hover{border-color:var(--n900);color:var(--n900)}
+
+.auto{background:var(--brand-50);border:1px solid var(--brand-100);border-radius:10px;padding:14px 16px;margin-bottom:18px;display:flex;gap:10px}
+.auto svg{width:17px;height:17px;stroke:var(--brand);fill:none;stroke-width:2;flex:none;margin-top:1px}
+.auto p{font-size:13px;line-height:1.65;color:var(--brand-700)}
+.auto b{font-weight:700}
+label.f{display:block;margin-bottom:16px}
+label.f span{display:block;font-size:13px;font-weight:700;margin-bottom:7px}
+label.f input,label.f textarea{width:100%;border:1px solid var(--n300);border-radius:8px;padding:11px 13px;font:inherit;font-size:14px}
+label.f input:focus,label.f textarea:focus{outline:2px solid var(--brand-100);border-color:var(--brand)}
+label.f input[readonly]{background:var(--n100);color:var(--n500)}
+label.f textarea{min-height:96px;resize:vertical}
+.file{border:1.5px dashed var(--n300);border-radius:9px;padding:18px;text-align:center;color:var(--n500);font-size:13px}
+
+/* 표 */
+table{width:100%;border-collapse:collapse;margin-top:16px;background:#fff;border:1px solid var(--n200);border-radius:12px;overflow:hidden}
+th,td{padding:13px 15px;text-align:left;font-size:13.5px;border-bottom:1px solid var(--n200)}
+th{background:var(--n50);font-weight:700;font-size:12px;color:var(--n500);letter-spacing:-.01em}
+tr:last-child td{border-bottom:0}
+td b{font-weight:700}
+.st{font-size:11.5px;font-weight:800;padding:4px 9px;border-radius:5px;white-space:nowrap}
+.s-wait{background:var(--wait-bg);color:var(--wait)}
+.s-ok{background:var(--ok-bg);color:var(--ok)}
+.s-no{background:var(--no-bg);color:var(--no)}
+.acts{display:flex;gap:6px}
+.mini{border:1px solid var(--n300);border-radius:6px;padding:5px 10px;font-size:12px;font-weight:700;color:var(--n700)}
+.mini:hover{border-color:var(--n900)}
+.mini.ok:hover{background:var(--ok-bg);border-color:var(--ok);color:var(--ok)}
+.mini.no:hover{background:var(--no-bg);border-color:var(--no);color:var(--no)}
+
+/* 통계 */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:20px}
+.stat{background:#fff;border:1px solid var(--n200);border-radius:13px;padding:18px}
+.stat span{font-size:12.5px;color:var(--n500)}
+.stat b{display:block;margin-top:7px;font-size:28px;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.stat .d{margin-top:6px;font-size:11.5px;color:var(--n400)}
+.bars{background:#fff;border:1px solid var(--n200);border-radius:13px;padding:22px;margin-top:14px}
+.bars h3{font-size:15px;letter-spacing:-.025em;margin-bottom:16px}
+.bar{margin-bottom:14px}
+.bar .t{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px}
+.bar .t b{font-variant-numeric:tabular-nums}
+.track{height:8px;background:var(--n100);border-radius:99px;overflow:hidden}
+.fill{height:100%;background:var(--brand);border-radius:99px;transition:width .5s var(--ease)}
+
+.empty{background:#fff;border:1px dashed var(--n300);border-radius:12px;padding:44px;text-align:center;color:var(--n500);font-size:14px;margin-top:18px}
+.toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);background:var(--n900);color:#fff;padding:13px 20px;border-radius:10px;font-size:13.5px;font-weight:600;opacity:0;transition:.28s var(--ease);pointer-events:none;z-index:99;box-shadow:0 12px 30px rgba(0,0,0,.3)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media (max-width:1024px){ .jobs{grid-template-columns:repeat(2,1fr)} .stats{grid-template-columns:repeat(2,1fr)} .kv{grid-template-columns:repeat(2,1fr)} }
+@media (max-width:640px){
+  .wrap{width:calc(100% - 28px)}
+  .jobs{grid-template-columns:1fr}
+  .stats{grid-template-columns:1fr}
+  .kv{grid-template-columns:1fr}
+  .app .wrap{height:auto;padding:12px 0;flex-wrap:wrap;gap:10px}
+  .tabs2{width:100%;overflow-x:auto}
+  .who{margin-left:0}
+  .hint{display:none}
+  table{display:block;overflow-x:auto}
+  .panel{padding:18px}
+}
+</style>
+</head>
+<body>
+
+<div class="notice">
+  위시켓 프로젝트 <b>제안을 위해 제작한 프로토타입</b>입니다 · 실제 서비스가 아니며, 표기된 기관·인물·공고는 모두 가상입니다
+</div>
+
+<div class="demobar">
+  <div class="wrap">
+    <span class="lbl">데모 조작</span>
+    <div class="seg" id="roleSeg">
+      <button data-r="youth" class="on">청년 화면</button>
+      <button data-r="admin">관리자 화면</button>
+    </div>
+    <span class="hint" id="hint"><b>①</b> 공고에 지원 → <b>②</b> 관리자로 전환해 합격 처리 → <b>③</b> 마이페이지·통계에 반영</span>
+  </div>
+</div>
+
+<header class="app">
+  <div class="wrap">
+    <div class="logo"><i></i><span id="brand">로컬 일경험</span></div>
+    <nav class="tabs2" id="tabs"></nav>
+    <div class="who"><span id="whoName">김청년</span><span class="avt" id="whoAvt">청</span></div>
+  </div>
+</header>
+
+<main class="wrap" id="view"></main>
+<div class="toast" id="toast"></div>
+
+<script>
+// ─────────────────────────────────────────────────────────────────
+// 상태. 서버 없이 메모리에만 둔다 — 이 프로토타입의 목적은 데이터 구조와
+// 상태 전이를 눈으로 확인하는 것이지 백엔드를 흉내내는 게 아니다.
+// 실제 구축 시엔 이 구조가 그대로 API/DB 스키마로 내려간다.
+// ─────────────────────────────────────────────────────────────────
+const S = {
+  role: 'youth', view: 'jobs', jobId: null,
+  profile: { name:'김청년', email:'youth@example.com', phone:'010-0000-0000', skills:'콘텐츠 기획 · 로컬 리서치' },
+  // 프로그램(상위) → 공고(하위) 2단계 구조 — 발주 요구 그대로
+  programs: [ {id:'P1',name:'2026 로컬 임팩트 시즌'}, {id:'P2',name:'지역 콘텐츠 랩'} ],
+  jobs: [
+    { id:'J1', pid:'P1', title:'폐교 리모델링 공간 기획', org:'강원 정선군 문화재단', region:'강원', due:'2026-08-14', status:'open',  views:412, quota:3 },
+    { id:'J2', pid:'P1', title:'로컬 식자재 브랜드 리서치', org:'전남 고흥 협동조합',   region:'전남', due:'2026-07-31', status:'soon',  views:absNum(288), quota:2 },
+    { id:'J3', pid:'P2', title:'마을 아카이브 인터뷰 기록', org:'경북 영주시 청년센터', region:'경북', due:'2026-08-22', status:'open',  views:196, quota:4 },
+    { id:'J4', pid:'P2', title:'서핑 관광 데이터 분석',     org:'강원 양양군 관광과',   region:'강원', due:'2026-07-10', status:'closed',views:531, quota:2 },
+  ],
+  // 다른 지원자들 — 관리자 화면이 비어 보이지 않게. 전부 가상.
+  apps: [
+    { id:'A1', jid:'J1', name:'이지원', when:'2026-07-14', status:'pass',  score:88, note:'공간 기획 경험 보유' },
+    { id:'A2', jid:'J1', name:'박서연', when:'2026-07-15', status:'wait',  score:null, note:'' },
+    { id:'A3', jid:'J3', name:'최민준', when:'2026-07-16', status:'fail',  score:61, note:'일정 미스매치' },
+    { id:'A4', jid:'J4', name:'정하늘', when:'2026-07-02', status:'pass',  score:91, note:'참여 완료' },
+  ],
+}
+function absNum(n){ return n }
+
+const el = (h) => { const d=document.createElement('div'); d.innerHTML=h.trim(); return d.firstElementChild }
+const $ = (s) => document.querySelector(s)
+const esc = (s) => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))
+const job = (id) => S.jobs.find(j=>j.id===id)
+const prog = (pid) => S.programs.find(p=>p.id===pid)
+const STATUS = { open:['모집 중','c-open'], soon:['마감 임박','c-soon'], closed:['모집 마감','c-closed'] }
+const APPST  = { wait:['검토 중','s-wait'], pass:['합격','s-ok'], fail:['불합격','s-no'] }
+
+function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),2600) }
+
+// ── 청년 ──────────────────────────────────────────────────────────
+function viewJobs(){
+  return `<h1>지역의 기회를 찾아보세요</h1><p class="sub">참여하고 싶은 공고에 지원하면 마이페이지에서 진행 상태를 확인할 수 있습니다.</p>
+  <div class="jobs">${S.jobs.map(j=>{
+    const [txt,cls]=STATUS[j.status]
+    return `<button class="job" data-job="${j.id}">
+      <div class="row"><span class="chip ${cls}">${txt}</span><span class="chip c-region">${j.region}</span></div>
+      <h3>${esc(j.title)}</h3><div class="org">${esc(j.org)}</div>
+      <div class="foot"><span>마감 <b>${j.due}</b></span><span>선발 <b>${j.quota}명</b></span></div>
+    </button>`}).join('')}</div>`
+}
+function viewJobDetail(){
+  const j=job(S.jobId), [txt,cls]=STATUS[j.status]
+  const mine=S.apps.find(a=>a.jid===j.id&&a.name===S.profile.name)
+  const can=j.status!=='closed'&&!mine
+  return `<button class="back" data-go="jobs">← 공고 목록</button>
+  <div class="panel">
+    <div class="row"><span class="chip ${cls}">${txt}</span><span class="chip c-region">${j.region}</span><span class="chip c-region">${esc(prog(j.pid).name)}</span></div>
+    <h1>${esc(j.title)}</h1><p class="sub">${esc(j.org)}</p>
+    <div class="kv">
+      <div><span>모집 마감</span><b>${j.due}</b></div>
+      <div><span>선발 인원</span><b>${j.quota}명</b></div>
+      <div><span>현재 지원자</span><b>${S.apps.filter(a=>a.jid===j.id).length}명</b></div>
+      <div><span>조회수</span><b>${j.views.toLocaleString()}</b></div>
+    </div>
+    <p class="desc">지역의 실제 과제에 참여하며 다음 커리어의 단서를 찾는 프로그램입니다. 활동 기간 동안 현장 담당자와 함께 과제를 정의하고, 결과물을 지역에 남깁니다.
+
+· 활동 형태: 현장 방문 + 온라인 병행
+· 제공: 활동비, 숙소, 멘토링
+· 지원 마감 후 서류 검토 → 선발 확정 순으로 진행됩니다.</p>
+    <div style="margin-top:22px">
+      ${mine ? `<button class="btn btn-g" disabled>이미 지원한 공고입니다</button>`
+             : can ? `<button class="btn btn-p" data-go="apply">이 공고에 지원하기</button>`
+                   : `<button class="btn btn-p" disabled>모집이 마감되었습니다</button>`}
+    </div>
+  </div>`
+}
+function viewApply(){
+  const j=job(S.jobId)
+  return `<button class="back" data-go="job">← 공고 상세</button>
+  <div class="panel">
+    <h1>지원서 작성</h1><p class="sub">${esc(j.title)} · ${esc(j.org)}</p>
+    <div class="auto" style="margin-top:20px">
+      <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+      <p><b>프로필이 자동으로 연동되었습니다.</b> 이름·연락처·직무 정보는 마이페이지의 프로필에서 불러왔습니다. 수정이 필요하면 프로필에서 변경하세요.</p>
+    </div>
+    <label class="f"><span>이름</span><input value="${esc(S.profile.name)}" readonly></label>
+    <label class="f"><span>연락처</span><input value="${esc(S.profile.phone)}" readonly></label>
+    <label class="f"><span>직무 · 역량</span><input value="${esc(S.profile.skills)}" readonly></label>
+    <label class="f"><span>지원 동기</span><textarea id="motive" placeholder="이 공고에 지원하는 이유를 적어주세요">지역의 유휴 공간을 다시 쓰이게 만드는 일에 관심이 있어 지원합니다.</textarea></label>
+    <label class="f"><span>첨부 파일</span><div class="file">포트폴리오 · 이력서 등을 첨부할 수 있습니다 (데모에서는 동작하지 않습니다)</div></label>
+    <button class="btn btn-p" data-submit="1">지원서 제출</button>
+  </div>`
+}
+function viewMypage(){
+  const mine=S.apps.filter(a=>a.name===S.profile.name)
+  return `<h1>마이페이지</h1><p class="sub">지원 내역과 선발 결과를 확인할 수 있습니다.</p>
+  ${mine.length? `<table><thead><tr><th>공고</th><th>지원일</th><th>상태</th><th>평가</th></tr></thead><tbody>
+    ${mine.map(a=>{const [t,c]=APPST[a.status];return `<tr>
+      <td><b>${esc(job(a.jid).title)}</b><br><span style="color:var(--n500);font-size:12.5px">${esc(job(a.jid).org)}</span></td>
+      <td>${a.when}</td><td><span class="st ${c}">${t}</span></td>
+      <td style="color:var(--n500)">${a.status==='wait'?'—':(a.note?esc(a.note):'—')}</td></tr>`}).join('')}
+  </tbody></table>` : `<div class="empty">아직 지원한 공고가 없습니다. 공고 목록에서 지원해 보세요.</div>`}`
+}
+
+// ── 관리자 ────────────────────────────────────────────────────────
+function viewAdminApps(){
+  return `<h1>지원자 관리</h1><p class="sub">상태를 변경하면 청년 마이페이지와 통계에 즉시 반영됩니다.</p>
+  <table><thead><tr><th>지원자</th><th>공고</th><th>지원일</th><th>상태</th><th>평가 점수</th><th style="width:150px">처리</th></tr></thead><tbody>
+  ${S.apps.map(a=>{const [t,c]=APPST[a.status];return `<tr>
+    <td><b>${esc(a.name)}</b></td>
+    <td>${esc(job(a.jid).title)}<br><span style="color:var(--n500);font-size:12px">${esc(prog(job(a.jid).pid).name)}</span></td>
+    <td>${a.when}</td>
+    <td><span class="st ${c}">${t}</span></td>
+    <td style="font-variant-numeric:tabular-nums">${a.score??'—'}</td>
+    <td><div class="acts">
+      <button class="mini ok" data-set="pass" data-id="${a.id}">합격</button>
+      <button class="mini no" data-set="fail" data-id="${a.id}">불합격</button>
+    </div></td></tr>`}).join('')}
+  </tbody></table>`
+}
+function viewAdminStats(){
+  const total=S.apps.length, pass=S.apps.filter(a=>a.status==='pass').length
+  const views=S.jobs.reduce((s,j)=>s+j.views,0)
+  const rate=total?Math.round(pass/total*100):0
+  const done=S.apps.filter(a=>a.status==='pass'&&a.note==='참여 완료').length
+  const doneRate=pass?Math.round(done/pass*100):0
+  const byJob=S.jobs.map(j=>({t:j.title,n:S.apps.filter(a=>a.jid===j.id).length}))
+  const max=Math.max(1,...byJob.map(b=>b.n))
+  return `<h1>성과 측정</h1><p class="sub">공고·프로그램별 집계입니다. 지원자 관리에서 상태를 바꾸면 이 숫자가 바로 움직입니다.</p>
+  <div class="stats">
+    <div class="stat"><span>총 조회수</span><b>${views.toLocaleString()}</b><div class="d">공고 ${S.jobs.length}건 합계</div></div>
+    <div class="stat"><span>총 지원자</span><b>${total}</b><div class="d">전체 공고 기준</div></div>
+    <div class="stat"><span>선발률</span><b>${rate}%</b><div class="d">합격 ${pass} / 지원 ${total}</div></div>
+    <div class="stat"><span>참여 완료율</span><b>${doneRate}%</b><div class="d">완료 ${done} / 합격 ${pass}</div></div>
+  </div>
+  <div class="bars"><h3>공고별 지원자 수</h3>
+  ${byJob.map(b=>`<div class="bar"><div class="t"><span>${esc(b.t)}</span><b>${b.n}명</b></div>
+    <div class="track"><div class="fill" style="width:${b.n/max*100}%"></div></div></div>`).join('')}
+  </div>`
+}
+
+// ── 라우팅 ────────────────────────────────────────────────────────
+const NAV = {
+  youth: [['jobs','공고 탐색'],['mypage','마이페이지']],
+  admin: [['aapps','지원자 관리'],['astats','성과 측정']],
+}
+function render(){
+  $('#tabs').innerHTML = NAV[S.role].map(([k,l])=>`<button data-go="${k}" class="${S.view===k?'on':''}">${l}</button>`).join('')
+  $('#whoName').textContent = S.role==='youth' ? S.profile.name : '운영 담당자'
+  $('#whoAvt').textContent  = S.role==='youth' ? '청' : '관'
+  const V = { jobs:viewJobs, job:viewJobDetail, apply:viewApply, mypage:viewMypage, aapps:viewAdminApps, astats:viewAdminStats }
+  $('#view').innerHTML = (V[S.view]||viewJobs)()
+}
+document.addEventListener('click',(e)=>{
+  const r=e.target.closest('[data-r]')
+  if(r){ S.role=r.dataset.r; S.view = S.role==='youth'?'jobs':'aapps'
+    document.querySelectorAll('#roleSeg button').forEach(b=>b.classList.toggle('on',b===r)); render(); return }
+  const j=e.target.closest('[data-job]'); if(j){ S.jobId=j.dataset.job; S.view='job'; render(); return }
+  const g=e.target.closest('[data-go]'); if(g){ S.view=g.dataset.go; render(); return }
+  if(e.target.closest('[data-submit]')){
+    const m=$('#motive')?.value||''
+    S.apps.unshift({ id:'A'+(S.apps.length+1), jid:S.jobId, name:S.profile.name, when:'2026-07-17', status:'wait', score:null, note:'' })
+    job(S.jobId).views++
+    S.view='mypage'; render()
+    toast('지원이 접수되었습니다 · 관리자 화면에서 확인해 보세요')
+    return
+  }
+  const s=e.target.closest('[data-set]')
+  if(s){
+    const a=S.apps.find(x=>x.id===s.dataset.id)
+    a.status=s.dataset.set
+    if(a.status==='pass'&&a.score==null) a.score=85
+    if(a.status==='fail'&&!a.note) a.note='선발 기준 미달'
+    if(a.status==='pass'&&!a.note) a.note='선발 확정'
+    render()
+    toast(`${a.name} 님 ${a.status==='pass'?'합격':'불합격'} 처리 · 마이페이지·통계에 반영됨`)
+  }
+})
+render()
+</script>
+</body>
+</html>
