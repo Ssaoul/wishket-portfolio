@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>4. 분석 결과 대시보드 — 웰니스 바이오데이터 통합관리 (데모)</title>
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="dashboard">
+
+<div class="hero-strip">
+  <img src="assets/img/lounge-hero.jpg" alt="웰니스 측정 라운지 전경">
+  <div class="strip-txt"><b>4. 분석 결과 대시보드</b><span>종합 Wellness Score · 영역별 점수 · 사전/사후 변화 · 프로그램 추천</span></div>
+</div>
+
+<div class="wrap">
+
+  <div class="page-head">
+    <span class="eyebrow">화면 4 / 6 · 핵심 화면</span>
+    <h1>분석 결과 대시보드</h1>
+    <p class="lead">입력된 측정값과 설문 응답을 관리자 기준표에 따라 점수화한 결과입니다.
+      상태는 <b>양호 · 보통 · 관리 필요</b> 3구간으로만 표시하며, 질환 위험도나 정상/비정상 판정을 하지 않습니다.</p>
+  </div>
+
+  <div class="card">
+    <div class="grid grid-3" style="gap:16px">
+      <div class="field" style="margin:0">
+        <label for="pSel">참가자</label>
+        <select id="pSel"></select>
+      </div>
+      <div class="field" style="margin:0">
+        <label for="curSel">기준 회차</label>
+        <select id="curSel"></select>
+      </div>
+      <div class="field" style="margin:0">
+        <label for="prevSel">비교 회차 <span class="hint">사전/사후 변화</span></label>
+        <select id="prevSel"></select>
+      </div>
+    </div>
+  </div>
+
+  <div id="noData" class="card" hidden>
+    <div class="empty">
+      아직 측정 데이터가 없는 참가자입니다.<br>
+      <a class="btn btn-wood btn-lg" id="goInput" style="margin-top:16px" href="measurements.html">바이오데이터 입력하러 가기</a>
+    </div>
+  </div>
+
+  <div id="view">
+    <!-- 종합 점수 -->
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <h2>종합 Wellness Score</h2>
+          <p class="card-sub" style="margin:0" id="whoLine"></p>
+        </div>
+        <div class="btn-row">
+          <a class="btn btn-soft" id="linkReport" href="report.html">리포트 미리보기</a>
+          <button class="btn btn-ghost btn-sm" id="btnHow">산출 방식 보기</button>
+        </div>
+      </div>
+      <div class="score-hero">
+        <div id="gauge"></div>
+        <div>
+          <div class="grid grid-2" style="gap:14px" id="summaryTiles"></div>
+          <div class="legend" style="margin-top:18px" id="legend"></div>
+          <div class="notice" style="margin-top:16px" id="coverNote"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 레이더 + 막대 -->
+    <div class="split">
+      <div class="card">
+        <div class="card-head">
+          <h3>영역별 점수 막대그래프</h3>
+          <span class="badge badge-wood" id="barsHint">배경 3구간 = 관리 필요 / 보통 / 양호</span>
+        </div>
+        <div id="bars"></div>
+      </div>
+      <div class="card">
+        <h3>영역 균형 (레이더)</h3>
+        <p class="card-sub">4개 영역을 같은 축척으로 겹쳐 봅니다.</p>
+        <div id="radar"></div>
+      </div>
+    </div>
+
+    <!-- 영역별 상세 -->
+    <div class="grid grid-2" id="domainCards"></div>
+
+    <!-- 사전/사후 비교 -->
+    <div class="card" id="compareCard">
+      <div class="card-head">
+        <div>
+          <h3>사전 · 사후 변화 비교</h3>
+          <p class="card-sub" style="margin:0" id="compareSub"></p>
+        </div>
+      </div>
+      <div class="table-scroll">
+        <table class="tbl" id="compareTable"></table>
+      </div>
+    </div>
+
+    <!-- 추천 프로그램 -->
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <h3>추천 웰니스 프로그램</h3>
+          <p class="card-sub" style="margin:0">점수가 낮은 영역과 참가자 선호도를 규칙으로 매칭한 결과입니다. 의료적 처방이 아니라 센터 프로그램 안내입니다.</p>
+        </div>
+      </div>
+      <div class="grid grid-3" id="recos"></div>
+    </div>
+
+    <div class="notice care">
+      <strong>유의사항.</strong> 본 결과는 일반적인 웰니스 상태를 참고용으로 안내합니다.
+      질병의 진단·치료·예방을 목적으로 하지 않으며, 측정값은 측정 시점의 컨디션·자세·환경에 따라 달라질 수 있습니다.
+      건강상 변화가 느껴지면 전문가와 상담하시기 바랍니다. (데모 화면 · 합성 데이터)
+    </div>
+  </div>
+
+</div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/scoring.js"></script>
+<script src="assets/js/charts.js"></script>
+<script src="assets/js/shell.js"></script>
+<script>
+(function () {
+  'use strict';
+  var esc = WBUI.esc;
+
+  function cur() { return WB.findParticipant(document.getElementById('pSel').value); }
+  function sessionById(p, id) { var s = null; p.sessions.forEach(function (x) { if (x.id === id) s = x; }); return s; }
+
+  function miniBar(row, cfg, prevRow) {
+    var cut = cfg.bandCut;
+    if (row.score === null) return '<div class="m-bar none"></div>';
+    var C = Charts.COLOR;
+    var bg = 'linear-gradient(90deg,' + C.careBg + ' 0 ' + cut.fair + '%,' + C.fairBg + ' ' + cut.fair + '% ' + cut.good + '%,' + C.goodBg + ' ' + cut.good + '% 100%)';
+    var mark = (prevRow && prevRow.score !== null)
+      ? '<u style="left:calc(' + prevRow.score + '% - 1.5px)"></u>' : '';
+    return '<div class="m-bar" style="background:' + bg + '"><i style="width:' + row.score + '%;background:' + C[row.band] + '"></i>' + mark + '</div>';
+  }
+
+  function render() {
+    var p = cur();
+    var has = p.sessions.length > 0;
+    document.getElementById('noData').hidden = has;
+    document.getElementById('view').hidden = !has;
+    document.getElementById('goInput').href = WBUI.linkTo('measurements.html', p.code);
+    if (!has) return;
+
+    var cfg = WB.getConfig();
+    var sCur = sessionById(p, document.getElementById('curSel').value) || p.sessions[p.sessions.length - 1];
+    var prevId = document.getElementById('prevSel').value;
+    var sPrev = prevId === '__none' ? null : sessionById(p, prevId);
+    if (sPrev && sPrev.id === sCur.id) sPrev = null;
+
+    var R = WB.scoreSession(p, sCur, cfg);
+    var P = sPrev ? WB.scoreSession(p, sPrev, cfg) : null;
+
+    document.getElementById('whoLine').innerHTML =
+      '<b>' + esc(p.name) + '</b> · ' + esc(p.code) + ' · ' + WBUI.sexLabel(p.sex) + ' ' + p.age + '세 · ' +
+      esc(p.program || '프로그램 미배정') + ' &nbsp;|&nbsp; 기준 회차 <b>' + esc(sCur.label) + '</b> (' + esc(sCur.at) + ')' +
+      (sPrev ? ' &nbsp;|&nbsp; 비교 회차 <b>' + esc(sPrev.label) + '</b> (' + esc(sPrev.at) + ')' : '');
+    document.getElementById('linkReport').href = WBUI.linkTo('report.html', p.code, sCur.id);
+
+    /* 게이지 */
+    Charts.gauge(document.getElementById('gauge'), {
+      value: R.total, prev: P ? P.total : null, cut: cfg.bandCut, bandLabel: WB.bandLabel(R.band)
+    });
+
+    /* 요약 타일 */
+    var d = P ? WB.deltaText(R.total, P.total) : null;
+    var tiles = [
+      { k: '종합 점수', v: WB.fmt(R.total, 1) + '<span style="font-size:17px;color:var(--muted)"> / 100</span>', s: WB.bandLabel(R.band) + ' 구간' },
+      { k: '비교 회차 대비', v: d ? '<span class="delta ' + d.dir + '" style="font-size:30px">' + d.text + '</span>' : '–', s: P ? esc(sPrev.label) + ' ' + WB.fmt(P.total, 1) + '점 → ' + esc(sCur.label) + ' ' + WB.fmt(R.total, 1) + '점' : '비교 회차 없음' },
+      { k: '입력 항목', v: (R.scoredCount - R.missingCount) + ' / ' + R.scoredCount, s: R.missingCount ? '누락 ' + R.missingCount + '건은 산출 제외' : '전 항목 입력됨' },
+      { k: '측정일시', v: '<span style="font-size:22px">' + esc(WBUI.dateOf(sCur.at)) + '</span>', s: esc(sCur.at.slice(11) || '') + ' · ' + esc(sCur.label) + ' 회차' }
+    ];
+    document.getElementById('summaryTiles').innerHTML = tiles.map(function (t) {
+      return '<div class="domain-tile"><div class="d-meta">' + t.k + '</div><div class="d-score">' + t.v + '</div><div class="d-meta">' + t.s + '</div></div>';
+    }).join('');
+
+    Charts.bandLegend(document.getElementById('legend'), cfg.bandCut);
+
+    var cov = Math.round(R.coverage * 100);
+    var covBox = document.getElementById('coverNote');
+    if (R.missingCount === 0) {
+      covBox.className = 'notice green';
+      covBox.innerHTML = '<strong>데이터 완전성 100%.</strong> 점수 대상 ' + R.scoredCount + '개 지표가 모두 입력되어 4개 영역이 모두 산출되었습니다.';
+    } else {
+      covBox.className = 'notice';
+      covBox.innerHTML = '<strong>데이터 완전성 ' + cov + '%.</strong> 누락 ' + R.missingCount + '개 지표(' +
+        esc(R.domains.reduce(function (a, x) { return a.concat(x.missing); }, []).join(', ')) +
+        ')는 <b>점수 산출에서 제외</b>하고 남은 지표의 가중치를 재정규화했습니다.';
+    }
+
+    /* 막대 + 레이더 */
+    Charts.bars(document.getElementById('bars'), {
+      cut: cfg.bandCut,
+      items: R.domains.map(function (dm) {
+        var pv = P ? WB.domainScore(P, dm.key) : null;
+        return { label: dm.short, sub: '가중치 ' + dm.weight + '%', value: dm.score, band: dm.band, prev: pv };
+      })
+    });
+    Charts.radar(document.getElementById('radar'), {
+      axes: R.domains.map(function (dm) { return { label: dm.short, value: dm.score, band: dm.band }; }),
+      prevValues: P ? P.domains.map(function (dm) { return dm.score === null ? 0 : dm.score; }) : null,
+      curLabel: sCur.label + ' 회차', prevLabel: sPrev ? sPrev.label + ' 회차' : ''
+    });
+
+    /* 영역별 상세 */
+    document.getElementById('domainCards').innerHTML = R.domains.map(function (dm) {
+      var pdm = P ? P.domains.filter(function (x) { return x.key === dm.key; })[0] : null;
+      var dd = pdm ? WB.deltaText(dm.score, pdm.score) : null;
+      return '<div class="card" style="margin:0">' +
+        '<div class="card-head" style="margin-bottom:10px">' +
+          '<div><h3>' + esc(dm.name) + '</h3><p class="card-sub" style="margin:0">' + esc(dm.desc) + ' · 가중치 ' + dm.weight + '%</p></div>' +
+          '<div style="text-align:right">' +
+            '<div class="d-score" style="color:' + Charts.COLOR[dm.band] + '">' + WB.fmt(dm.score, 1) + '</div>' +
+            WBUI.bandBadge(dm.band) + (dd ? ' <span class="delta ' + dd.dir + '">' + dd.text + '</span>' : '') +
+          '</div>' +
+        '</div>' +
+        dm.metrics.map(function (m) {
+          var pm = pdm ? pdm.metrics.filter(function (x) { return x.key === m.key; })[0] : null;
+          if (m.ref) {
+            return '<div class="metric-row" style="grid-template-columns:minmax(0,1fr) 120px">' +
+              '<div class="m-name" style="font-weight:600;color:var(--muted)">' + esc(m.name) + '<small>참고 지표 · 점수 미반영</small></div>' +
+              '<div class="m-val" style="font-size:17px;color:var(--ink-2)">' + (m.value === null ? '–' : WB.fmt(m.value, m.dec) + '<small> ' + esc(m.unit) + '</small>') + '</div>' +
+            '</div>';
+          }
+          return '<div class="metric-row">' +
+            '<div class="m-name">' + esc(m.name) + '<small>참고 구간 ' + WB.rangeText(m.range, m.dec) + ' ' + esc(m.unit) + (m.note ? ' · ' + esc(m.note) : '') + '</small></div>' +
+            '<div class="m-val">' + (m.value === null ? '<span class="badge badge-miss">미측정</span>' : WB.fmt(m.value, m.dec) + '<small> ' + esc(m.unit) + '</small>') + '</div>' +
+            '<div class="m-bar-wrap">' + miniBar(m, cfg, pm) + '</div>' +
+            '<div style="text-align:right">' + (m.score === null ? '<span class="badge badge-miss">산출 제외</span>'
+              : '<b style="font-size:17px;color:' + Charts.COLOR[m.band] + '">' + WB.fmt(m.score, 1) + '</b> ' + WBUI.bandBadge(m.band)) + '</div>' +
+          '</div>';
+        }).join('') +
+      '</div>';
+    }).join('');
+
+    /* 비교 표 */
+    var cc = document.getElementById('compareCard');
+    if (!P) {
+      cc.hidden = true;
+    } else {
+      cc.hidden = false;
+      document.getElementById('compareSub').innerHTML =
+        esc(sPrev.label) + '(' + esc(WBUI.dateOf(sPrev.at)) + ') → ' + esc(sCur.label) + '(' + esc(WBUI.dateOf(sCur.at)) + ') 변화. 점수 변화는 관리자 기준표 기준입니다.';
+      var rows = '';
+      R.domains.forEach(function (dm) {
+        var pdm = P.domains.filter(function (x) { return x.key === dm.key; })[0];
+        var dd = WB.deltaText(dm.score, pdm.score);
+        rows += '<tr style="background:var(--green-tint)"><td colspan="7"><b>' + esc(dm.name) + '</b> · 영역 점수 ' +
+          WB.fmt(pdm.score, 1) + ' → <b>' + WB.fmt(dm.score, 1) + '</b> ' +
+          (dd ? '<span class="delta ' + dd.dir + '">' + dd.text + '</span>' : '') + '</td></tr>';
+        dm.metrics.forEach(function (m) {
+          if (m.ref) return;
+          var pm = pdm.metrics.filter(function (x) { return x.key === m.key; })[0];
+          var vd = (m.value !== null && pm.value !== null) ? WB.deltaText(m.value, pm.value) : null;
+          var sd = (m.score !== null && pm.score !== null) ? WB.deltaText(m.score, pm.score) : null;
+          rows += '<tr>' +
+            '<td>' + esc(m.name) + ' <span style="color:var(--muted);font-size:14px">' + esc(m.unit) + '</span></td>' +
+            '<td class="num">' + (pm.value === null ? '–' : WB.fmt(pm.value, m.dec)) + '</td>' +
+            '<td class="num"><b>' + (m.value === null ? '–' : WB.fmt(m.value, m.dec)) + '</b></td>' +
+            '<td class="num">' + (vd ? '<span class="delta ' + vd.dir + '">' + vd.text + '</span>' : '–') + '</td>' +
+            '<td class="num">' + (pm.score === null ? '–' : WB.fmt(pm.score, 1)) + '</td>' +
+            '<td class="num"><b>' + (m.score === null ? '–' : WB.fmt(m.score, 1)) + '</b></td>' +
+            '<td>' + (sd ? '<span class="delta ' + sd.dir + '">' + sd.text + '</span> ' : '') + WBUI.bandBadge(m.band) + '</td>' +
+          '</tr>';
+        });
+      });
+      document.getElementById('compareTable').innerHTML =
+        '<thead><tr><th>지표</th><th>' + esc(sPrev.label) + ' 값</th><th>' + esc(sCur.label) + ' 값</th><th>값 변화</th>' +
+        '<th>' + esc(sPrev.label) + ' 점수</th><th>' + esc(sCur.label) + ' 점수</th><th>점수 변화 · 구간</th></tr></thead><tbody>' + rows + '</tbody>';
+    }
+
+    /* 추천 */
+    var recos = WB.recommend(p, R);
+    document.getElementById('recos').innerHTML = recos.map(function (r, i) {
+      return '<div class="domain-tile" style="background:var(--paper)">' +
+        '<div class="d-top"><span class="badge badge-green">추천 ' + (i + 1) + '</span>' +
+          (r.preferred ? '<span class="badge badge-wood">참가자 선호</span>' : '') + '</div>' +
+        '<div class="d-name" style="font-size:19px;margin-bottom:4px">' + esc(r.name) + '</div>' +
+        '<div class="d-meta" style="margin-bottom:8px">' + esc(r.dur) + '</div>' +
+        '<div style="font-size:15.5px;color:var(--ink-2);margin-bottom:10px">' + esc(r.desc) + '</div>' +
+        '<div class="notice green" style="font-size:14.5px;padding:10px 12px">근거 · ' + esc(r.reason) + '</div>' +
+      '</div>';
+    }).join('');
+  }
+
+  function fillSessionSelects(code, preferId) {
+    var p = WB.findParticipant(code);
+    var c = document.getElementById('curSel'), v = document.getElementById('prevSel');
+    var opts = p.sessions.map(function (s) {
+      return '<option value="' + esc(s.id) + '">' + esc(s.label) + ' · ' + esc(s.at) + '</option>';
+    }).join('');
+    c.innerHTML = opts || '<option value="">회차 없음</option>';
+    v.innerHTML = '<option value="__none">비교 안 함</option>' + opts;
+    if (p.sessions.length) {
+      c.value = (preferId && sessionById(p, preferId)) ? preferId : p.sessions[p.sessions.length - 1].id;
+      v.value = p.sessions.length > 1 ? p.sessions[0].id : '__none';
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var pSel = document.getElementById('pSel');
+    var code = WBUI.fillParticipantSelect(pSel, WBUI.qs('code'));
+    fillSessionSelects(code, WBUI.qs('s'));
+    render();
+
+    pSel.addEventListener('change', function () { fillSessionSelects(pSel.value); render(); });
+    document.getElementById('curSel').addEventListener('change', render);
+    document.getElementById('prevSel').addEventListener('change', render);
+    document.getElementById('btnHow').addEventListener('click', function () {
+      var cfg = WB.getConfig();
+      WBUI.modal('점수 산출 방식 (규칙 기반)',
+        '<p>AI 학습 모델이 아니라 <b>관리자 기준표 + 가중 평균</b>만 사용합니다. 모든 임계값과 가중치는 관리자 화면에서 편집할 수 있습니다.</p>' +
+        '<ol style="padding-left:22px;line-height:1.9;font-size:16.5px">' +
+        '<li><b>지표 점수</b> — 측정값이 양호 구간이면 84~100점, 보통 구간이면 60~78점, 구간 밖이면 25~58점으로 환산합니다. (구간 중앙에 가까울수록 높음)</li>' +
+        '<li><b>영역 점수</b> — 지표 점수를 지표별 가중치로 가중 평균합니다. 누락 지표는 제외하고 남은 가중치를 재정규화합니다.</li>' +
+        '<li><b>종합 점수</b> — 4개 영역 점수를 영역 가중치(신체구성 ' + cfg.domainWeights.body + '% · 자율신경 ' + cfg.domainWeights.auto +
+          '% · 심혈관 ' + cfg.domainWeights.cardio + '% · 생활습관 ' + cfg.domainWeights.life + '%)로 가중 평균합니다.</li>' +
+        '<li><b>상태 구간</b> — ' + cfg.bandCut.good + '점 이상 양호, ' + cfg.bandCut.fair + '점 이상 보통, 그 미만 관리 필요.</li>' +
+        '</ol>' +
+        '<div class="notice care" style="margin-top:14px">구간 라벨은 웰니스 관리 우선순위를 나타내는 표시이며, 의학적 정상/비정상 판정이나 질환 위험도 평가가 아닙니다.</div>');
+    });
+  });
+})();
+</script>
+</body>
+</html>

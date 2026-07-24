@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SEUM · 하이엔드 가습청정기 — 자사몰 디자인 시안</title>
+<meta name="description" content="가습청정기 브랜드 자사몰 메인 홈 디자인 시안. 제안용 데모이며 브랜드·수치는 모두 가상입니다.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%2315161a'/><circle cx='16' cy='16' r='7' fill='none' stroke='%23f4f3f0' stroke-width='1.2'/></svg>">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+
+<!-- ═══ 제안용 데모 라벨 (상시 노출) ═══════════════════════ -->
+<div class="topbar">제안용 <b>디자인 시안</b> · 가상 브랜드 “SEUM” · 화면의 모든 수치·문구·후기는 <b>합성 데이터</b>이며 실제 판매 기능은 연결되어 있지 않습니다</div>
+
+<!-- 카페24 스마트디자인 적용 시: 공통 레이아웃(헤더) 영역 -->
+<header class="hdr">
+  <div class="hdr-in">
+    <a href="index.html" class="brand">SEUM<small>스밈</small></a>
+    <nav class="nav">
+      <a href="index.html">홈</a>
+      <a href="tech.html">기술</a>
+      <a href="about.html">브랜드</a>
+      <a href="vision.html">비전</a>
+      <a href="mobile.html">모바일</a>
+      <a href="guide.html">톤앤매너 가이드</a>
+    </nav>
+    <!-- 카페24 기본 기능 자리(로그인·장바구니·주문조회) — 시안에서는 UI만 유지 -->
+    <div class="util">
+      <a href="#" data-cafe24="검색">검색</a>
+      <a href="#" data-cafe24="로그인">로그인</a>
+      <a href="#" class="cart" data-cafe24="장바구니">장바구니 <span class="badge num">2</span></a>
+    </div>
+    <button class="hamb" id="hamb" aria-label="메뉴" aria-expanded="false"><i></i><i></i></button>
+  </div>
+</header>
+
+<div class="drawer" id="drawer">
+  <a class="big" href="index.html">홈</a>
+  <a class="big" href="tech.html">기술</a>
+  <a class="big" href="about.html">브랜드</a>
+  <a class="big" href="vision.html">비전</a>
+  <a class="big" href="mobile.html">모바일</a>
+  <a class="big" href="guide.html">톤앤매너 가이드</a>
+  <div class="util-m">
+    <a href="#" data-cafe24="검색">검색</a>
+    <a href="#" data-cafe24="로그인">로그인</a>
+    <a href="#" data-cafe24="장바구니">장바구니 (2)</a>
+    <a href="#" data-cafe24="주문조회">주문조회</a>
+  </div>
+</div>
+
+<main>
+
+<!-- ═══ 히어로 — 풀블리드 제품 ═══════════════════════════ -->
+<section class="hero">
+  <div class="hero-copy">
+    <p class="eyebrow">SEUM A1 · Air Purifying Humidifier</p>
+    <h1 class="display">공기의 결을<br><em>다듬다</em></h1>
+    <p class="lede mt24" style="max-width:440px">
+      기화식 가습과 H13 정밀 여과를 하나의 몸체에.<br>
+      과습 없이 습도를 유지하고, 눈에 보이지 않는 입자를 걸러냅니다.
+    </p>
+    <div class="mt40" style="display:flex;gap:10px;flex-wrap:wrap">
+      <a class="btn" href="#product">제품 살펴보기</a>
+      <a class="btn ghost" href="tech.html">기술 자세히 보기</a>
+    </div>
+    <div class="mt40" style="display:flex;gap:clamp(18px,3vw,44px);flex-wrap:wrap">
+      <div><div class="num" style="font-size:19px">480<span style="font-size:11px;letter-spacing:0"> m³/h</span></div><div class="tiny">청정화 능력 CADR</div></div>
+      <div><div class="num" style="font-size:19px">700<span style="font-size:11px;letter-spacing:0"> mL/h</span></div><div class="tiny">최대 가습량</div></div>
+      <div><div class="num" style="font-size:19px">18.5<span style="font-size:11px;letter-spacing:0"> dBA</span></div><div class="tiny">취침 모드 소음</div></div>
+    </div>
+  </div>
+  <div class="hero-media">
+    <img src="assets/img/product-hero.jpg" width="1200" height="1490"
+         alt="원통형 가습청정기 제품 이미지 — 웜 그레이 바디에 브러시드 메탈 밴드">
+    <span class="cap">SEUM A1 · Warm Grey</span>
+  </div>
+  <div class="hero-scroll"><span class="line"></span>SCROLL</div>
+</section>
+
+<!-- ═══ 특장점 ═════════════════════════════════════════════ -->
+<section class="section">
+  <div class="wrap">
+    <div class="head-2col">
+      <h2 class="h2 rv">덜어낸 형태,<br>남겨둔 성능.</h2>
+      <p class="body rv d1">
+        조작부와 이음매를 최소화하고 흡입구를 바디 하단에 숨겼습니다.
+        상단 링은 습도 상태만 빛의 밝기로 알립니다. 화면도, 알림음도 없습니다.
+      </p>
+    </div>
+
+    <div class="grid g-4">
+      <div class="feat rv">
+        <div class="idx">01</div>
+        <h3 class="h3">기화식 가습</h3>
+        <p class="body">가열·초음파 대신 자연 증발 방식. 공기가 머금을 수 있는 만큼만 내보내 과습과 백화 현상을 줄입니다.</p>
+      </div>
+      <div class="feat rv d1">
+        <div class="idx">02</div>
+        <h3 class="h3">3단 정밀 여과</h3>
+        <p class="body">프리 필터 · 활성탄 탈취층 · H13 등급 헤파를 순서대로 통과합니다. 여과부는 가습부와 완전히 분리됩니다.</p>
+      </div>
+      <div class="feat rv d2">
+        <div class="idx">03</div>
+        <h3 class="h3">무균 수조</h3>
+        <p class="body">UV-C 모듈이 순환수를 상시 조사하고, 항균 카트리지가 수조 벽면의 미생물 증식을 억제합니다.</p>
+      </div>
+      <div class="feat rv d3">
+        <div class="idx">04</div>
+        <h3 class="h3">저소음 구동</h3>
+        <p class="body">BLDC 모터와 이중 방진 마운트. 취침 모드에서는 도서관보다 조용한 18.5 dBA로 동작합니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 실험실 풀블리드 밴드 ═══════════════════════════════ -->
+<section class="bleed">
+  <img src="assets/img/lab-wide.jpg" width="1600" height="900"
+       alt="밀폐 챔버 안에 놓인 가습청정기와 계측 프로브 — 성능 시험 장면">
+</section>
+
+<!-- ═══ 기술 요약 ═════════════════════════════════════════ -->
+<section class="section bg-2">
+  <div class="wrap">
+    <div class="head-2col">
+      <div>
+        <p class="eyebrow rv">Verified Performance</p>
+        <h2 class="h2 rv">숫자로 남긴 성능,<br>공개하는 실험 조건.</h2>
+      </div>
+      <div class="rv d1">
+        <p class="body">30 m³ 밀폐 챔버에서 동일 조건으로 반복 측정한 결과를 그대로 공개합니다. 측정 조건과 기준을 함께 적어야 숫자가 의미를 가집니다.</p>
+        <a class="arrow mt24" href="tech.html">실험 데이터 전체 보기
+          <svg width="14" height="8" viewBox="0 0 14 8" fill="none"><path d="M0 4h12M9 1l3 3-3 3" stroke="currentColor" stroke-width="1"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="grid g-3">
+      <div class="chart-card rv">
+        <div class="chart-hd"><h4 class="h4">미세먼지 저감</h4><span class="chart-unit">PM2.5 · μg/m³</span></div>
+        <p class="chart-sub">초기 300 μg/m³ → 20 μg/m³ 도달</p>
+        <svg class="chart" id="sp1" height="64"></svg>
+        <div class="mt16" style="display:flex;align-items:baseline;gap:8px">
+          <span class="num" style="font-size:30px;font-weight:300">12</span><span class="small">분</span>
+        </div>
+      </div>
+      <div class="chart-card rv d1">
+        <div class="chart-hd"><h4 class="h4">습도 회복</h4><span class="chart-unit">RH · %</span></div>
+        <p class="chart-sub">32% → 목표 구간(45–55%) 진입</p>
+        <svg class="chart" id="sp2" height="64"></svg>
+        <div class="mt16" style="display:flex;align-items:baseline;gap:8px">
+          <span class="num" style="font-size:30px;font-weight:300">41</span><span class="small">분</span>
+        </div>
+      </div>
+      <div class="chart-card rv d2">
+        <div class="chart-hd"><h4 class="h4">단계별 소음</h4><span class="chart-unit">dBA</span></div>
+        <p class="chart-sub">취침 → 터보 5단계 구동음</p>
+        <svg class="chart" id="sp3" height="64"></svg>
+        <div class="mt16" style="display:flex;align-items:baseline;gap:8px">
+          <span class="num" style="font-size:30px;font-weight:300">18.5</span><span class="small">dBA · 취침</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="data-note">모든 수치는 디자인 시안용 합성 데이터입니다. 실제 제품 성능이 아니며, 실계약 시 클라이언트가 제공하는 시험 성적서 수치로 교체됩니다.</p>
+  </div>
+</section>
+
+<!-- ═══ 제품 · 구매 (카페24 상품 상세 자리) ═══════════════ -->
+<!-- 카페24 스마트디자인 적용 시: /product/detail.html · 상품 이미지/옵션/수량/구매 모듈 영역 -->
+<section class="section" id="product">
+  <div class="wrap">
+    <div class="buy">
+      <figure class="fig r-11 rv">
+        <img src="assets/img/product-sq.jpg" width="900" height="900" loading="lazy"
+             alt="SEUM A1 제품 정면 컷">
+      </figure>
+      <div class="rv d1">
+        <p class="eyebrow">Product · SEUM A1</p>
+        <h2 class="h2">가습청정기 A1</h2>
+        <p class="body mt16" style="max-width:420px">
+          20평 공간 기준. 물때가 끼는 구조를 없애기 위해 수조와 유로를 통째로 분리해 세척할 수 있도록 설계했습니다.
+        </p>
+
+        <div class="price">
+          <span class="now num">1,290,000<span style="font-size:15px;font-family:var(--sans)">원</span></span>
+          <span class="was num">1,490,000원</span>
+        </div>
+        <p class="tiny">가상 가격 · 실제 판매가 아님</p>
+
+        <div class="opt mt24">
+          <div class="lbl">색상</div>
+          <div class="chips" data-opt="color">
+            <button class="chip on"><span class="sw" style="background:#e8e5df"></span>웜 그레이</button>
+            <button class="chip"><span class="sw" style="background:#3b3c40"></span>그래파이트</button>
+          </div>
+        </div>
+        <div class="opt">
+          <div class="lbl">필터 정기배송</div>
+          <div class="chips" data-opt="sub">
+            <button class="chip on">선택 안 함</button>
+            <button class="chip">6개월 (+ 89,000원)</button>
+            <button class="chip">12개월 (+ 158,000원)</button>
+          </div>
+        </div>
+        <div class="opt">
+          <div class="lbl">수량</div>
+          <div class="qty">
+            <button id="qMinus" aria-label="수량 감소">−</button>
+            <span class="n num" id="qNum">1</span>
+            <button id="qPlus" aria-label="수량 증가">+</button>
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--line);padding-top:16px;margin-top:4px">
+          <span class="small">총 결제 예상 금액</span>
+          <span class="num" id="total" style="font-size:22px">1,290,000원</span>
+        </div>
+
+        <div class="buy-actions">
+          <button class="btn ghost" data-cafe24="장바구니 담기">장바구니</button>
+          <button class="btn" data-cafe24="바로 구매(결제)">바로 구매</button>
+        </div>
+        <p class="sd-note">
+          카페24 기본 기능 영역입니다. 옵션·수량·장바구니·결제는 <b>기존 백엔드 로직을 그대로 사용</b>하고,
+          시안에서는 마크업과 스타일만 교체합니다. (본 화면에서는 실제 주문이 발생하지 않습니다)
+        </p>
+      </div>
+    </div>
+
+    <div class="stats mt64 rv">
+      <div class="st"><div class="v num">66<u>m²</u></div><div class="k">권장 사용 면적</div></div>
+      <div class="st"><div class="v num">4.2<u>L</u></div><div class="k">수조 용량</div></div>
+      <div class="st"><div class="v num">H13<u>등급</u></div><div class="k">헤파 필터</div></div>
+      <div class="st"><div class="v num">52<u>W</u></div><div class="k">최대 소비전력</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ESG 티저 ══════════════════════════════════════════ -->
+<section class="section bg-ink">
+  <div class="wrap">
+    <div class="split">
+      <div class="rv">
+        <p class="eyebrow">Since 2021 · Planting Program</p>
+        <h2 class="h2">한 대가 팔릴 때마다<br>한 그루를 심습니다.</h2>
+        <p class="lede mt24">
+          공기를 다루는 일은 결국 밖의 공기를 돌보는 일과 이어져 있다고 믿습니다.
+          판매 수량과 식재 수량을 매년 함께 공개합니다.
+        </p>
+        <div class="mt40" style="display:flex;align-items:baseline;gap:12px">
+          <span class="num-lg" data-count="53200" style="font-size:clamp(38px,5vw,64px)">0</span>
+          <span class="small">그루 · 2021–2025 누적 (가상 수치)</span>
+        </div>
+        <a class="arrow mt24" href="about.html">브랜드 스토리 보기
+          <svg width="14" height="8" viewBox="0 0 14 8" fill="none"><path d="M0 4h12M9 1l3 3-3 3" stroke="currentColor" stroke-width="1"/></svg>
+        </a>
+      </div>
+      <figure class="fig r-43 rv d1">
+        <img src="assets/img/esg-mid.jpg" width="1000" height="563" loading="lazy"
+             alt="야외 경사지에서 묘목을 심는 참여자들 — 역광의 늦은 오후">
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 브랜드 3-up ═══════════════════════════════════════ -->
+<section class="section">
+  <div class="wrap">
+    <div class="head-2col">
+      <h2 class="h2 rv">브랜드를 읽는<br>세 가지 방법</h2>
+      <p class="body rv d1">제품을 설명하기 전에, 무엇을 기준으로 만드는지를 먼저 밝힙니다.</p>
+    </div>
+    <div class="grid g-3">
+      <a class="rv" href="tech.html">
+        <figure class="fig r-43"><img src="assets/img/lab-thumb.jpg" width="560" height="315" loading="lazy" alt="실험실 성능 시험 장면 축소 이미지"></figure>
+        <h3 class="h3 mt16">기술</h3>
+        <p class="body">실험 조건과 원 데이터를 함께 공개하는 성능 페이지</p>
+      </a>
+      <a class="rv d1" href="about.html">
+        <figure class="fig r-43"><img src="assets/img/esg-thumb.jpg" width="560" height="315" loading="lazy" alt="나무심기 활동 축소 이미지"></figure>
+        <h3 class="h3 mt16">브랜드 스토리</h3>
+        <p class="body">2021년부터 이어온 식재 프로그램과 만드는 방식</p>
+      </a>
+      <a class="rv d2" href="vision.html">
+        <figure class="fig r-43"><img src="assets/img/product-thumb.jpg" width="420" height="420" loading="lazy" alt="제품 축소 이미지" style="object-position:center 40%"></figure>
+        <h3 class="h3 mt16">비전</h3>
+        <p class="body">2030년까지 우리가 바꾸려는 것들</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 퍼블리싱 노트 (제안 설명 영역) ════════════════════ -->
+<section class="section tight bg-2">
+  <div class="wrap">
+    <p class="eyebrow rv">Publishing Note · 제안 참고</p>
+    <div class="grid g-4 mt24">
+      <div class="feat rv">
+        <div class="idx">MARKUP</div>
+        <h3 class="h3">스마트디자인 대응</h3>
+        <p class="body">헤더·푸터는 공통 레이아웃, 상품 영역은 상세 페이지 모듈에 그대로 얹히는 구조로 마크업을 나눴습니다. 백엔드 로직은 건드리지 않습니다.</p>
+      </div>
+      <div class="feat rv d1">
+        <div class="idx">RESPONSIVE</div>
+        <h3 class="h3">브레이크포인트</h3>
+        <p class="body">1080 / 900 / 640 px 3단. PC·모바일 스킨을 따로 두지 않고 하나의 마크업으로 대응합니다.</p>
+      </div>
+      <div class="feat rv d2">
+        <div class="idx">IMAGE</div>
+        <h3 class="h3">이미지 규격</h3>
+        <p class="body">히어로 1600px·250KB 내외, 썸네일 560px·60KB 이하로 정리했습니다. 용도별 규격은 톤앤매너 가이드에 표로 정리되어 있습니다.</p>
+      </div>
+      <div class="feat rv d3">
+        <div class="idx">A11Y</div>
+        <h3 class="h3">접근성 기본</h3>
+        <p class="body">모든 이미지 대체 텍스트, 키보드 포커스 유지, 모션 최소화 설정(prefers-reduced-motion) 대응.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- 카페24 스마트디자인 적용 시: 공통 레이아웃(푸터) 영역 -->
+<footer class="ftr">
+  <div class="wrap">
+    <div class="ftr-grid">
+      <div>
+        <div class="brand">SEUM<small>스밈</small></div>
+        <p class="tiny mt16" style="max-width:280px;color:rgba(244,243,240,.45)">
+          공기를 다루는 태도에 대하여.<br>가상 브랜드로 구성한 제안용 디자인 시안입니다.
+        </p>
+      </div>
+      <div>
+        <h5>제품</h5>
+        <ul>
+          <li><a href="index.html#product">가습청정기 A1</a></li>
+          <li><a href="index.html#product">교체용 필터</a></li>
+          <li><a href="tech.html">기술 · 성능 데이터</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>브랜드</h5>
+        <ul>
+          <li><a href="about.html">브랜드 스토리</a></li>
+          <li><a href="vision.html">비전</a></li>
+          <li><a href="guide.html">톤앤매너 가이드</a></li>
+          <li><a href="mobile.html">모바일 뷰</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>고객 지원</h5>
+        <ul>
+          <li><a href="#" data-cafe24="주문조회">주문조회</a></li>
+          <li><a href="#" data-cafe24="마이페이지">마이페이지</a></li>
+          <li><a href="#" data-cafe24="이용약관">이용약관</a></li>
+          <li><a href="#" data-cafe24="개인정보처리방침">개인정보처리방침</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="rule">
+      <p>본 화면은 <b>제안용 디자인 시안</b>입니다. 브랜드명 · 제품명 · 가격 · 성능 수치 · 식재 실적은 모두 <b>가상</b>이며,<br>사업자 정보와 연락처는 표기하지 않았습니다. 주문 · 결제 · 회원 기능은 연결되어 있지 않습니다.</p>
+      <p>Demo Proposal — Fictional Brand &amp; Synthetic Data</p>
+    </div>
+  </div>
+</footer>
+
+<div class="demo-flag">제안용 데모 · 가상 브랜드 · 합성 데이터</div>
+
+<script src="assets/js/site.js"></script>
+<script src="assets/js/charts.js"></script>
+<script>
+(function () {
+  var $ = SEUM.$, $$ = SEUM.$$;
+
+  /* ── 기술 요약 스파크라인 (합성 데이터) ── */
+  SEUM.chart.spark($('#sp1'), {
+    data: [[0,300],[2,214],[4,142],[6,92],[8,58],[10,34],[12,20],[15,11],[20,5],[30,2]], min: 0, max: 310
+  });
+  SEUM.chart.spark($('#sp2'), {
+    data: [[0,32],[10,36.5],[20,40.4],[30,43.6],[41,46.6],[50,48.1],[60,49.4],[75,50.2],[90,50.1],[120,49.9]],
+    min: 28, max: 54
+  });
+  SEUM.chart.spark($('#sp3'), {
+    data: [[0,18.5],[1,24],[2,31],[3,38],[4,48]], min: 12, max: 52
+  });
+
+  /* ── 옵션 칩 (카페24 옵션 UI 자리) ── */
+  $$('.chips').forEach(function (group) {
+    $$('.chip', group).forEach(function (c) {
+      c.addEventListener('click', function () {
+        $$('.chip', group).forEach(function (x) { x.classList.remove('on'); });
+        c.classList.add('on');
+        recalc();
+      });
+    });
+  });
+
+  /* ── 수량 · 합계 (표시용 계산만) ── */
+  var qty = 1, BASE = 1290000, ADD = [0, 89000, 158000];
+  function recalc() {
+    var subIdx = $$('.chips[data-opt="sub"] .chip').findIndex(function (c) { return c.classList.contains('on'); });
+    var total = (BASE + (ADD[subIdx] || 0)) * qty;
+    $('#total').textContent = total.toLocaleString('ko-KR') + '원';
+  }
+  $('#qMinus').addEventListener('click', function () { qty = Math.max(1, qty - 1); $('#qNum').textContent = qty; recalc(); });
+  $('#qPlus').addEventListener('click', function () { qty = Math.min(9, qty + 1); $('#qNum').textContent = qty; recalc(); });
+  recalc();
+})();
+</script>
+</body>
+</html>

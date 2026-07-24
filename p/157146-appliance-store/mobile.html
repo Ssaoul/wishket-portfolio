@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>모바일 뷰 — SEUM 자사몰 디자인 시안</title>
+<meta name="description" content="폰 목업 기준 반응형 화면 시안. 실제 페이지를 390×844 뷰포트로 렌더해 보여줍니다.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%2315161a'/><circle cx='16' cy='16' r='7' fill='none' stroke='%23f4f3f0' stroke-width='1.2'/></svg>">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+
+<div class="topbar">제안용 <b>디자인 시안</b> · 아래 목업 안은 <b>실제 페이지</b>를 390×844 뷰포트로 렌더한 것입니다 (이미지 합성 아님)</div>
+
+<header class="hdr">
+  <div class="hdr-in">
+    <a href="index.html" class="brand">SEUM<small>스밈</small></a>
+    <nav class="nav">
+      <a href="index.html">홈</a><a href="tech.html">기술</a><a href="about.html">브랜드</a>
+      <a href="vision.html">비전</a><a href="mobile.html">모바일</a><a href="guide.html">톤앤매너 가이드</a>
+    </nav>
+    <div class="util">
+      <a href="#" data-cafe24="검색">검색</a>
+      <a href="#" data-cafe24="로그인">로그인</a>
+      <a href="#" class="cart" data-cafe24="장바구니">장바구니 <span class="badge num">2</span></a>
+    </div>
+    <button class="hamb" id="hamb" aria-label="메뉴" aria-expanded="false"><i></i><i></i></button>
+  </div>
+</header>
+
+<div class="drawer" id="drawer">
+  <a class="big" href="index.html">홈</a><a class="big" href="tech.html">기술</a>
+  <a class="big" href="about.html">브랜드</a><a class="big" href="vision.html">비전</a>
+  <a class="big" href="mobile.html">모바일</a><a class="big" href="guide.html">톤앤매너 가이드</a>
+  <div class="util-m">
+    <a href="#" data-cafe24="검색">검색</a><a href="#" data-cafe24="로그인">로그인</a>
+    <a href="#" data-cafe24="장바구니">장바구니 (2)</a><a href="#" data-cafe24="주문조회">주문조회</a>
+  </div>
+</div>
+
+<main>
+
+<section class="section">
+  <div class="wrap">
+    <div class="head-2col">
+      <div>
+        <p class="eyebrow rv">Mobile View · 390 × 844</p>
+        <h1 class="h2 rv">모바일에서 먼저<br>읽히도록</h1>
+      </div>
+      <p class="body rv d1">
+        PC용·모바일용 스킨을 따로 만들지 않습니다. 하나의 마크업이 3단 브레이크포인트로 접히고,
+        모바일에서는 여백과 타이포 스케일만 다시 계산됩니다. 아래 목업은 이미지가 아니라
+        실제 페이지를 390px 뷰포트로 띄운 것입니다.
+      </p>
+    </div>
+
+    <!-- 인터랙티브 목업 + 반응형 규칙 -->
+    <div class="split w-40 a-start">
+      <div class="rv">
+        <div class="seg" id="pageSeg" style="margin-bottom:20px;flex-wrap:wrap">
+          <button class="on" data-src="index.html">홈</button>
+          <button data-src="tech.html">기술</button>
+          <button data-src="about.html">브랜드</button>
+          <button data-src="vision.html">비전</button>
+          <button data-src="guide.html">가이드</button>
+        </div>
+        <div class="phone" style="--s:.82">
+          <div class="phone-frame">
+            <div class="phone-screen-wrap">
+              <iframe class="phone-screen" id="mainPhone" src="index.html" title="모바일 홈 화면 미리보기" loading="eager"></iframe>
+            </div>
+          </div>
+          <div class="phone-cap">
+            <div class="t" id="phoneLabel">홈 — index.html</div>
+            <div class="d">390 × 844 · DPR 3 기준</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rv d1">
+        <h3 class="h3">브레이크포인트</h3>
+        <dl class="rules mt16">
+          <div class="r"><dt>≥ 1081 px</dt><dd>기본 데스크톱. 최대 폭 1320px, 좌우 여백 72px. 4단 그리드.</dd></div>
+          <div class="r"><dt>≤ 1080 px</dt><dd>태블릿. 4단 → 2단, 가이드 문서의 사이드 목차는 상단 가로 목록으로 전환.</dd></div>
+          <div class="r"><dt>≤ 900 px</dt><dd>모바일 진입. GNB → 햄버거 드로어, 2단 레이아웃 전부 1단, 히어로 분할 해제.</dd></div>
+          <div class="r"><dt>≤ 640 px</dt><dd>소형. 지표 그리드 1열, 구매 버튼 세로 배치, 본문 14.5px 유지.</dd></div>
+        </dl>
+
+        <h3 class="h3 mt40">모바일 규칙</h3>
+        <dl class="rules mt16">
+          <div class="r"><dt>터치 타깃</dt><dd>최소 <span class="num">44 × 44 px</span>. 인접 타깃 간 간격 <span class="num">8 px</span> 이상.</dd></div>
+          <div class="r"><dt>좌우 여백</dt><dd><span class="num">20 px</span> 고정. 이미지·풀블리드 밴드만 여백을 뚫습니다.</dd></div>
+          <div class="r"><dt>헤더</dt><dd>높이 <span class="num">60 px</span> 고정 · sticky. 스크롤 시 배경만 불투명해집니다.</dd></div>
+          <div class="r"><dt>드로어</dt><dd>전체 화면 오버레이. 열림 상태에서 배경 스크롤 잠금, ESC·링크 클릭 시 닫힘.</dd></div>
+          <div class="r"><dt>이미지</dt><dd>모바일 최대 폭 <span class="num">750 px</span> 기준으로 별도 리사이즈본 사용 권장.</dd></div>
+          <div class="r"><dt>글자 크기</dt><dd>본문 <span class="num">14.5 px</span> · 최소 <span class="num">11 px</span>. 헤드라인은 <em>clamp()</em> 로 뷰포트 비례.</dd></div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 상태별 화면 ═══════════════════════════════════════ -->
+<section class="section bg-2">
+  <div class="wrap">
+    <div class="head-2col">
+      <h2 class="h2 rv">상태별 화면</h2>
+      <p class="body rv d1">메뉴 열림 · 상품 구매 · 실험 데이터 세 가지 상태를 같은 마크업으로 확인합니다.</p>
+    </div>
+    <div class="phones rv">
+      <div class="phone" style="--s:.6">
+        <div class="phone-frame"><div class="phone-screen-wrap">
+          <iframe class="phone-screen" src="index.html#menu" title="모바일 메뉴 열림 상태"></iframe>
+        </div></div>
+        <div class="phone-cap"><div class="t">GNB 드로어 열림</div><div class="d">햄버거 → 전체화면 오버레이</div></div>
+      </div>
+      <div class="phone" style="--s:.6">
+        <div class="phone-frame"><div class="phone-screen-wrap">
+          <iframe class="phone-screen" src="index.html#product" title="모바일 상품 구매 영역"></iframe>
+        </div></div>
+        <div class="phone-cap"><div class="t">상품 · 구매 영역</div><div class="d">카페24 옵션/수량/구매 UI 자리</div></div>
+      </div>
+      <div class="phone" style="--s:.6">
+        <div class="phone-frame"><div class="phone-screen-wrap">
+          <iframe class="phone-screen" src="tech.html#data" title="모바일 실험 데이터"></iframe>
+        </div></div>
+        <div class="phone-cap"><div class="t">실험 데이터</div><div class="d">그래프는 1열로 접히며 그대로 렌더</div></div>
+      </div>
+      <div class="phone" style="--s:.6">
+        <div class="phone-frame"><div class="phone-screen-wrap">
+          <iframe class="phone-screen" src="guide.html#sec-2" title="모바일 톤앤매너 가이드"></iframe>
+        </div></div>
+        <div class="phone-cap"><div class="t">톤앤매너 가이드</div><div class="d">사이드 목차 → 상단 가로 목록</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 퍼블리싱 노트 ═════════════════════════════════════ -->
+<section class="section tight">
+  <div class="wrap">
+    <p class="eyebrow rv">Publishing Note</p>
+    <div class="grid g-3 mt24">
+      <div class="feat rv">
+        <div class="idx">01</div><h3 class="h3">단일 마크업</h3>
+        <p class="body">카페24는 PC·모바일 스킨을 나눠 운영할 수 있지만, 두 벌을 유지하면 수정 비용이 두 배가 됩니다. 반응형 단일 마크업으로 관리 지점을 하나로 둡니다.</p>
+      </div>
+      <div class="feat rv d1">
+        <div class="idx">02</div><h3 class="h3">모바일 우선 검수</h3>
+        <p class="body">퍼블리싱 완료 후 모바일 → 태블릿 → PC 순으로 검수합니다. 유입의 대부분이 모바일이기 때문입니다.</p>
+      </div>
+      <div class="feat rv d2">
+        <div class="idx">03</div><h3 class="h3">이미지 지연 로딩</h3>
+        <p class="body">첫 화면 밖 이미지는 <em>loading="lazy"</em> 로 지연 로딩합니다. 폭·높이 속성을 명시해 레이아웃 흔들림(CLS)을 막습니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="ftr">
+  <div class="wrap">
+    <div class="ftr-grid">
+      <div>
+        <div class="brand">SEUM<small>스밈</small></div>
+        <p class="tiny mt16" style="max-width:280px;color:rgba(244,243,240,.45)">
+          공기를 다루는 태도에 대하여.<br>가상 브랜드로 구성한 제안용 디자인 시안입니다.
+        </p>
+      </div>
+      <div><h5>제품</h5><ul>
+        <li><a href="index.html#product">가습청정기 A1</a></li>
+        <li><a href="index.html#product">교체용 필터</a></li>
+        <li><a href="tech.html">기술 · 성능 데이터</a></li></ul></div>
+      <div><h5>브랜드</h5><ul>
+        <li><a href="about.html">브랜드 스토리</a></li><li><a href="vision.html">비전</a></li>
+        <li><a href="guide.html">톤앤매너 가이드</a></li><li><a href="mobile.html">모바일 뷰</a></li></ul></div>
+      <div><h5>고객 지원</h5><ul>
+        <li><a href="#" data-cafe24="주문조회">주문조회</a></li><li><a href="#" data-cafe24="마이페이지">마이페이지</a></li>
+        <li><a href="#" data-cafe24="이용약관">이용약관</a></li><li><a href="#" data-cafe24="개인정보처리방침">개인정보처리방침</a></li></ul></div>
+    </div>
+    <div class="rule">
+      <p>본 화면은 <b>제안용 디자인 시안</b>입니다. 브랜드 · 제품 · 수치는 모두 <b>가상</b>이며,<br>사업자 정보와 연락처는 표기하지 않았습니다.</p>
+      <p>Demo Proposal — Fictional Brand &amp; Synthetic Data</p>
+    </div>
+  </div>
+</footer>
+
+<div class="demo-flag">제안용 데모 · 가상 브랜드 · 합성 데이터</div>
+
+<script src="assets/js/site.js"></script>
+<script>
+(function () {
+  var $ = SEUM.$, $$ = SEUM.$$;
+  var frame = $('#mainPhone'), label = $('#phoneLabel');
+
+  /* 목업 안의 페이지 전환 — 부모에서 iframe src 만 바꾼다 (file:// 에서도 동작) */
+  $$('#pageSeg button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      $$('#pageSeg button').forEach(function (x) { x.classList.remove('on'); });
+      b.classList.add('on');
+      var src = b.getAttribute('data-src');
+      frame.setAttribute('src', src);
+      label.textContent = b.textContent.trim() + ' — ' + src;
+    });
+  });
+})();
+</script>
+</body>
+</html>

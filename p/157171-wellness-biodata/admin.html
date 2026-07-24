@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>6. 관리자 — 웰니스 바이오데이터 통합관리 (데모)</title>
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="admin">
+
+<div class="hero-strip">
+  <img src="assets/img/lounge-hero.jpg" alt="웰니스 측정 라운지 전경">
+  <div class="strip-txt"><b>6. 관리자</b><span>기준표 · 산식 설정 · 참가자 목록 · CSV 내보내기</span></div>
+</div>
+
+<div class="wrap">
+
+  <div class="page-head">
+    <span class="eyebrow">화면 6 / 6</span>
+    <h1>관리자</h1>
+    <p class="lead">점수화에 쓰이는 <b>구간 임계값과 가중치</b>를 화면에서 직접 편집합니다. 저장하면 대시보드·리포트 점수가 즉시 다시 계산됩니다.
+      개발자가 코드를 고치지 않아도 센터 운영 기준을 조정할 수 있도록 만든 화면입니다.</p>
+  </div>
+
+  <div class="card">
+    <div class="seg" id="tabs">
+      <button type="button" data-tab="std" class="on">기준표 · 산식 설정</button>
+      <button type="button" data-tab="list">참가자 목록</button>
+      <button type="button" data-tab="export">데이터 내보내기</button>
+    </div>
+  </div>
+
+  <!-- ── 기준표 ── -->
+  <section id="tab-std">
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <h3>산식 · 상태 구간 임계값</h3>
+          <p class="card-sub" style="margin:0">종합 점수는 4개 영역 점수의 가중 평균입니다. 값을 바꾸면 아래 미리보기가 즉시 갱신됩니다.</p>
+        </div>
+        <span class="badge badge-wood" id="cfgState">기본값 사용 중</span>
+      </div>
+      <div class="grid grid-3">
+        <div>
+          <h4 style="margin-bottom:12px">상태 구간 임계값</h4>
+          <div class="field">
+            <label for="cutGood">양호 구간 하한 <span class="hint">이 점수 이상이면 양호</span></label>
+            <div class="input-unit"><input type="number" id="cutGood" min="50" max="99" step="1"><span class="unit">점</span></div>
+          </div>
+          <div class="field">
+            <label for="cutFair">보통 구간 하한 <span class="hint">이 점수 미만이면 관리 필요</span></label>
+            <div class="input-unit"><input type="number" id="cutFair" min="10" max="90" step="1"><span class="unit">점</span></div>
+          </div>
+        </div>
+        <div style="grid-column:span 2">
+          <h4 style="margin-bottom:12px">영역 가중치 <span class="hint" id="wSum"></span></h4>
+          <div class="grid grid-4" id="domainWeights"></div>
+          <div class="notice" style="margin-top:14px">
+            가중치 합이 100이 아니어도 됩니다. 실제 계산에서는 <b>입력된 영역의 가중치 비율</b>로 자동 정규화하며,
+            측정값이 없는 영역은 제외합니다.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <h3>지표별 기준표</h3>
+          <p class="card-sub" style="margin:0">양호 구간 안이면 84~100점, 보통 구간이면 60~78점, 구간 밖이면 25~58점으로 환산합니다.</p>
+        </div>
+        <div class="seg" id="sexTabs">
+          <button type="button" data-sex="F" class="on">여성 기준</button>
+          <button type="button" data-sex="M">남성 기준</button>
+        </div>
+      </div>
+      <div class="table-scroll">
+        <table class="tbl" id="stdTable"></table>
+      </div>
+      <div class="btn-row" style="margin-top:20px">
+        <button class="btn btn-primary btn-lg" id="btnSaveCfg">기준표 저장</button>
+        <button class="btn btn-ghost btn-lg" id="btnResetCfg">기본값으로 되돌리기</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <h3>변경 영향 미리보기</h3>
+          <p class="card-sub" style="margin:0">현재 편집 중인 기준표로 전체 참가자의 최근 회차 점수를 다시 계산해 <b>기본 기준표</b>와 비교합니다.</p>
+        </div>
+        <span class="badge badge-green" id="diffCount">차이 없음</span>
+      </div>
+      <div class="table-scroll">
+        <table class="tbl" id="previewTable"></table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 참가자 목록 ── -->
+  <section id="tab-list" hidden>
+    <div class="card">
+      <div class="card-head">
+        <h3>참가자 목록 <span class="badge badge-green" id="listCnt"></span></h3>
+        <div class="field" style="margin:0;min-width:280px">
+          <input type="search" id="lq" placeholder="이름 또는 코드로 검색">
+        </div>
+      </div>
+      <div class="table-scroll">
+        <table class="tbl" id="listTable"></table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 내보내기 ── -->
+  <section id="tab-export" hidden>
+    <div class="card">
+      <h3>CSV 내보내기</h3>
+      <p class="card-sub">엑셀에서 바로 열 수 있도록 UTF-8 BOM 을 포함해 내려받습니다. 내려받기와 별개로 내용 미리보기를 함께 띄웁니다.</p>
+      <div class="grid grid-3">
+        <div class="domain-tile">
+          <div class="d-name">참가자 마스터</div>
+          <div class="d-meta" style="margin-bottom:12px">코드 · 이름 · 성별 · 연령 · 등록일 · 프로그램 · 동의 · 측정 회차수</div>
+          <button class="btn btn-wood" data-export="master">참가자 CSV 내보내기</button>
+        </div>
+        <div class="domain-tile">
+          <div class="d-name">측정 원자료</div>
+          <div class="d-meta" style="margin-bottom:12px">회차별 체성분 · 혈압 · HRV · 설문 응답 전체</div>
+          <button class="btn btn-wood" data-export="raw">측정 CSV 내보내기</button>
+        </div>
+        <div class="domain-tile">
+          <div class="d-name">점수 산출 결과</div>
+          <div class="d-meta" style="margin-bottom:12px">영역별 점수 · 종합 점수 · 상태 구간 · 누락 항목수</div>
+          <button class="btn btn-wood" data-export="score">점수 CSV 내보내기</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>데모 데이터 초기화</h3>
+      <p class="card-sub">이 브라우저에 임시 저장된 등록·입력·설문·기준표 변경분을 지우고 최초 합성 데이터로 되돌립니다.</p>
+      <div class="btn-row">
+        <button class="btn btn-ghost btn-lg" id="btnResetAll">모든 데모 데이터 초기화</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/scoring.js"></script>
+<script src="assets/js/charts.js"></script>
+<script src="assets/js/shell.js"></script>
+<script>
+(function () {
+  'use strict';
+  var esc = WBUI.esc;
+  var draft = null, sex = 'F';
+
+  function clone(o) { return JSON.parse(JSON.stringify(o)); }
+  function scoredMetrics() { return WB.METRICS.filter(function (m) { return !m.ref; }); }
+
+  /* ---------- 기준표 ---------- */
+  function buildStd() {
+    var byDomain = {};
+    scoredMetrics().forEach(function (m) { (byDomain[m.domain] = byDomain[m.domain] || []).push(m); });
+    var html = '<thead><tr><th>영역 / 지표</th><th>단위</th><th>양호 하한</th><th>양호 상한</th>' +
+      '<th>보통 하한</th><th>보통 상한</th><th>지표 가중치</th><th>기본값</th></tr></thead><tbody>';
+    WB.DOMAIN_META.forEach(function (d) {
+      html += '<tr style="background:var(--green-tint)"><td colspan="8"><b>' + esc(d.name) + '</b> · ' + esc(d.desc) + '</td></tr>';
+      (byDomain[d.key] || []).forEach(function (m) {
+        var b = draft.metrics[m.key][sex];
+        var def = WB.DEFAULT_CONFIG().metrics[m.key][sex];
+        var step = (m.key === 'lfhf') ? '0.1' : ((m.dec === 0) ? '1' : '0.1');
+        var inp = function (i) {
+          return '<td><input type="number" step="' + step + '" data-k="' + m.key + '" data-i="' + i + '" value="' + b[i] + '" style="min-height:44px;padding:6px 10px"></td>';
+        };
+        html += '<tr><td><b>' + esc(m.name) + '</b>' + (m.note ? '<br><span style="font-size:14px;color:var(--muted)">' + esc(m.note) + '</span>' : '') + '</td>' +
+          '<td>' + esc(m.unit || '-') + '</td>' + inp(0) + inp(1) + inp(2) + inp(3) +
+          '<td><input type="number" step="5" min="0" data-k="' + m.key + '" data-i="w" value="' + draft.metrics[m.key].weight + '" style="min-height:44px;padding:6px 10px"></td>' +
+          '<td style="font-size:14px;color:var(--muted)">' + def.join(' / ') + '</td></tr>';
+      });
+    });
+    document.getElementById('stdTable').innerHTML = html + '</tbody>';
+
+    Array.prototype.forEach.call(document.querySelectorAll('#stdTable input'), function (el) {
+      el.addEventListener('input', function () {
+        var k = el.getAttribute('data-k'), i = el.getAttribute('data-i');
+        var v = parseFloat(el.value);
+        if (isNaN(v)) return;
+        if (i === 'w') draft.metrics[k].weight = v;
+        else draft.metrics[k][sex][Number(i)] = v;
+        preview();
+      });
+    });
+  }
+
+  function buildDomainWeights() {
+    document.getElementById('domainWeights').innerHTML = WB.DOMAIN_META.map(function (d) {
+      return '<div class="field" style="margin:0"><label for="dw-' + d.key + '">' + esc(d.name) + '</label>' +
+        '<div class="input-unit"><input type="number" id="dw-' + d.key + '" min="0" max="100" step="5" value="' + draft.domainWeights[d.key] + '"><span class="unit">%</span></div></div>';
+    }).join('');
+    WB.DOMAIN_META.forEach(function (d) {
+      document.getElementById('dw-' + d.key).addEventListener('input', function () {
+        var v = parseFloat(this.value);
+        if (!isNaN(v)) { draft.domainWeights[d.key] = v; preview(); }
+      });
+    });
+  }
+
+  function preview() {
+    var sum = WB.DOMAIN_META.reduce(function (a, d) { return a + (draft.domainWeights[d.key] || 0); }, 0);
+    document.getElementById('wSum').textContent = '합계 ' + sum + ' (자동 정규화)';
+
+    var base = WB.DEFAULT_CONFIG();
+    var rows = '', diff = 0;
+    WB.getParticipants().forEach(function (p) {
+      if (!p.sessions.length) return;
+      var s = p.sessions[p.sessions.length - 1];
+      var a = WB.scoreSession(p, s, base);
+      var b = WB.scoreSession(p, s, draft);
+      var d = WB.deltaText(b.total, a.total);
+      if (d && d.dir !== 'flat') diff++;
+      var changedBand = a.band !== b.band;
+      rows += '<tr' + (changedBand ? ' style="background:#FCF6EC"' : '') + '>' +
+        '<td><b>' + esc(p.name) + '</b> <span style="color:var(--muted);font-size:14px">' + esc(p.code) + '</span></td>' +
+        '<td>' + esc(s.label) + '</td>' +
+        '<td class="num">' + WB.fmt(a.total, 1) + '</td>' +
+        '<td>' + WBUI.bandBadge(a.band) + '</td>' +
+        '<td class="num"><b>' + WB.fmt(b.total, 1) + '</b></td>' +
+        '<td>' + WBUI.bandBadge(b.band) + '</td>' +
+        '<td class="num">' + (d ? '<span class="delta ' + d.dir + '">' + d.text + '</span>' : '–') + '</td>' +
+        '<td>' + (changedBand ? '<span class="badge badge-wood">구간 변경</span>' : '') + '</td></tr>';
+    });
+    document.getElementById('previewTable').innerHTML =
+      '<thead><tr><th>참가자</th><th>회차</th><th>기본 기준 점수</th><th>기본 구간</th><th>편집 기준 점수</th><th>편집 구간</th><th>차이</th><th></th></tr></thead><tbody>' + rows + '</tbody>';
+    var badge = document.getElementById('diffCount');
+    badge.textContent = diff === 0 ? '기본 기준표와 동일' : diff + '명 점수 변동';
+    badge.className = 'badge ' + (diff === 0 ? 'badge-green' : 'badge-wood');
+    document.getElementById('cfgState').textContent = WB.isConfigCustomized() ? '사용자 기준표 저장됨' : '기본값 사용 중';
+  }
+
+  /* ---------- 참가자 목록 ---------- */
+  function buildList() {
+    var q = (document.getElementById('lq').value || '').trim().toLowerCase();
+    var list = WB.getParticipants().filter(function (p) {
+      return !q || p.name.toLowerCase().indexOf(q) >= 0 || p.code.toLowerCase().indexOf(q) >= 0;
+    });
+    document.getElementById('listCnt').textContent = list.length + '명';
+    document.getElementById('listTable').innerHTML =
+      '<thead><tr><th>코드</th><th>이름</th><th>성별/연령</th><th>등록일</th><th>프로그램</th><th>측정 회차</th><th>최근 측정</th><th>최근 종합</th><th>동의</th><th>바로가기</th></tr></thead><tbody>' +
+      list.map(function (p) {
+        var s = p.sessions.length ? p.sessions[p.sessions.length - 1] : null;
+        var r = s ? WB.scoreSession(p, s) : null;
+        return '<tr><td class="num">' + esc(p.code) + '</td><td><b>' + esc(p.name) + '</b></td>' +
+          '<td>' + WBUI.sexLabel(p.sex) + ' · ' + p.age + '세</td>' +
+          '<td class="num">' + esc(p.joinedAt) + '</td><td>' + esc(p.program || '–') + '</td>' +
+          '<td class="num">' + p.sessions.length + '회</td>' +
+          '<td class="num">' + (s ? esc(s.at) : '–') + '</td>' +
+          '<td class="num">' + (r ? '<b>' + WB.fmt(r.total, 1) + '</b> ' + WBUI.bandBadge(r.band) : '<span class="badge badge-miss">미측정</span>') + '</td>' +
+          '<td>' + (p.consent ? '<span class="badge badge-good">동의</span>' : '<span class="badge badge-care">미동의</span>') + '</td>' +
+          '<td><div class="row-actions"><a class="btn btn-ghost btn-sm" href="' + WBUI.linkTo('dashboard.html', p.code) + '">결과</a>' +
+          '<a class="btn btn-ghost btn-sm" href="' + WBUI.linkTo('report.html', p.code) + '">리포트</a></div></td></tr>';
+      }).join('') + '</tbody>';
+  }
+
+  /* ---------- 내보내기 ---------- */
+  function exportRows(kind) {
+    var list = WB.getParticipants(), rows = [];
+    if (kind === 'master') {
+      rows.push(['참가자코드', '이름', '성별', '연령', '등록일', '참여프로그램', '개인정보동의', '측정회차수', '최근측정일시']);
+      list.forEach(function (p) {
+        var s = p.sessions.length ? p.sessions[p.sessions.length - 1] : null;
+        rows.push([p.code, p.name, WBUI.sexLabel(p.sex), p.age, p.joinedAt, p.program || '', p.consent ? 'Y' : 'N', p.sessions.length, s ? s.at : '']);
+      });
+    } else if (kind === 'raw') {
+      rows.push(['참가자코드', '이름', '측정회차', '측정일시', '체중(kg)', 'BMI', '체지방률(%)', '골격근량(kg)', '내장지방레벨', '기초대사량(kcal)',
+        '수축기(mmHg)', '이완기(mmHg)', '맥박(bpm)', '산소포화도(%)', 'SDNN(ms)', 'RMSSD(ms)', 'LF(ms2)', 'HF(ms2)',
+        '스트레스', '피로', '수면', '운동', '생활습관']);
+      list.forEach(function (p) {
+        p.sessions.forEach(function (s) {
+          var b = s.body || {}, c = s.cardio || {}, h = s.hrv || {}, q = s.survey || {};
+          rows.push([p.code, p.name, s.label, s.at, b.weight, b.bmi, b.fat, b.smm, b.visceral, b.bmr,
+            c.sbp, c.dbp, c.pulse, c.spo2, h.sdnn, h.rmssd, h.lf, h.hf,
+            q.stress, q.fatigue, q.sleep, q.exercise, q.habit].map(function (v) { return (v === null || v === undefined) ? '' : v; }));
+        });
+      });
+    } else {
+      rows.push(['참가자코드', '이름', '측정회차', '측정일시', '신체구성', '자율신경', '심혈관', '스트레스·생활습관', '종합점수', '상태구간', '누락항목수', '데이터완전성(%)']);
+      list.forEach(function (p) {
+        p.sessions.forEach(function (s) {
+          var r = WB.scoreSession(p, s);
+          var g2 = function (k) { var v = WB.domainScore(r, k); return v === null ? '' : v; };
+          rows.push([p.code, p.name, s.label, s.at, g2('body'), g2('auto'), g2('cardio'), g2('life'),
+            r.total === null ? '' : r.total, WB.bandLabel(r.band), r.missingCount, Math.round(r.coverage * 100)]);
+        });
+      });
+    }
+    return rows;
+  }
+
+  function doExport(kind) {
+    var names = { master: 'participants', raw: 'measurements', score: 'wellness-scores' };
+    var rows = exportRows(kind);
+    var res = WBUI.downloadCsv('demo-' + names[kind] + '-' + WBUI.todayStr() + '.csv', rows);
+    WBUI.modal('CSV 내보내기 — ' + rows.length + '행 (헤더 포함)',
+      '<p>' + (res.ok ? '파일 내려받기를 시작했습니다.' : '이 환경에서는 자동 내려받기가 제한되어 미리보기만 표시합니다.') +
+      ' 아래는 실제 생성된 CSV 내용입니다.</p>' +
+      '<pre class="csv-preview">' + esc(res.csv) + '</pre>');
+    WBUI.toast('CSV ' + rows.length + '행 생성 완료 (' + names[kind] + ')');
+  }
+
+  /* ---------- 초기화 ---------- */
+  document.addEventListener('DOMContentLoaded', function () {
+    draft = clone(WB.getConfig());
+    document.getElementById('cutGood').value = draft.bandCut.good;
+    document.getElementById('cutFair').value = draft.bandCut.fair;
+    buildDomainWeights();
+    buildStd();
+    buildList();
+    preview();
+
+    document.getElementById('cutGood').addEventListener('input', function () {
+      var v = parseInt(this.value, 10); if (!isNaN(v)) { draft.bandCut.good = v; preview(); }
+    });
+    document.getElementById('cutFair').addEventListener('input', function () {
+      var v = parseInt(this.value, 10); if (!isNaN(v)) { draft.bandCut.fair = v; preview(); }
+    });
+    document.getElementById('sexTabs').addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      sex = b.getAttribute('data-sex');
+      Array.prototype.forEach.call(this.querySelectorAll('button'), function (x) { x.classList.toggle('on', x === b); });
+      buildStd();
+    });
+    document.getElementById('btnSaveCfg').addEventListener('click', function () {
+      if (draft.bandCut.fair >= draft.bandCut.good) {
+        WBUI.toast('보통 구간 하한은 양호 구간 하한보다 낮아야 합니다.', 'warn'); return;
+      }
+      WB.saveConfig(clone(draft));
+      preview(); buildList();
+      WBUI.toast('기준표 저장 완료 — 대시보드·리포트 점수가 새 기준으로 계산됩니다.');
+    });
+    document.getElementById('btnResetCfg').addEventListener('click', function () {
+      draft = clone(WB.resetConfig());
+      document.getElementById('cutGood').value = draft.bandCut.good;
+      document.getElementById('cutFair').value = draft.bandCut.fair;
+      buildDomainWeights(); buildStd(); preview(); buildList();
+      WBUI.toast('기본 기준표로 되돌렸습니다.', 'warn');
+    });
+    document.getElementById('lq').addEventListener('input', buildList);
+    Array.prototype.forEach.call(document.querySelectorAll('[data-export]'), function (b) {
+      b.addEventListener('click', function () { doExport(b.getAttribute('data-export')); });
+    });
+    document.getElementById('btnResetAll').addEventListener('click', function () {
+      WB.resetParticipants(); draft = clone(WB.resetConfig());
+      document.getElementById('cutGood').value = draft.bandCut.good;
+      document.getElementById('cutFair').value = draft.bandCut.fair;
+      buildDomainWeights(); buildStd(); buildList(); preview();
+      WBUI.toast('데모 데이터를 최초 상태로 초기화했습니다.', 'warn');
+    });
+    document.getElementById('tabs').addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      var t = b.getAttribute('data-tab');
+      Array.prototype.forEach.call(this.querySelectorAll('button'), function (x) { x.classList.toggle('on', x === b); });
+      ['std', 'list', 'export'].forEach(function (k) { document.getElementById('tab-' + k).hidden = (k !== t); });
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>웰니스 바이오데이터 통합관리 — 제안용 데모</title>
+<meta name="description" content="체성분·HRV·혈압·산소포화도 측정값과 생활습관 설문을 규칙 기반으로 점수화해 웰니스 결과와 프로그램 추천을 화면·PDF 리포트로 제공하는 웹 MVP 제안 데모입니다. 모든 데이터는 합성입니다.">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="home">
+
+<section class="hero">
+  <img class="hero-img" src="assets/img/lounge-hero.jpg" alt="우드와 식물, 자연광으로 꾸며진 웰니스 측정 라운지. 측정 테이블 위에 체성분 측정 장비와 혈압계가 놓여 있다.">
+  <div class="hero-inner">
+    <span class="hero-badge">제안용 데모 · 합성 데이터 · 실서비스 아님</span>
+    <h1>측정값 하나하나를 웰니스 언어로 바꾸는 통합관리 웹</h1>
+    <p>체성분분석기 · HRV · 혈압계 · 산소포화도계 측정값과 생활습관 설문을 한 곳에 모아
+       규칙 기반으로 점수화하고, 개인별 웰니스 결과와 프로그램 추천을 화면과 A4 리포트로 전달합니다.</p>
+    <div class="btn-row">
+      <a class="btn btn-primary btn-lg" href="dashboard.html">분석 결과 대시보드 보기</a>
+      <a class="btn btn-ghost btn-lg" href="participants.html">참가자 관리부터 둘러보기</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <h2>측정에서 리포트까지 3단계</h2>
+        <p class="card-sub" style="margin-bottom:0">1단계 MVP 범위 — 장비 실시간 연동·AI 학습 모델·모바일 앱은 포함하지 않습니다.</p>
+      </div>
+    </div>
+    <div class="flow">
+      <div class="flow-step"><b>1. 입력</b><span>측정값 수동 입력 또는 CSV 업로드, 생활습관 설문 응답. 누락 항목은 표시하고 산출에서 제외합니다.</span></div>
+      <div class="flow-step"><b>2. 규칙 기반 점수화</b><span>관리자가 정한 기준표(구간 임계값)와 가중치로 지표별 점수를 계산하고 4개 영역으로 합산합니다.</span></div>
+      <div class="flow-step"><b>3. 결과 · 리포트</b><span>레이더·게이지·막대그래프로 결과를 보여주고, 같은 데이터를 A4 리포트로 출력합니다.</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <h2>데모에 담긴 6개 화면</h2>
+      <span class="badge badge-wood">번호를 눌러 바로 이동</span>
+    </div>
+    <div class="grid grid-3">
+      <a class="screen-card" href="participants.html"><span class="no">1</span>
+        <h4>참가자 관리</h4><p>등록 · 검색 · 측정 이력 목록. 이름/코드/성별/연령/측정일시와 개인정보 동의 상태를 함께 관리합니다.</p></a>
+      <a class="screen-card" href="measurements.html"><span class="no">2</span>
+        <h4>바이오데이터 입력</h4><p>체성분 6종 · 혈압/맥박/산소포화도 4종 · HRV 5종을 수동 입력하거나 CSV로 한 번에 올립니다.</p></a>
+      <a class="screen-card" href="survey.html"><span class="no">3</span>
+        <h4>생활습관 설문</h4><p>스트레스 · 피로 · 수면 · 운동 · 생활습관 18문항과 프로그램 선호도를 5점 척도로 수집합니다.</p></a>
+      <a class="screen-card" href="dashboard.html"><span class="no">4</span>
+        <h4>분석 결과 대시보드</h4><p>종합 Wellness Score 게이지, 4개 영역 레이더·막대그래프, 사전/사후 변화 비교와 프로그램 추천.</p></a>
+      <a class="screen-card" href="report.html"><span class="no">5</span>
+        <h4>PDF 리포트 미리보기</h4><p>A4 2쪽 레이아웃. 수치표 · 전후 비교 · 추천 프로그램 · 유의사항까지 담아 인쇄(PDF 저장)합니다.</p></a>
+      <a class="screen-card" href="admin.html"><span class="no">6</span>
+        <h4>관리자</h4><p>지표별 구간 임계값과 가중치를 직접 편집하고, 참가자 목록·측정 데이터를 CSV로 내보냅니다.</p></a>
+    </div>
+  </div>
+
+  <div class="split">
+    <div class="card">
+      <h3>데모 데이터 현황</h3>
+      <p class="card-sub">아래 숫자는 화면 로드 시 점수 엔진을 실제로 돌려 계산한 값입니다. (합성 데이터 기준)</p>
+      <div class="grid grid-4" id="statGrid"></div>
+      <div style="margin-top:18px" class="table-scroll">
+        <table class="tbl">
+          <thead><tr><th>참가자</th><th>최근 측정</th><th class="num">종합 점수</th><th>상태 구간</th><th>사전 대비</th></tr></thead>
+          <tbody id="statRows"></tbody>
+        </table>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <h3>화면 설계 기준</h3>
+        <ul style="padding-left:20px;margin:0;font-size:16.5px;line-height:1.9">
+          <li>본문 <b>17px 이상</b>, 주요 수치 20px 이상</li>
+          <li>버튼·입력 <b>최소 높이 48px</b> 터치타겟</li>
+          <li>우드 · 그린 · 오프화이트 자연친화 팔레트</li>
+          <li>태블릿 · 노트북 · PC 3단 반응형</li>
+          <li>상태 구간은 <b>양호 / 보통 / 관리 필요</b> 3단계</li>
+        </ul>
+      </div>
+      <div class="notice care">
+        <strong>의료 진단 서비스가 아닙니다.</strong><br>
+        본 데모는 일반 웰니스 상태를 참고용으로 안내합니다. 질병의 진단·치료·예방을 목적으로 하지 않으며,
+        정상/비정상 판정이나 위험도 진단 표현을 사용하지 않습니다.
+      </div>
+      <div class="notice" style="margin-top:12px">
+        <strong>합성 데이터.</strong> 참가자 12명의 이름·코드·측정값·측정일시는 데모를 위해 만든 가상 정보입니다.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/scoring.js"></script>
+<script src="assets/js/charts.js"></script>
+<script src="assets/js/shell.js"></script>
+<script>
+(function () {
+  'use strict';
+  document.addEventListener('DOMContentLoaded', function () {
+    var list = WB.getParticipants();
+    var rows = [], scores = [], sessionCount = 0, missing = 0;
+
+    list.forEach(function (p) {
+      sessionCount += p.sessions.length;
+      var last = p.sessions[p.sessions.length - 1];
+      var first = p.sessions[0];
+      var r = WB.scoreSession(p, last);
+      var r0 = p.sessions.length > 1 ? WB.scoreSession(p, first) : null;
+      missing += r.missingCount + (r0 ? r0.missingCount : 0);
+      if (r.total !== null) scores.push(r.total);
+      var d = r0 ? WB.deltaText(r.total, r0.total) : null;
+      rows.push(
+        '<tr><td><b>' + WBUI.esc(p.name) + '</b> <span class="badge badge-miss">' + WBUI.esc(p.code) + '</span></td>' +
+        '<td class="num">' + WBUI.esc(WBUI.dateOf(last.at)) + ' · ' + WBUI.esc(last.label) + '</td>' +
+        '<td class="num"><b style="font-size:19px">' + WB.fmt(r.total, 1) + '</b></td>' +
+        '<td>' + WBUI.bandBadge(r.band) + '</td>' +
+        '<td class="num">' + (d ? '<span class="delta ' + d.dir + '">' + d.text + '</span>' : '<span class="delta flat">–</span>') + '</td></tr>'
+      );
+    });
+
+    var avg = scores.reduce(function (a, b) { return a + b; }, 0) / (scores.length || 1);
+    var tiles = [
+      { k: '등록 참가자', v: list.length + '명' },
+      { k: '측정 세션', v: sessionCount + '회' },
+      { k: '평균 종합 점수', v: WB.fmt(avg, 1) + '점' },
+      { k: '누락 항목', v: missing + '건' }
+    ];
+    document.getElementById('statGrid').innerHTML = tiles.map(function (t) {
+      return '<div class="domain-tile"><div class="d-meta">' + t.k + '</div><div class="d-score">' + t.v + '</div></div>';
+    }).join('');
+    document.getElementById('statRows').innerHTML = rows.join('');
+  });
+})();
+</script>
+</body>
+</html>

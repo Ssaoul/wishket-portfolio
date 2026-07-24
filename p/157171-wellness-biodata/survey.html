@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3. 생활습관 설문 — 웰니스 바이오데이터 통합관리 (데모)</title>
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="survey">
+
+<div class="hero-strip">
+  <img src="assets/img/lounge-hero.jpg" alt="웰니스 측정 라운지 전경">
+  <div class="strip-txt"><b>3. 생활습관 설문</b><span>스트레스 · 피로 · 수면 · 운동 · 생활습관 · 프로그램 선호도</span></div>
+</div>
+
+<div class="wrap">
+
+  <div class="page-head">
+    <span class="eyebrow">화면 3 / 6</span>
+    <h1>생활습관 설문</h1>
+    <p class="lead">18개 문항을 5점 척도로 응답하면 영역별 평균이 즉시 계산되어 <b>스트레스·생활습관</b> 점수에 반영됩니다.
+      모든 문항은 긍정 방향으로 서술되어 있어 점수가 높을수록 좋은 상태를 뜻합니다.</p>
+  </div>
+
+  <div class="card">
+    <div class="grid grid-3" style="gap:16px">
+      <div class="field" style="margin:0">
+        <label for="pSel">참가자</label>
+        <select id="pSel"></select>
+      </div>
+      <div class="field" style="margin:0">
+        <label for="sSel">측정 회차</label>
+        <select id="sSel"></select>
+      </div>
+      <div class="field" style="margin:0">
+        <label>응답 진행</label>
+        <div style="display:flex;align-items:center;gap:12px;min-height:48px">
+          <div style="flex:1;height:14px;background:var(--wood-soft);border-radius:99px;overflow:hidden">
+            <div id="progBar" style="height:100%;width:0;background:var(--green);border-radius:99px;transition:width .2s"></div>
+          </div>
+          <b id="progTxt" style="font-variant-numeric:tabular-nums">0 / 18</b>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="split">
+    <div>
+      <div id="sections"></div>
+
+      <div class="card">
+        <h3>프로그램 선호도</h3>
+        <p class="card-sub" id="prefQ"></p>
+        <div class="seg" id="prefChips"></div>
+      </div>
+
+      <div class="card">
+        <div class="btn-row">
+          <button class="btn btn-primary btn-lg" id="btnSave">설문 응답 저장</button>
+          <button class="btn btn-ghost btn-lg" id="btnReset">응답 초기화</button>
+          <a class="btn btn-soft btn-lg" id="linkResult" href="dashboard.html">저장 후 분석 결과 보기</a>
+        </div>
+        <p class="card-sub" style="margin:14px 0 0">설문 응답은 4개 영역 중 <b>스트레스·생활습관</b> 영역 점수의 원천 데이터입니다.</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <h3>영역별 응답 평균</h3>
+        <p class="card-sub">응답을 바꾸면 즉시 다시 계산됩니다. (5점 만점)</p>
+        <div id="liveSummary"></div>
+      </div>
+      <div class="notice">
+        <strong>응답 안내.</strong> 최근 2~4주 동안의 평소 상태를 기준으로 골라 주세요.
+        정답이 없는 문항이며, 응답 결과는 웰니스 프로그램 안내에만 사용합니다.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/scoring.js"></script>
+<script src="assets/js/charts.js"></script>
+<script src="assets/js/shell.js"></script>
+<script>
+(function () {
+  'use strict';
+  var esc = WBUI.esc;
+  var SCALE = [
+    { v: 1, t: '전혀<br>아니다' }, { v: 2, t: '아니다' }, { v: 3, t: '보통이다' },
+    { v: 4, t: '그렇다' }, { v: 5, t: '매우<br>그렇다' }
+  ];
+  var answers = {};   // { 'stress-0': 4, ... }
+  var prefer = [];
+
+  function sections() { return DEMO_DATA.surveySections; }
+  function totalItems() { return sections().reduce(function (a, s) { return a + s.items.length; }, 0); }
+  function cur() { return WB.findParticipant(document.getElementById('pSel').value); }
+  function curSession() {
+    var p = cur(), sid = document.getElementById('sSel').value, s = null;
+    p.sessions.forEach(function (x) { if (x.id === sid) s = x; });
+    return s;
+  }
+
+  /* 저장된 영역 평균으로부터 문항별 응답을 되살린다(합이 평균에 맞도록 결정론적으로 배분). */
+  function expand(avg, n) {
+    if (avg === null || avg === undefined) return null;
+    var T = Math.round(avg * n);
+    T = Math.max(n, Math.min(5 * n, T));
+    var base = Math.floor(T / n), rem = T - base * n;
+    var out = [];
+    for (var i = 0; i < n; i++) out.push(Math.max(1, Math.min(5, base + (i < rem ? 1 : 0))));
+    return out;
+  }
+
+  function loadAnswers() {
+    answers = {};
+    var s = curSession();
+    sections().forEach(function (sec) {
+      var stored = s && s.surveyItems && s.surveyItems[sec.key];
+      var vals = stored || (s && s.survey ? expand(s.survey[sec.key], sec.items.length) : null);
+      if (vals) vals.forEach(function (v, i) { answers[sec.key + '-' + i] = v; });
+    });
+    prefer = (cur().prefer || []).slice();
+  }
+
+  function categoryAvg(key) {
+    var sec = null;
+    sections().forEach(function (s) { if (s.key === key) sec = s; });
+    var vals = [];
+    for (var i = 0; i < sec.items.length; i++) {
+      var v = answers[key + '-' + i];
+      if (v) vals.push(v);
+    }
+    if (!vals.length) return null;
+    return Math.round((vals.reduce(function (a, b) { return a + b; }, 0) / vals.length) * 100) / 100;
+  }
+
+  function buildSections() {
+    document.getElementById('sections').innerHTML = sections().map(function (sec) {
+      return '<div class="card">' +
+        '<div class="card-head" style="margin-bottom:10px">' +
+          '<div><h3>' + esc(sec.title) + '</h3><p class="card-sub" style="margin:0">' + esc(sec.desc) + '</p></div>' +
+          '<span class="badge badge-green" id="avg-' + sec.key + '">–</span>' +
+        '</div>' +
+        sec.items.map(function (it, i) {
+          return '<div class="field" style="border-top:1px solid var(--line);padding-top:16px">' +
+            '<label>' + (i + 1) + '. ' + esc(it) + '</label>' +
+            '<div class="scale" data-key="' + sec.key + '" data-i="' + i + '">' +
+              SCALE.map(function (s) {
+                return '<button type="button" data-v="' + s.v + '"><b style="display:block;font-size:18px">' + s.v + '</b>' + s.t + '</button>';
+              }).join('') +
+            '</div></div>';
+        }).join('') +
+      '</div>';
+    }).join('');
+
+    Array.prototype.forEach.call(document.querySelectorAll('.scale'), function (row) {
+      row.addEventListener('click', function (e) {
+        var b = e.target.closest('button'); if (!b) return;
+        answers[row.getAttribute('data-key') + '-' + row.getAttribute('data-i')] = Number(b.getAttribute('data-v'));
+        paint();
+      });
+    });
+  }
+
+  function buildPrefs() {
+    document.getElementById('prefQ').textContent = DEMO_DATA.preferenceQuestion;
+    document.getElementById('prefChips').innerHTML = DEMO_DATA.programs.map(function (p) {
+      return '<button type="button" class="chip" data-id="' + esc(p.id) + '">' + esc(p.name) + '</button>';
+    }).join('');
+    document.getElementById('prefChips').addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      var id = b.getAttribute('data-id'), i = prefer.indexOf(id);
+      if (i >= 0) prefer.splice(i, 1); else prefer.push(id);
+      paint();
+    });
+  }
+
+  function paint() {
+    // 문항 선택 상태
+    Array.prototype.forEach.call(document.querySelectorAll('.scale'), function (row) {
+      var v = answers[row.getAttribute('data-key') + '-' + row.getAttribute('data-i')];
+      Array.prototype.forEach.call(row.querySelectorAll('button'), function (b) {
+        b.classList.toggle('on', Number(b.getAttribute('data-v')) === v);
+      });
+    });
+    // 선호도
+    Array.prototype.forEach.call(document.querySelectorAll('#prefChips .chip'), function (b) {
+      b.classList.toggle('on', prefer.indexOf(b.getAttribute('data-id')) >= 0);
+    });
+    // 영역 평균 + 요약
+    var p = cur(), cfg = WB.getConfig(), sex = p.sex === 'M' ? 'M' : 'F';
+    var html = '';
+    sections().forEach(function (sec) {
+      var a = categoryAvg(sec.key);
+      var badge = document.getElementById('avg-' + sec.key);
+      badge.textContent = a === null ? '미응답' : '평균 ' + a.toFixed(2) + '점';
+      var conf = cfg.metrics[sec.key];
+      var sc = (a !== null && conf) ? WB.scoreValue(a, conf[sex]) : null;
+      var band = sc === null ? 'none' : WB.bandOf(sc, cfg);
+      badge.className = 'badge ' + WBUI.bandClass(band);
+      html += '<div class="metric-row" style="grid-template-columns:minmax(0,1fr) 78px 96px">' +
+        '<div class="m-name">' + esc(sec.title) + '<small>' + sec.items.length + '문항</small></div>' +
+        '<div class="m-val">' + (a === null ? '–' : a.toFixed(2)) + '<small> /5</small></div>' +
+        '<div>' + (sc === null ? '<span class="badge badge-miss">미응답</span>' : WBUI.bandBadge(band) + ' <b style="font-size:15px">' + WB.fmt(sc, 1) + '</b>') + '</div>' +
+      '</div>';
+    });
+    document.getElementById('liveSummary').innerHTML = html;
+
+    var done = Object.keys(answers).filter(function (k) { return answers[k]; }).length;
+    var tot = totalItems();
+    document.getElementById('progTxt').textContent = done + ' / ' + tot;
+    document.getElementById('progBar').style.width = Math.round((done / tot) * 100) + '%';
+  }
+
+  function fillSessions(code) {
+    var p = WB.findParticipant(code), sel = document.getElementById('sSel');
+    if (!p.sessions.length) {
+      sel.innerHTML = '<option value="">측정 회차 없음 — 먼저 측정값을 입력하세요</option>';
+      return;
+    }
+    sel.innerHTML = p.sessions.map(function (s) {
+      return '<option value="' + esc(s.id) + '">' + esc(s.label) + ' · ' + esc(s.at) + '</option>';
+    }).join('');
+    sel.value = p.sessions[p.sessions.length - 1].id;
+  }
+
+  function save() {
+    var list = WB.getParticipants(), p = null;
+    list.forEach(function (x) { if (x.code === document.getElementById('pSel').value) p = x; });
+    var s = null, sid = document.getElementById('sSel').value;
+    p.sessions.forEach(function (x) { if (x.id === sid) s = x; });
+    if (!s) { WBUI.toast('먼저 측정 회차를 만들어 주세요.', 'warn'); return; }
+
+    var survey = {}, items = {}, missing = 0;
+    sections().forEach(function (sec) {
+      var a = categoryAvg(sec.key);
+      survey[sec.key] = a;
+      if (a === null) missing++;
+      items[sec.key] = sec.items.map(function (_, i) { return answers[sec.key + '-' + i] || null; });
+    });
+    s.survey = survey;
+    s.surveyItems = items;
+    p.prefer = prefer.slice();
+    WB.saveParticipants(list);
+
+    var r = WB.scoreSession(p, s);
+    var life = WB.domainScore(r, 'life');
+    WBUI.toast('설문 저장 완료 — 스트레스·생활습관 영역 ' + WB.fmt(life, 1) + '점' + (missing ? ' (미응답 영역 ' + missing + '개는 산출 제외)' : ''));
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var pSel = document.getElementById('pSel');
+    var code = WBUI.fillParticipantSelect(pSel, WBUI.qs('code'));
+    buildSections();
+    buildPrefs();
+    fillSessions(code);
+    loadAnswers();
+    paint();
+    document.getElementById('linkResult').href = WBUI.linkTo('dashboard.html', code);
+
+    pSel.addEventListener('change', function () {
+      fillSessions(pSel.value); loadAnswers(); paint();
+      document.getElementById('linkResult').href = WBUI.linkTo('dashboard.html', pSel.value);
+    });
+    document.getElementById('sSel').addEventListener('change', function () { loadAnswers(); paint(); });
+    document.getElementById('btnSave').addEventListener('click', save);
+    document.getElementById('btnReset').addEventListener('click', function () {
+      answers = {}; paint();
+      WBUI.toast('응답을 비웠습니다. 저장하기 전까지 기존 응답은 그대로입니다.', 'warn');
+    });
+  });
+})();
+</script>
+</body>
+</html>

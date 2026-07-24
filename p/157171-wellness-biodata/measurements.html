@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2. 바이오데이터 입력 — 웰니스 바이오데이터 통합관리 (데모)</title>
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="measurements">
+
+<div class="hero-strip">
+  <img src="assets/img/lounge-hero.jpg" alt="웰니스 측정 라운지 전경">
+  <div class="strip-txt"><b>2. 바이오데이터 입력</b><span>수동 입력 · CSV 업로드 — 입력한 값은 이 브라우저에만 임시 저장됩니다.</span></div>
+</div>
+
+<div class="wrap">
+
+  <div class="page-head">
+    <span class="eyebrow">화면 2 / 6</span>
+    <h1>바이오데이터 입력</h1>
+    <p class="lead">체성분 · 혈압/맥박/산소포화도 · HRV 측정값을 회차별로 기록합니다. 장비 실시간 연동은 1단계 범위 밖이므로
+      <b>수동 입력</b>과 <b>CSV 일괄 업로드</b> 두 경로를 제공합니다. 비어 있는 항목은 누락으로 표시하고 점수 산출에서 제외합니다.</p>
+  </div>
+
+  <div class="card">
+    <div class="grid grid-3" style="gap:16px">
+      <div class="field" style="margin:0">
+        <label for="pSel">참가자</label>
+        <select id="pSel"></select>
+      </div>
+      <div class="field" style="margin:0">
+        <label for="sSel">측정 회차</label>
+        <select id="sSel"></select>
+      </div>
+      <div class="field" style="margin:0">
+        <label for="atInput">측정일시</label>
+        <input type="datetime-local" id="atInput">
+      </div>
+    </div>
+    <div class="grid grid-2" style="gap:16px;margin-top:16px" id="newRoundRow" hidden>
+      <div class="field" style="margin:0">
+        <label for="labelInput">회차 이름 <span class="hint">예: 사전 / 사후 / 3차</span></label>
+        <input type="text" id="labelInput" value="사후">
+      </div>
+    </div>
+  </div>
+
+  <div class="notice" id="missSummary" style="margin-bottom:22px"></div>
+
+  <div class="grid grid-3" id="groups"></div>
+
+  <div class="card">
+    <div class="btn-row">
+      <button class="btn btn-primary btn-lg" id="btnSave">측정값 저장</button>
+      <button class="btn btn-ghost btn-lg" id="btnClear">입력값 비우기</button>
+      <a class="btn btn-soft btn-lg" id="linkResult" href="dashboard.html">저장 후 분석 결과 보기</a>
+    </div>
+    <p class="card-sub" style="margin:14px 0 0">저장 시 규칙 기반 점수화가 즉시 다시 실행되어 대시보드·리포트에 반영됩니다.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <h3>CSV 일괄 업로드</h3>
+        <p class="card-sub" style="margin-bottom:0">여러 참가자의 측정 결과를 한 번에 올립니다. 파일을 끌어다 놓거나 버튼으로 선택하세요.</p>
+      </div>
+      <button class="btn btn-ghost btn-sm" id="btnFormat">CSV 형식 보기</button>
+    </div>
+
+    <div class="drop" id="drop">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5-5 5 5"/><path d="M12 5v14"/>
+      </svg>
+      <h4>CSV 파일을 이곳에 끌어다 놓으세요</h4>
+      <p>UTF-8 인코딩 · 첫 줄은 헤더 · 빈 칸은 누락으로 처리됩니다</p>
+      <div class="btn-row" style="justify-content:center">
+        <button class="btn btn-wood" id="btnPick">파일 선택</button>
+        <button class="btn btn-ghost" id="btnSample">샘플 CSV 불러오기</button>
+        <input type="file" id="file" accept=".csv,text/csv">
+      </div>
+    </div>
+
+    <div id="csvResult" style="margin-top:22px" hidden>
+      <div class="card-head" style="margin-bottom:12px">
+        <h4 id="csvTitle">업로드 미리보기</h4>
+        <div class="btn-row">
+          <button class="btn btn-primary" id="btnImport">가져오기</button>
+          <button class="btn btn-ghost btn-sm" id="btnCsvCancel">취소</button>
+        </div>
+      </div>
+      <div class="table-scroll">
+        <table class="tbl" id="csvTable"></table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/scoring.js"></script>
+<script src="assets/js/charts.js"></script>
+<script src="assets/js/shell.js"></script>
+<script>
+(function () {
+  'use strict';
+  var esc = WBUI.esc;
+
+  /* 입력 필드 정의 — src 는 세션 객체의 하위 그룹, metric 은 기준표 지표 키 */
+  var GROUPS = [
+    { key: 'body', title: '체성분 분석', desc: '체성분분석기에서 읽은 값을 입력합니다.', fields: [
+      { id: 'weight',   src: 'body', label: '체중',        unit: 'kg',   step: '0.1', metric: 'weight' },
+      { id: 'bmi',      src: 'body', label: 'BMI',        unit: '',     step: '0.1', metric: 'bmi' },
+      { id: 'fat',      src: 'body', label: '체지방률',    unit: '%',    step: '0.1', metric: 'fat' },
+      { id: 'smm',      src: 'body', label: '골격근량',    unit: 'kg',   step: '0.1', metric: 'smm', note: '체중 대비 비율로 환산해 평가' },
+      { id: 'visceral', src: 'body', label: '내장지방 레벨', unit: 'lv', step: '1',   metric: 'visceral' },
+      { id: 'bmr',      src: 'body', label: '기초대사량',   unit: 'kcal', step: '1',   metric: 'bmr' }
+    ]},
+    { key: 'cardio', title: '혈압 · 맥박 · 산소포화도', desc: '혈압계와 산소포화도계 측정값입니다.', fields: [
+      { id: 'sbp',   src: 'cardio', label: '수축기 혈압', unit: 'mmHg', step: '1', metric: 'sbp' },
+      { id: 'dbp',   src: 'cardio', label: '이완기 혈압', unit: 'mmHg', step: '1', metric: 'dbp' },
+      { id: 'pulse', src: 'cardio', label: '맥박',       unit: 'bpm',  step: '1', metric: 'pulse' },
+      { id: 'spo2',  src: 'cardio', label: '산소포화도',  unit: '%',    step: '1', metric: 'spo2' }
+    ]},
+    { key: 'hrv', title: 'HRV (심박변이도)', desc: 'LF/HF 비율은 입력값으로 자동 계산됩니다.', fields: [
+      { id: 'sdnn',  src: 'hrv', label: 'SDNN',  unit: 'ms',  step: '1', metric: 'sdnn' },
+      { id: 'rmssd', src: 'hrv', label: 'RMSSD', unit: 'ms',  step: '1', metric: 'rmssd' },
+      { id: 'lf',    src: 'hrv', label: 'LF',    unit: 'ms²', step: '1', metric: 'lf' },
+      { id: 'hf',    src: 'hrv', label: 'HF',    unit: 'ms²', step: '1', metric: 'hf' }
+    ]}
+  ];
+  var ALL = GROUPS.reduce(function (a, g2) { return a.concat(g2.fields); }, []);
+  var pending = null;
+
+  function cur() { return WB.findParticipant(document.getElementById('pSel').value); }
+  function refHint(f, p) {
+    var cfg = WB.getConfig();
+    var mk = f.id === 'smm' ? 'smmPct' : f.metric;
+    var c = cfg.metrics[mk];
+    if (!c) return '참고 지표 · 점수 미반영';
+    var sex = p && p.sex === 'M' ? 'M' : 'F';
+    var b = c[sex];
+    var dec = (mk === 'lfhf' || mk === 'smmPct' || mk === 'bmi' || mk === 'fat') ? 1 : 0;
+    return '양호 구간 ' + WB.fmt(b[0], dec) + '~' + WB.fmt(b[1], dec) + (f.id === 'smm' ? '% (비율 기준)' : '');
+  }
+
+  function buildForm() {
+    var p = cur();
+    document.getElementById('groups').innerHTML = GROUPS.map(function (g2) {
+      return '<div class="card" style="margin:0">' +
+        '<h3>' + esc(g2.title) + '</h3><p class="card-sub">' + esc(g2.desc) + '</p>' +
+        g2.fields.map(function (f) {
+          return '<div class="field" data-fid="' + f.id + '">' +
+            '<label for="i-' + f.id + '">' + esc(f.label) +
+              ' <span class="hint">' + esc(refHint(f, p)) + '</span>' +
+              '<span class="badge badge-miss miss-tag" style="display:none;margin-left:8px">누락</span></label>' +
+            '<div class="input-unit"><input type="number" id="i-' + f.id + '" step="' + f.step + '" inputmode="decimal" placeholder="미입력">' +
+            (f.unit ? '<span class="unit">' + esc(f.unit) + '</span>' : '') + '</div>' +
+            (f.note ? '<div class="hint" style="margin:6px 0 0">' + esc(f.note) + '</div>' : '') +
+          '</div>';
+        }).join('') +
+        (g2.key === 'hrv' ? '<div class="field"><label>LF/HF 비율 <span class="hint">자동 계산 · 양호 구간 0.8~2.2</span></label>' +
+          '<input type="text" id="i-lfhf" readonly value="–"></div>' : '') +
+      '</div>';
+    }).join('');
+    ALL.forEach(function (f) {
+      document.getElementById('i-' + f.id).addEventListener('input', onInput);
+    });
+  }
+
+  function onInput() { updateDerived(); updateMissing(); }
+
+  function updateDerived() {
+    var lf = parseFloat(document.getElementById('i-lf').value);
+    var hf = parseFloat(document.getElementById('i-hf').value);
+    var el = document.getElementById('i-lfhf');
+    el.value = (!isNaN(lf) && !isNaN(hf) && hf !== 0) ? (lf / hf).toFixed(2) : '–';
+  }
+
+  function updateMissing() {
+    var miss = 0;
+    ALL.forEach(function (f) {
+      var v = document.getElementById('i-' + f.id).value.trim();
+      var empty = v === '';
+      if (empty) miss++;
+      var tag = document.querySelector('[data-fid="' + f.id + '"] .miss-tag');
+      if (tag) tag.style.display = empty ? '' : 'none';
+    });
+    var box = document.getElementById('missSummary');
+    if (miss === 0) {
+      box.className = 'notice green';
+      box.innerHTML = '<strong>입력 완료.</strong> 측정 항목 ' + ALL.length + '개가 모두 입력되었습니다. 4개 영역 점수가 모두 산출됩니다.';
+    } else {
+      box.className = 'notice';
+      box.innerHTML = '<strong>누락 ' + miss + '개.</strong> 측정 항목 ' + ALL.length + '개 중 ' + (ALL.length - miss) +
+        '개 입력됨. 비어 있는 항목은 <b>점수 산출에서 제외</b>되고 결과 화면에 "측정값 없음"으로 표시됩니다.';
+    }
+  }
+
+  function loadSession() {
+    var p = cur();
+    var sid = document.getElementById('sSel').value;
+    var isNew = sid === '__new';
+    document.getElementById('newRoundRow').hidden = !isNew;
+    var s = null;
+    if (!isNew) p.sessions.forEach(function (x) { if (x.id === sid) s = x; });
+
+    ALL.forEach(function (f) {
+      var v = (s && s[f.src]) ? s[f.src][f.id] : null;
+      document.getElementById('i-' + f.id).value = (v === null || v === undefined) ? '' : v;
+    });
+    var at = s ? s.at : WBUI.nowStr();
+    document.getElementById('atInput').value = String(at).replace(' ', 'T');
+    if (isNew) {
+      var n = p.sessions.length;
+      document.getElementById('labelInput').value = n === 0 ? '사전' : (n === 1 ? '사후' : (n + 1) + '차');
+    }
+    document.getElementById('linkResult').href = WBUI.linkTo('dashboard.html', p.code);
+    updateDerived(); updateMissing();
+  }
+
+  function fillSessions(code) {
+    var p = WB.findParticipant(code);
+    var sel = document.getElementById('sSel');
+    sel.innerHTML = p.sessions.map(function (s) {
+      return '<option value="' + esc(s.id) + '">' + esc(s.label) + ' · ' + esc(s.at) + '</option>';
+    }).join('') + '<option value="__new">+ 신규 회차 추가</option>';
+    sel.value = p.sessions.length ? p.sessions[p.sessions.length - 1].id : '__new';
+  }
+
+  function save() {
+    var list = WB.getParticipants();
+    var p = null;
+    list.forEach(function (x) { if (x.code === document.getElementById('pSel').value) p = x; });
+    var sid = document.getElementById('sSel').value;
+    var at = (document.getElementById('atInput').value || '').replace('T', ' ').slice(0, 16) || WBUI.nowStr();
+
+    var payload = { body: {}, cardio: {}, hrv: {} };
+    var filled = { body: 0, cardio: 0, hrv: 0 };
+    ALL.forEach(function (f) {
+      var raw = document.getElementById('i-' + f.id).value.trim();
+      var v = raw === '' ? null : Number(raw);
+      payload[f.src][f.id] = (v === null || isNaN(v)) ? null : v;
+      if (payload[f.src][f.id] !== null) filled[f.src]++;
+    });
+
+    var target;
+    if (sid === '__new') {
+      target = { id: 's' + (p.sessions.length + 1) + '_' + Date.now().toString(36), label: document.getElementById('labelInput').value.trim() || '측정', at: at, survey: null };
+      p.sessions.push(target);
+    } else {
+      p.sessions.forEach(function (x) { if (x.id === sid) target = x; });
+      target.at = at;
+    }
+    target.body = filled.body ? payload.body : null;
+    target.cardio = filled.cardio ? payload.cardio : null;
+    target.hrv = filled.hrv ? payload.hrv : null;
+
+    WB.saveParticipants(list);
+    fillSessions(p.code);
+    document.getElementById('sSel').value = target.id;
+    loadSession();
+    var r = WB.scoreSession(p, target);
+    WBUI.toast('저장 완료 — ' + p.name + ' ' + target.label + ' 회차 종합 ' + WB.fmt(r.total, 1) + '점 (' + WB.bandLabel(r.band) + ')');
+  }
+
+  /* ---------------- CSV ---------------- */
+  var CSV_MAP = [
+    { key: 'code',     match: ['참가자코드', '코드'] },
+    { key: 'label',    match: ['측정회차', '회차'] },
+    { key: 'at',       match: ['측정일시', '일시'] },
+    { key: 'weight',   match: ['체중'] },
+    { key: 'bmi',      match: ['bmi'] },
+    { key: 'fat',      match: ['체지방'] },
+    { key: 'smm',      match: ['골격근'] },
+    { key: 'visceral', match: ['내장지방'] },
+    { key: 'bmr',      match: ['기초대사'] },
+    { key: 'sbp',      match: ['수축기'] },
+    { key: 'dbp',      match: ['이완기'] },
+    { key: 'pulse',    match: ['맥박'] },
+    { key: 'spo2',     match: ['산소포화'] },
+    { key: 'sdnn',     match: ['sdnn'] },
+    { key: 'rmssd',    match: ['rmssd'] },
+    { key: 'lf',       match: ['lf('] },
+    { key: 'hf',       match: ['hf('] }
+  ];
+
+  function handleCsv(text, sourceName) {
+    var rows = WBUI.parseCsv(text);
+    if (rows.length < 2) { WBUI.toast('CSV 에서 데이터 행을 찾지 못했습니다.', 'warn'); return; }
+    var header = rows[0].map(function (c) { return String(c).trim().toLowerCase(); });
+    var idx = {};
+    CSV_MAP.forEach(function (m) {
+      idx[m.key] = -1;
+      header.forEach(function (hc, i) {
+        if (idx[m.key] < 0 && m.match.some(function (t) { return hc.indexOf(t) >= 0; })) idx[m.key] = i;
+      });
+    });
+
+    var parsed = rows.slice(1).map(function (r) {
+      var get = function (k) { return idx[k] >= 0 ? String(r[idx[k]] || '').trim() : ''; };
+      var o = { code: get('code'), label: get('label') || '측정', at: get('at'), values: {}, missing: [] };
+      ALL.forEach(function (f) {
+        var raw = get(f.id);
+        if (raw === '') { o.values[f.id] = null; o.missing.push(f.label); }
+        else o.values[f.id] = Number(raw);
+      });
+      o.participant = WB.findParticipant(o.code);
+      return o;
+    });
+    pending = parsed;
+
+    var okCount = parsed.filter(function (r) { return r.participant; }).length;
+    document.getElementById('csvTitle').textContent =
+      (sourceName ? sourceName + ' — ' : '') + '데이터 ' + parsed.length + '행 · 참가자 매칭 ' + okCount + '행';
+    document.getElementById('csvTable').innerHTML =
+      '<thead><tr><th>참가자 코드</th><th>이름</th><th>회차</th><th>측정일시</th><th>입력 항목</th><th>누락 항목</th><th>처리</th></tr></thead><tbody>' +
+      parsed.map(function (r) {
+        var filled = ALL.length - r.missing.length;
+        return '<tr>' +
+          '<td class="num"><b>' + esc(r.code) + '</b></td>' +
+          '<td>' + (r.participant ? esc(r.participant.name) : '<span class="badge badge-care">미등록 코드</span>') + '</td>' +
+          '<td>' + esc(r.label) + '</td>' +
+          '<td class="num">' + esc(r.at || '–') + '</td>' +
+          '<td class="num">' + filled + ' / ' + ALL.length + '</td>' +
+          '<td>' + (r.missing.length ? '<span class="badge badge-miss">' + esc(r.missing.join(', ')) + '</span>' : '<span class="badge badge-good">없음</span>') + '</td>' +
+          '<td>' + (r.participant ? '<span class="badge badge-green">가져오기 대상</span>' : '<span class="badge badge-miss">건너뜀</span>') + '</td>' +
+        '</tr>';
+      }).join('') + '</tbody>';
+    document.getElementById('csvResult').hidden = false;
+    document.getElementById('csvResult').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function importCsv() {
+    if (!pending) return;
+    var list = WB.getParticipants();
+    var n = 0;
+    pending.forEach(function (r) {
+      if (!r.participant) return;
+      var p = null;
+      list.forEach(function (x) { if (x.code === r.code) p = x; });
+      if (!p) return;
+      var target = null;
+      p.sessions.forEach(function (s) { if (s.label === r.label) target = s; });
+      if (!target) {
+        target = { id: 'csv' + Date.now().toString(36) + n, label: r.label, at: r.at || WBUI.nowStr(), survey: null };
+        p.sessions.push(target);
+      }
+      target.at = r.at || target.at;
+      var g2 = { body: {}, cardio: {}, hrv: {} }, cnt = { body: 0, cardio: 0, hrv: 0 };
+      ALL.forEach(function (f) {
+        var v = r.values[f.id];
+        g2[f.src][f.id] = (v === null || isNaN(v)) ? null : v;
+        if (g2[f.src][f.id] !== null) cnt[f.src]++;
+      });
+      target.body = cnt.body ? g2.body : null;
+      target.cardio = cnt.cardio ? g2.cardio : null;
+      target.hrv = cnt.hrv ? g2.hrv : null;
+      n++;
+    });
+    WB.saveParticipants(list);
+    pending = null;
+    document.getElementById('csvResult').hidden = true;
+    WBUI.fillParticipantSelect(document.getElementById('pSel'), document.getElementById('pSel').value);
+    fillSessions(document.getElementById('pSel').value);
+    loadSession();
+    WBUI.toast(n + '건의 측정 데이터를 가져왔습니다. 대시보드에 즉시 반영됩니다.');
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var pSel = document.getElementById('pSel');
+    var code = WBUI.fillParticipantSelect(pSel, WBUI.qs('code'));
+    buildForm();
+    fillSessions(code);
+    loadSession();
+
+    pSel.addEventListener('change', function () {
+      buildForm(); fillSessions(pSel.value); loadSession();
+    });
+    document.getElementById('sSel').addEventListener('change', loadSession);
+    document.getElementById('btnSave').addEventListener('click', save);
+    document.getElementById('btnClear').addEventListener('click', function () {
+      ALL.forEach(function (f) { document.getElementById('i-' + f.id).value = ''; });
+      onInput();
+      WBUI.toast('입력값을 비웠습니다. 저장하기 전까지 기존 데이터는 그대로입니다.', 'warn');
+    });
+
+    // CSV
+    var drop = document.getElementById('drop'), file = document.getElementById('file');
+    document.getElementById('btnPick').addEventListener('click', function () { file.click(); });
+    file.addEventListener('change', function () {
+      if (!file.files || !file.files[0]) return;
+      var f = file.files[0], rd = new FileReader();
+      rd.onload = function () { handleCsv(rd.result, f.name); };
+      rd.readAsText(f, 'utf-8');
+    });
+    ['dragenter', 'dragover'].forEach(function (ev) {
+      drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('drag'); });
+    });
+    ['dragleave', 'drop'].forEach(function (ev) {
+      drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('drag'); });
+    });
+    drop.addEventListener('drop', function (e) {
+      var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+      if (!f) return;
+      var rd = new FileReader();
+      rd.onload = function () { handleCsv(rd.result, f.name); };
+      rd.readAsText(f, 'utf-8');
+    });
+    document.getElementById('btnSample').addEventListener('click', function () {
+      handleCsv(DEMO_DATA.sampleCsv, 'measurements-sample.csv (내장 샘플)');
+    });
+    document.getElementById('btnImport').addEventListener('click', importCsv);
+    document.getElementById('btnCsvCancel').addEventListener('click', function () {
+      pending = null; document.getElementById('csvResult').hidden = true;
+    });
+    document.getElementById('btnFormat').addEventListener('click', function () {
+      WBUI.modal('CSV 업로드 형식',
+        '<p>첫 줄은 헤더이며 아래 열 이름을 인식합니다. 열 순서는 달라도 되고, 값이 비면 누락으로 처리합니다.</p>' +
+        '<pre class="csv-preview">' + esc(DEMO_DATA.sampleCsv) + '</pre>' +
+        '<p class="card-sub">데모 폴더의 <b>sample/measurements-sample.csv</b> 파일과 동일한 내용입니다. 파일 선택으로 직접 올려볼 수 있습니다.</p>');
+    });
+  });
+})();
+</script>
+</body>
+</html>

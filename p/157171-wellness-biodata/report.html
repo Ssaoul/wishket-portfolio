@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>5. PDF 리포트 미리보기 — 웰니스 바이오데이터 통합관리 (데모)</title>
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="report">
+
+<div class="wrap">
+
+  <div class="page-head no-print">
+    <span class="eyebrow">화면 5 / 6</span>
+    <h1>PDF 리포트 미리보기</h1>
+    <p class="lead">화면에서 본 결과를 그대로 A4 2쪽 리포트로 만듭니다. 인쇄 버튼을 누른 뒤 대상에서
+      <b>PDF로 저장</b>을 고르면 파일로 내려받을 수 있습니다. 아래 미리보기는 실제 인쇄 레이아웃과 동일합니다.</p>
+  </div>
+
+  <div class="report-toolbar no-print">
+    <div class="field" style="margin:0;min-width:250px;flex:1">
+      <label for="pSel" style="font-size:15px">참가자</label>
+      <select id="pSel"></select>
+    </div>
+    <div class="field" style="margin:0;min-width:210px">
+      <label for="curSel" style="font-size:15px">기준 회차</label>
+      <select id="curSel"></select>
+    </div>
+    <div class="field" style="margin:0;min-width:210px">
+      <label for="prevSel" style="font-size:15px">비교 회차</label>
+      <select id="prevSel"></select>
+    </div>
+    <button class="btn btn-primary btn-lg" id="btnPrint">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/>
+      </svg>
+      인쇄 · PDF로 저장
+    </button>
+    <a class="btn btn-ghost" id="linkDash" href="dashboard.html">대시보드로</a>
+  </div>
+
+  <div class="notice no-print" style="margin-bottom:22px" id="printHint">
+    인쇄 대화상자에서 <b>대상 → PDF로 저장</b>, 용지 <b>A4</b>, 배율 <b>기본값</b>, 배경 그래픽 <b>켜기</b>를 권장합니다.
+  </div>
+
+  <div class="a4-scale" id="pages"></div>
+
+</div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/scoring.js"></script>
+<script src="assets/js/charts.js"></script>
+<script src="assets/js/shell.js"></script>
+<script>
+(function () {
+  'use strict';
+  var esc = WBUI.esc;
+  var LEAF = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">' +
+    '<path d="M11 20.5C6 20.5 3.5 17 3.5 12.5 3.5 7 8 3.5 15 3.5c1.9 0 3.6.2 5.5.6.3 6.7-2.2 16.4-9.5 16.4Z"/>' +
+    '<path d="M4.5 20.5c2-5.5 6-9.5 11-11.5"/></svg>';
+
+  function cur() { return WB.findParticipant(document.getElementById('pSel').value); }
+  function sessionById(p, id) { var s = null; p.sessions.forEach(function (x) { if (x.id === id) s = x; }); return s; }
+
+  function head(p, sCur, page, total) {
+    return '<div class="r-head">' +
+      '<div class="r-brand"><span class="brand-mark">' + LEAF + '</span>' +
+        '<div><h1>웰니스 측정 결과 리포트</h1>' +
+        '<div style="font-size:11.5px;color:#7D766B">Wellness Bio-data Report · 참고용 안내 자료</div></div></div>' +
+      '<div class="r-meta">' +
+        '참가자 <b>' + esc(p.name) + '</b> (' + esc(p.code) + ')<br>' +
+        WBUI.sexLabel(p.sex) + ' · ' + p.age + '세 · ' + esc(p.program || '프로그램 미배정') + '<br>' +
+        '측정일 <b>' + esc(sCur.at) + '</b> (' + esc(sCur.label) + ' 회차)<br>' +
+        '리포트 생성 ' + esc(WBUI.todayStr()) + ' · ' + page + ' / ' + total + ' 쪽' +
+      '</div></div>';
+  }
+
+  function render() {
+    var p = cur();
+    var host = document.getElementById('pages');
+    if (!p.sessions.length) {
+      host.innerHTML = '<div class="card"><div class="empty">측정 데이터가 없어 리포트를 만들 수 없습니다. 먼저 바이오데이터를 입력해 주세요.</div></div>';
+      return;
+    }
+    var cfg = WB.getConfig();
+    var sCur = sessionById(p, document.getElementById('curSel').value) || p.sessions[p.sessions.length - 1];
+    var prevId = document.getElementById('prevSel').value;
+    var sPrev = prevId === '__none' ? null : sessionById(p, prevId);
+    if (sPrev && sPrev.id === sCur.id) sPrev = null;
+
+    var R = WB.scoreSession(p, sCur, cfg);
+    var P = sPrev ? WB.scoreSession(p, sPrev, cfg) : null;
+    var recos = WB.recommend(p, R);
+    document.getElementById('linkDash').href = WBUI.linkTo('dashboard.html', p.code, sCur.id);
+
+    /* ---------- 1쪽 ---------- */
+    var domainRows = R.domains.map(function (dm) {
+      var pdm = P ? P.domains.filter(function (x) { return x.key === dm.key; })[0] : null;
+      var dd = pdm ? WB.deltaText(dm.score, pdm.score) : null;
+      return '<tr><td>' + esc(dm.name) + '</td>' +
+        '<td class="num">' + dm.weight + '%</td>' +
+        '<td class="num">' + (pdm ? WB.fmt(pdm.score, 1) : '–') + '</td>' +
+        '<td class="num"><b>' + WB.fmt(dm.score, 1) + '</b></td>' +
+        '<td class="num">' + (dd ? dd.text : '–') + '</td>' +
+        '<td>' + WB.bandLabel(dm.band) + '</td></tr>';
+    }).join('');
+
+    var p1 =
+      '<div class="a4">' +
+        head(p, sCur, 1, 2) +
+        '<div class="r-demo">제안용 데모 · 합성 데이터 — 표시된 인적사항과 측정값은 모두 가상입니다</div>' +
+        '<div class="r-sec"><h2>1. 종합 웰니스 결과</h2>' +
+          '<div class="r-grid">' +
+            '<div class="r-box" style="text-align:center"><div id="rGauge"></div>' +
+              '<div style="font-size:11.5px;color:#7D766B;margin-top:4px">종합 Wellness Score · ' +
+              cfg.bandCut.good + '점 이상 양호 / ' + cfg.bandCut.fair + '점 이상 보통</div></div>' +
+            '<div class="r-box"><div id="rRadar"></div></div>' +
+          '</div>' +
+          '<table style="margin-top:10px"><thead><tr><th>영역</th><th>가중치</th><th>' +
+            (P ? esc(sPrev.label) : '이전') + '</th><th>' + esc(sCur.label) + '</th><th>변화</th><th>상태 구간</th></tr></thead>' +
+            '<tbody>' + domainRows +
+            '<tr style="background:#F3EFE6"><td><b>종합</b></td><td class="num">100%</td>' +
+            '<td class="num">' + (P ? WB.fmt(P.total, 1) : '–') + '</td>' +
+            '<td class="num"><b>' + WB.fmt(R.total, 1) + '</b></td>' +
+            '<td class="num">' + (P ? (WB.deltaText(R.total, P.total) || {}).text : '–') + '</td>' +
+            '<td><b>' + WB.bandLabel(R.band) + '</b></td></tr></tbody></table>' +
+        '</div>' +
+        '<div class="r-sec"><h2>2. 추천 웰니스 프로그램</h2>' +
+          recos.map(function (r, i) {
+            return '<div class="r-prog"><b>' + (i + 1) + '. ' + esc(r.name) + ' <span style="font-weight:400;color:#7D766B">· ' + esc(r.dur) + '</span></b>' +
+              '<span>' + esc(r.desc) + '</span>' +
+              '<span style="color:#2E5741;margin-top:2px">추천 근거 · ' + esc(r.reason) + (r.preferred ? ' (참가자 선호 프로그램)' : '') + '</span></div>';
+          }).join('') +
+        '</div>' +
+        '<div class="r-sec"><h2>3. 데이터 완전성</h2>' +
+          '<div class="r-box">점수 대상 지표 ' + R.scoredCount + '개 중 <b>' + (R.scoredCount - R.missingCount) + '개 입력</b>' +
+          (R.missingCount ? ' · 누락 ' + R.missingCount + '개(' + esc(R.domains.reduce(function (a, x) { return a.concat(x.missing); }, []).join(', ')) +
+            ')는 점수 산출에서 제외하고 남은 가중치를 재정규화했습니다.' : ' · 전 항목 입력 완료.') + '</div>' +
+        '</div>' +
+        '<div class="r-foot"><span>웰니스 바이오데이터 통합관리 시스템 (제안용 데모)</span><span>1 / 2</span></div>' +
+        '<div class="watermark">S A M P L E · 합성 데이터</div>' +
+      '</div>';
+
+    /* ---------- 2쪽 ---------- */
+    var detail = R.domains.map(function (dm) {
+      var pdm = P ? P.domains.filter(function (x) { return x.key === dm.key; })[0] : null;
+      var rows = dm.metrics.map(function (m) {
+        var pm = pdm ? pdm.metrics.filter(function (x) { return x.key === m.key; })[0] : null;
+        var vd = (pm && m.value !== null && pm.value !== null) ? WB.deltaText(m.value, pm.value) : null;
+        return '<tr>' +
+          '<td>' + esc(m.name) + (m.ref ? ' <span style="color:#9A9284">(참고)</span>' : '') + '</td>' +
+          '<td class="num">' + esc(m.unit || '-') + '</td>' +
+          '<td class="num">' + (pm && pm.value !== null ? WB.fmt(pm.value, m.dec) : '–') + '</td>' +
+          '<td class="num"><b>' + (m.value === null ? '미측정' : WB.fmt(m.value, m.dec)) + '</b></td>' +
+          '<td class="num">' + (vd ? vd.text : '–') + '</td>' +
+          '<td class="num">' + (m.ref ? '–' : WB.rangeText(m.range, m.dec)) + '</td>' +
+          '<td class="num">' + (m.score === null ? '–' : WB.fmt(m.score, 1)) + '</td>' +
+          '<td>' + (m.ref ? '–' : WB.bandLabel(m.band)) + '</td></tr>';
+      }).join('');
+      return '<h3 style="margin:8px 0 4px">' + esc(dm.name) + ' · ' + WB.fmt(dm.score, 1) + '점 (' + WB.bandLabel(dm.band) + ')</h3>' +
+        '<table><thead><tr><th>측정 항목</th><th>단위</th><th>' + (P ? esc(sPrev.label) : '이전') + '</th><th>' + esc(sCur.label) +
+        '</th><th>변화</th><th>양호 구간</th><th>점수</th><th>구간</th></tr></thead><tbody>' + rows + '</tbody></table>';
+    }).join('');
+
+    var p2 =
+      '<div class="a4">' +
+        head(p, sCur, 2, 2) +
+        '<div class="r-demo">제안용 데모 · 합성 데이터 — 의료적 진단·처방 자료가 아닙니다</div>' +
+        '<div class="r-sec"><h2>4. 측정 항목별 상세 수치 · 전후 비교</h2>' + detail + '</div>' +
+        '<div class="r-sec"><h2>5. 유의사항</h2>' +
+          '<div class="r-note">' +
+            '<b>이 리포트는 일반적인 웰니스 상태를 참고용으로 안내하는 자료입니다.</b><br>' +
+            '· 질병의 진단·치료·예방을 목적으로 하지 않으며, 의학적 판단의 근거로 사용하지 않습니다.<br>' +
+            '· 상태 구간(양호 · 보통 · 관리 필요)은 센터 프로그램 운영을 위한 참고 구분이며 정상/비정상 판정이 아닙니다.<br>' +
+            '· 측정값은 측정 시각, 식사·수분 섭취, 자세, 실내 온도 등 컨디션에 따라 달라질 수 있습니다.<br>' +
+            '· 추천 프로그램은 센터에서 운영하는 웰니스 활동 안내이며 처방이 아닙니다.<br>' +
+            '· 건강상 변화가 느껴지면 전문가와 상담하시기 바랍니다.<br>' +
+            '· 본 리포트의 참가자 정보·측정값은 <b>데모용으로 생성한 가상 데이터</b>입니다.' +
+          '</div>' +
+        '</div>' +
+        '<div class="r-sec"><h2>6. 발행 정보</h2>' +
+          '<table><tbody>' +
+            '<tr><th style="width:22%">측정 장소</th><td>' + esc(DEMO_DATA.centerLabel) + '</td>' +
+                '<th style="width:22%">측정 담당</th><td>(운영 담당자 기재란)</td></tr>' +
+            '<tr><th>측정 장비</th><td>체성분분석기 · 혈압계 · 산소포화도계 · HRV 측정기 (기종 기재란)</td>' +
+                '<th>리포트 생성</th><td>' + esc(WBUI.todayStr()) + '</td></tr>' +
+            '<tr><th>다음 측정 예정</th><td>(운영 일정 기재란)</td><th>비고</th><td>(특이사항 기재란)</td></tr>' +
+          '</tbody></table>' +
+        '</div>' +
+        '<div class="r-foot"><span>웰니스 바이오데이터 통합관리 시스템 (제안용 데모) · 합성 데이터</span><span>2 / 2</span></div>' +
+      '</div>';
+
+    host.innerHTML = p1 + p2;
+
+    /* 리포트 안 차트도 실제 SVG 로 렌더 */
+    Charts.gauge(document.getElementById('rGauge'), {
+      value: R.total, prev: P ? P.total : null, cut: cfg.bandCut, bandLabel: WB.bandLabel(R.band)
+    });
+    Charts.radar(document.getElementById('rRadar'), {
+      axes: R.domains.map(function (dm) { return { label: dm.short, value: dm.score, band: dm.band }; }),
+      prevValues: P ? P.domains.map(function (dm) { return dm.score === null ? 0 : dm.score; }) : null,
+      curLabel: sCur.label, prevLabel: sPrev ? sPrev.label : ''
+    });
+  }
+
+  function fillSessionSelects(code, preferId) {
+    var p = WB.findParticipant(code);
+    var c = document.getElementById('curSel'), v = document.getElementById('prevSel');
+    var opts = p.sessions.map(function (s) {
+      return '<option value="' + esc(s.id) + '">' + esc(s.label) + ' · ' + esc(s.at) + '</option>';
+    }).join('');
+    c.innerHTML = opts || '<option value="">회차 없음</option>';
+    v.innerHTML = '<option value="__none">비교 안 함</option>' + opts;
+    if (p.sessions.length) {
+      c.value = (preferId && sessionById(p, preferId)) ? preferId : p.sessions[p.sessions.length - 1].id;
+      v.value = p.sessions.length > 1 ? p.sessions[0].id : '__none';
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var pSel = document.getElementById('pSel');
+    var code = WBUI.fillParticipantSelect(pSel, WBUI.qs('code'));
+    fillSessionSelects(code, WBUI.qs('s'));
+    render();
+    pSel.addEventListener('change', function () { fillSessionSelects(pSel.value); render(); });
+    document.getElementById('curSel').addEventListener('change', render);
+    document.getElementById('prevSel').addEventListener('change', render);
+    document.getElementById('btnPrint').addEventListener('click', function () { window.print(); });
+  });
+})();
+</script>
+</body>
+</html>

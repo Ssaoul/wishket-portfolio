@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1. 참가자 관리 — 웰니스 바이오데이터 통합관리 (데모)</title>
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="participants">
+
+<div class="hero-strip">
+  <img src="assets/img/lounge-hero.jpg" alt="웰니스 측정 라운지 전경">
+  <div class="strip-txt"><b>1. 참가자 관리</b><span>등록 · 검색 · 측정 이력 — 표시된 인적사항은 전부 가상 정보입니다.</span></div>
+</div>
+
+<div class="wrap">
+
+  <div class="page-head">
+    <span class="eyebrow">화면 1 / 6</span>
+    <h1>참가자 관리</h1>
+    <p class="lead">참가자를 등록하고 이름·코드로 찾습니다. 각 참가자의 측정 회차와 최근 측정일시, 개인정보 수집·이용 동의 상태를 한 화면에서 확인합니다.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <h3>참가자 검색</h3>
+      <button class="btn btn-primary" id="btnNew">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        신규 참가자 등록
+      </button>
+    </div>
+    <div class="grid grid-4" style="gap:16px">
+      <div class="field" style="margin:0">
+        <label for="q">이름 또는 참가자 코드</label>
+        <input type="search" id="q" placeholder="예: 김서연 / WB-26-001" autocomplete="off">
+      </div>
+      <div class="field" style="margin:0">
+        <label for="fSex">성별</label>
+        <select id="fSex"><option value="">전체</option><option value="F">여</option><option value="M">남</option></select>
+      </div>
+      <div class="field" style="margin:0">
+        <label for="fProg">참여 프로그램</label>
+        <select id="fProg"><option value="">전체</option></select>
+      </div>
+      <div class="field" style="margin:0">
+        <label for="fState">측정 이력</label>
+        <select id="fState">
+          <option value="">전체</option>
+          <option value="has">측정 이력 있음</option>
+          <option value="none">측정 이력 없음</option>
+          <option value="pair">사전·사후 모두 있음</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- 신규 등록 폼 -->
+  <div class="card" id="newCard" style="display:none">
+    <div class="card-head">
+      <div>
+        <h3>신규 참가자 등록</h3>
+        <p class="card-sub" style="margin-bottom:0">데모용 등록입니다. 입력값은 이 브라우저에만 임시 저장되며 외부로 전송되지 않습니다.</p>
+      </div>
+      <button class="btn btn-ghost btn-sm" id="btnCancelNew">취소</button>
+    </div>
+    <div class="grid grid-3">
+      <div class="field">
+        <label for="nName">이름 <span class="hint">필수</span></label>
+        <input type="text" id="nName" placeholder="예: 홍길동" autocomplete="off">
+      </div>
+      <div class="field">
+        <label>성별 <span class="hint">필수</span></label>
+        <div class="seg" id="nSex"><button type="button" data-v="F" class="on">여</button><button type="button" data-v="M">남</button></div>
+      </div>
+      <div class="field">
+        <label for="nAge">연령 <span class="hint">만 나이</span></label>
+        <div class="input-unit"><input type="number" id="nAge" min="1" max="120" placeholder="예: 54"><span class="unit">세</span></div>
+      </div>
+      <div class="field">
+        <label for="nProg">참여 프로그램</label>
+        <select id="nProg"></select>
+      </div>
+      <div class="field" style="grid-column:span 2">
+        <label>개인정보 수집·이용 동의 <span class="hint">필수</span></label>
+        <label class="check is-req" id="nConsentBox">
+          <input type="checkbox" id="nConsent">
+          <span>측정·설문 결과를 웰니스 프로그램 운영 목적으로 수집·이용하는 데 동의합니다. (데모 화면이므로 실제 수집은 이루어지지 않습니다)</span>
+        </label>
+      </div>
+    </div>
+    <div class="btn-row" style="margin-top:8px">
+      <button class="btn btn-primary btn-lg" id="btnSaveNew">참가자 등록</button>
+      <span id="newErr" class="badge badge-care" style="display:none"></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <h3>참가자 목록 <span class="badge badge-green" id="cnt">0명</span></h3>
+      <div class="legend">
+        <span><i style="background:var(--band-good)"></i>양호</span>
+        <span><i style="background:var(--band-fair)"></i>보통</span>
+        <span><i style="background:var(--band-care)"></i>관리 필요</span>
+      </div>
+    </div>
+    <div class="table-scroll">
+      <table class="tbl">
+        <thead>
+          <tr>
+            <th>참가자 코드</th><th>이름</th><th>성별</th><th class="num">연령</th>
+            <th>참여 프로그램</th><th>측정 회차</th><th>최근 측정일시</th>
+            <th>최근 종합</th><th>개인정보 동의</th><th>바로가기</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+    <div class="empty" id="empty" style="display:none">조건에 맞는 참가자가 없습니다. 검색어나 필터를 바꿔 보세요.</div>
+    <p class="card-sub" style="margin:16px 0 0">표시된 이름·코드·측정값은 데모용으로 생성한 <b>가상 정보</b>입니다.</p>
+  </div>
+
+</div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/scoring.js"></script>
+<script src="assets/js/charts.js"></script>
+<script src="assets/js/shell.js"></script>
+<script>
+(function () {
+  'use strict';
+  var esc = WBUI.esc, newSex = 'F', highlight = null;
+
+  function programs() {
+    var set = {};
+    WB.getParticipants().forEach(function (p) { if (p.program) set[p.program] = 1; });
+    return Object.keys(set);
+  }
+
+  function render() {
+    var q = document.getElementById('q').value.trim().toLowerCase();
+    var fSex = document.getElementById('fSex').value;
+    var fProg = document.getElementById('fProg').value;
+    var fState = document.getElementById('fState').value;
+
+    var list = WB.getParticipants().filter(function (p) {
+      if (q && (p.name.toLowerCase().indexOf(q) < 0 && p.code.toLowerCase().indexOf(q) < 0)) return false;
+      if (fSex && p.sex !== fSex) return false;
+      if (fProg && p.program !== fProg) return false;
+      if (fState === 'has' && p.sessions.length === 0) return false;
+      if (fState === 'none' && p.sessions.length > 0) return false;
+      if (fState === 'pair' && p.sessions.length < 2) return false;
+      return true;
+    });
+
+    document.getElementById('cnt').textContent = list.length + '명';
+    document.getElementById('empty').style.display = list.length ? 'none' : '';
+
+    document.getElementById('rows').innerHTML = list.map(function (p) {
+      var last = p.sessions.length ? p.sessions[p.sessions.length - 1] : null;
+      var r = last ? WB.scoreSession(p, last) : null;
+      var hist = p.sessions.map(function (s) { return esc(s.label); }).join(' · ') || '–';
+      var go = last
+        ? '<a class="btn btn-soft btn-sm" href="' + WBUI.linkTo('dashboard.html', p.code) + '">결과</a>' +
+          '<a class="btn btn-ghost btn-sm" href="' + WBUI.linkTo('report.html', p.code) + '">리포트</a>'
+        : '<a class="btn btn-wood btn-sm" href="' + WBUI.linkTo('measurements.html', p.code) + '">측정 입력</a>';
+      return '<tr' + (highlight === p.code ? ' style="background:var(--green-tint)"' : '') + '>' +
+        '<td class="num"><b>' + esc(p.code) + '</b></td>' +
+        '<td><b style="font-size:17.5px">' + esc(p.name) + '</b></td>' +
+        '<td>' + WBUI.sexLabel(p.sex) + '</td>' +
+        '<td class="num">' + p.age + '세</td>' +
+        '<td>' + esc(p.program || '–') + '</td>' +
+        '<td><span class="badge badge-miss">' + p.sessions.length + '회</span> <span style="font-size:14.5px;color:var(--muted)">' + hist + '</span></td>' +
+        '<td class="num">' + (last ? esc(last.at) : '–') + '</td>' +
+        '<td class="num">' + (r ? '<b style="font-size:18px">' + WB.fmt(r.total, 1) + '</b> ' + WBUI.bandBadge(r.band) : '<span class="badge badge-miss">미측정</span>') + '</td>' +
+        '<td>' + (p.consent ? '<span class="badge badge-good">동의</span>' : '<span class="badge badge-care">미동의</span>') + '</td>' +
+        '<td><div class="row-actions">' +
+          '<a class="btn btn-ghost btn-sm" href="' + WBUI.linkTo('measurements.html', p.code) + '">측정</a>' +
+          '<a class="btn btn-ghost btn-sm" href="' + WBUI.linkTo('survey.html', p.code) + '">설문</a>' + go +
+        '</div></td></tr>';
+    }).join('');
+  }
+
+  function nextCode() {
+    var max = 0;
+    WB.getParticipants().forEach(function (p) {
+      var m = /WB-26-(\d+)/.exec(p.code);
+      if (m) max = Math.max(max, parseInt(m[1], 10));
+    });
+    return 'WB-26-' + String(max + 1).padStart(3, '0');
+  }
+
+  function saveNew() {
+    var name = document.getElementById('nName').value.trim();
+    var age = parseInt(document.getElementById('nAge').value, 10);
+    var consent = document.getElementById('nConsent').checked;
+    var err = document.getElementById('newErr');
+    document.getElementById('nConsentBox').classList.toggle('invalid', !consent);
+
+    var msg = '';
+    if (!name) msg = '이름을 입력해 주세요.';
+    else if (!age || age < 1 || age > 120) msg = '연령을 1~120 사이로 입력해 주세요.';
+    else if (!consent) msg = '개인정보 수집·이용 동의가 필요합니다.';
+    if (msg) { err.textContent = msg; err.style.display = ''; return; }
+    err.style.display = 'none';
+
+    var list = WB.getParticipants();
+    var p = {
+      code: nextCode(), name: name, sex: newSex, age: age,
+      joinedAt: WBUI.todayStr(), consent: true,
+      program: document.getElementById('nProg').value, prefer: [], sessions: []
+    };
+    list.push(p);
+    WB.saveParticipants(list);
+    highlight = p.code;
+    document.getElementById('newCard').style.display = 'none';
+    document.getElementById('nName').value = '';
+    document.getElementById('nAge').value = '';
+    document.getElementById('nConsent').checked = false;
+    fillProgramSelects();
+    render();
+    WBUI.toast(p.name + ' 참가자 등록 완료 (' + p.code + ') — 이어서 측정값을 입력할 수 있습니다.');
+  }
+
+  function fillProgramSelects() {
+    var opts = programs();
+    document.getElementById('fProg').innerHTML = '<option value="">전체</option>' +
+      opts.map(function (o) { return '<option>' + esc(o) + '</option>'; }).join('');
+    document.getElementById('nProg').innerHTML =
+      opts.map(function (o) { return '<option>' + esc(o) + '</option>'; }).join('') + '<option>미배정</option>';
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    fillProgramSelects();
+    ['q', 'fSex', 'fProg', 'fState'].forEach(function (id) {
+      document.getElementById(id).addEventListener('input', function () { highlight = null; render(); });
+      document.getElementById(id).addEventListener('change', function () { highlight = null; render(); });
+    });
+    document.getElementById('btnNew').addEventListener('click', function () {
+      var c = document.getElementById('newCard');
+      c.style.display = c.style.display === 'none' ? '' : 'none';
+      if (c.style.display === '') document.getElementById('nName').focus();
+    });
+    document.getElementById('btnCancelNew').addEventListener('click', function () {
+      document.getElementById('newCard').style.display = 'none';
+    });
+    document.getElementById('nSex').addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      newSex = b.getAttribute('data-v');
+      Array.prototype.forEach.call(this.querySelectorAll('button'), function (x) { x.classList.toggle('on', x === b); });
+    });
+    document.getElementById('btnSaveNew').addEventListener('click', saveNew);
+    render();
+  });
+})();
+</script>
+</body>
+</html>
