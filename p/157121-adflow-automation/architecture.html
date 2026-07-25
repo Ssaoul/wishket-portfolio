@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>아키텍처·데이터플로우 · AdFlowKit (제안용 데모)</title>
+<meta name="description" content="수집→생성→승인→배포 엔드투엔드 아키텍처와 데이터 플로우. 제안용 설계 개요.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%236d7cff'/><path d='M16 7l2.5 6 6 2.5-6 2.5L16 24l-2.5-6-6-2.5 6-2.5z' fill='white'/></svg>">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+<div class="app">
+  <main class="main">
+    <header class="top">
+      <div><h2>아키텍처 · 데이터플로우</h2><div class="sub">엔드투엔드 설계 개요 · 산출물 문서 초안</div></div>
+    </header>
+    <div class="wrap stack">
+
+      <div class="card">
+        <div class="card-h"><h3>전체 데이터 플로우</h3><span class="spacer"></span><span class="small muted">수집 → 생성 → 승인 → 배포</span></div>
+        <div class="card-b">
+          <div class="arch">
+            <div class="arow"><div class="albl">① 수집</div>
+              <div class="aflow">
+                <div class="anode"><h5>크롬 확장 / 스크레이퍼</h5><p>메타 광고 라이브러리 · 틱톡 · 인스타 레퍼런스 링크</p></div>
+                <div class="anode"><h5>수집 워커</h5><p>이미지·영상 링크·카피·참여지표 추출</p></div>
+              </div>
+            </div>
+            <div class="arr">▼</div>
+            <div class="arow"><div class="albl">저장</div>
+              <div class="aflow">
+                <div class="anode"><h5>메인 DB</h5><p>레퍼런스·소재·승인이력·게시로그(관계형)</p></div>
+                <div class="anode"><h5>오브젝트 스토리지</h5><p>원본 이미지·영상 아카이빙</p></div>
+              </div>
+            </div>
+            <div class="arr">▼</div>
+            <div class="arow"><div class="albl">② 생성</div>
+              <div class="aflow">
+                <div class="anode"><h5>벤치마킹 분석</h5><p>색상·구도·텍스트 배치 → 프롬프트 변환</p></div>
+                <div class="anode"><h5>이미지 생성 API</h5><p>제품 정보 + 프롬프트 → 정지형 배너</p></div>
+                <div class="anode"><h5>숏폼 합성</h5><p>규격 변환 + 텍스트 오버레이</p></div>
+              </div>
+            </div>
+            <div class="arr">▼</div>
+            <div class="arow"><div class="albl">③ 승인</div>
+              <div class="aflow">
+                <div class="anode"><h5>승인 큐</h5><p>임시 저장 · 상태(대기·승인·반려)</p></div>
+                <div class="anode"><h5>알림 디스패처</h5><p>Slack 웹훅 · 카카오 알림톡 · 웹</p></div>
+                <div class="anode"><h5>재생성 트리거</h5><p>반려 사유 → 생성 모듈 재전송</p></div>
+              </div>
+            </div>
+            <div class="arr">▼</div>
+            <div class="arow"><div class="albl">④ 배포</div>
+              <div class="aflow">
+                <div class="anode"><h5>퍼블리싱 워커</h5><p>승인 소재 → 채널별 API 페이로드</p></div>
+                <div class="anode"><h5>스케줄러</h5><p>예약·즉시 배포 · 실패 재시도</p></div>
+                <div class="anode"><h5>채널 API</h5><p>메타 그래프 · 틱톡 마케팅 · 인스타</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid g-2">
+        <div class="card">
+          <div class="card-h"><h3>구현 방식 옵션</h3><span class="spacer"></span><span class="small muted">미팅 시 조율</span></div>
+          <div class="card-b">
+            <table class="tbl">
+              <thead><tr><th>방식</th><th>강점</th><th>유지비 성격</th></tr></thead>
+              <tbody>
+                <tr><td><b>커스텀 웹(Python)</b></td><td class="small">자유도·확장성 최고, IP 완전 귀속</td><td class="small muted">서버 + API 호출료</td></tr>
+                <tr><td><b>노코드 결합</b><br><span class="small muted">Make/Zapier</span></td><td class="small">빠른 구축·경량 운영</td><td class="small muted">구독료 + API 호출료</td></tr>
+                <tr><td><b>크롬 확장 고도화</b></td><td class="small">기존 수집 흐름 계승</td><td class="small muted">서버 최소 + API 호출료</td></tr>
+              </tbody>
+            </table>
+            <div class="small muted mt-s">발주 특이사항대로, 구현 방식에 따라 세부 과업·비용 구조가 달라집니다. 미팅에서 현재 크롬 확장 구조를 확인해 최적안을 확정합니다.</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-h"><h3>산출물 매핑</h3></div>
+          <div class="card-b">
+            <ul class="sched">
+              <li><span class="st ok">✓</span><span class="small" style="flex:1">시스템 아키텍처·데이터플로우 설계 문서</span></li>
+              <li><span class="st ok">✓</span><span class="small" style="flex:1">소스 코드 원본 (IP 완전 귀속)</span></li>
+              <li><span class="st ok">✓</span><span class="small" style="flex:1">노코드 워크스페이스 관리자 권한·계정</span></li>
+              <li><span class="st ok">✓</span><span class="small" style="flex:1">AI 프롬프트 세팅 가이드·설정값 내역서</span></li>
+              <li><span class="st ok">✓</span><span class="small" style="flex:1">승인 큐·대시보드 사용 매뉴얼</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="note"><b>설계 개요</b> — 이 문서는 제안용 초안입니다. 확정 아키텍처·API 연동 규격·프롬프트 세팅값은 계약 후 상세 기획 단계에서 발주처 환경(현재 크롬 확장, 채널 계정, 광고비 집행 여부)을 확인해 산출물로 제출합니다. 의료·건강기능식품 광고 표시 심의 기준을 소재 생성 단계에 룰로 반영합니다.</div>
+    </div>
+  </main>
+</div>
+
+<script src="assets/js/app.js"></script>
+<script>AF.renderShell('architecture');</script>
+</body>
+</html>

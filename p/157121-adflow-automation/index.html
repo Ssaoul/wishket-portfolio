@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AdFlowKit · 소재 파이프라인 대시보드 (제안용 데모)</title>
+<meta name="description" content="광고 소재 수집→AI 생성→승인→배포 자동화 대시보드. 제안용 동작 데모이며 브랜드·수치·소재는 모두 합성 데이터입니다.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%236d7cff'/><path d='M16 7l2.5 6 6 2.5-6 2.5L16 24l-2.5-6-6-2.5 6-2.5z' fill='white'/></svg>">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+<div class="app">
+  <main class="main">
+    <header class="top">
+      <div>
+        <h2>대시보드</h2>
+        <div class="sub">멀티채널 광고 소재 파이프라인 · 최근 7일</div>
+      </div>
+      <div class="spacer"></div>
+      <div class="seg"><button class="on">7일</button><button>30일</button><button>분기</button></div>
+      <a class="btn primary" href="generate.html">＋ 새 소재 생성</a>
+    </header>
+    <div class="wrap stack">
+
+      <!-- 파이프라인 현황 -->
+      <div class="card">
+        <div class="card-h"><h3>파이프라인 현황</h3><span class="small muted">수집 → 생성 → 승인 → 배포</span></div>
+        <div class="card-b">
+          <div class="pipe">
+            <div class="pstep"><div class="n">① 수집</div><div class="c">142</div><div class="t">이번 주 레퍼런스</div></div>
+            <div class="pstep"><div class="n">② 생성</div><div class="c">38</div><div class="t">AI 생성 소재</div></div>
+            <div class="pstep"><div class="n">③ 승인 대기</div><div class="c" style="color:var(--warn)">5</div><div class="t">담당자 검토 필요</div></div>
+            <div class="pstep"><div class="n">④ 배포</div><div class="c" style="color:var(--ok)">27</div><div class="t">게시 완료</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- KPI -->
+      <div class="kpis">
+        <div class="kpi"><div class="lab"><span class="dot" style="background:var(--brand)"></span>수집 레퍼런스</div><div class="val">142</div><div class="dz"><b class="up">▲ 18%</b> 전주 대비</div></div>
+        <div class="kpi"><div class="lab"><span class="dot" style="background:var(--brand-2)"></span>생성 소재</div><div class="val">38</div><div class="dz">평균 <b>2.4분</b>/건 · 디자인 공수 절감</div></div>
+        <div class="kpi"><div class="lab"><span class="dot" style="background:var(--ok)"></span>승인율</div><div class="val">71%</div><div class="dz">1차 통과 · 반려 <b>11건</b></div></div>
+        <div class="kpi"><div class="lab"><span class="dot" style="background:var(--info)"></span>배포 완료</div><div class="val">27</div><div class="dz">3개 채널 · 예약 <b>6건</b></div></div>
+      </div>
+
+      <!-- 차트 -->
+      <div class="grid g-2">
+        <div class="card">
+          <div class="card-h"><h3>일별 처리량</h3><span class="spacer"></span><span class="small muted">수집·생성·배포 합산</span></div>
+          <div class="card-b"><div id="ch-vol"></div></div>
+        </div>
+        <div class="card">
+          <div class="card-h"><h3>채널별 배포</h3></div>
+          <div class="card-b">
+            <div id="ch-bar"></div>
+            <div class="flex" style="justify-content:center;gap:16px;margin-top:6px">
+              <span class="small flex" style="gap:6px"><span class="dot" style="background:var(--meta)"></span>Meta</span>
+              <span class="small flex" style="gap:6px"><span class="dot" style="background:var(--insta)"></span>Instagram</span>
+              <span class="small flex" style="gap:6px"><span class="dot" style="background:var(--tiktok)"></span>TikTok</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 승인 대기 미리보기 + 최근 활동 -->
+      <div class="grid g-2">
+        <div class="card">
+          <div class="card-h"><h3>승인 대기</h3><span class="spacer"></span><a class="btn sm ghost" href="approve.html">전체 보기 →</a></div>
+          <div class="card-b" style="padding-top:8px">
+            <table class="tbl">
+              <thead><tr><th>소재</th><th>벤치마킹</th><th>채널</th><th>상태</th></tr></thead>
+              <tbody id="q-preview"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-h"><h3>최근 활동</h3></div>
+          <div class="card-b">
+            <ul class="sched" id="activity"></ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="note"><b>제안용 데모 안내</b> — 이 화면은 발주 요건(수집·생성·승인·배포)이 실제로 이어지는지 클릭으로 확인하시라고 만든 프로토타입입니다. 표시된 지표·소재·레퍼런스는 전부 합성 데이터이며, 메타·틱톡·인스타그램 실제 API 는 연결되어 있지 않습니다. 계약 시 이 화면 구조 그대로 실 API 연동으로 구현합니다.</div>
+    </div>
+  </main>
+</div>
+
+<script src="assets/js/app.js"></script>
+<script src="assets/js/charts.js"></script>
+<script>
+  AF.renderShell('index');
+  Charts.areaChart(document.getElementById('ch-vol'), [58,64,52,79,71,96,88], {});
+  Charts.barChart(document.getElementById('ch-bar'),
+    [[9,7,11],[6,8,5],[5,9,7]], ['월','수','금'],
+    ['var(--meta)','var(--insta)','var(--tiktok)']);
+  // 승인 대기 미리보기
+  document.getElementById('q-preview').innerHTML = AF.QUEUE.slice(0,4).map(function(q){
+    return '<tr><td><b>'+q.title+'</b><br><span class="small muted">'+q.id+' · '+q.fmt+'</span></td>'
+      + '<td class="small">'+q.refCap+'<br><span class="muted">'+q.ref+'</span></td>'
+      + '<td>'+q.ch.map(AF.chTag).join(' ')+'</td>'
+      + '<td><span class="st wait">● 대기</span></td></tr>';
+  }).join('');
+  // 최근 활동
+  var acts = [
+    ['12:41','<b>A-5521</b> 소재 생성 완료 · 승인 대기 이동','gen'],
+    ['12:38','레퍼런스 <b>7건</b> 수집 · Meta 광고 라이브러리','info'],
+    ['11:52','<b>A-5498</b> 승인 → Instagram 예약(15:00)','ok'],
+    ['11:30','<b>A-5495</b> 반려 · "카피 톤 과함" → 재생성','dang'],
+    ['10:14','TikTok 배포 <b>3건</b> 완료','ok'],
+  ];
+  document.getElementById('activity').innerHTML = acts.map(function(a){
+    var c = {gen:'var(--brand-2)',info:'var(--info)',ok:'var(--ok)',dang:'var(--dang)'}[a[2]];
+    return '<li><span class="tm">'+a[0]+'</span><span class="dot" style="background:'+c+'"></span><span class="small" style="color:var(--ink-2)">'+a[1]+'</span></li>';
+  }).join('');
+</script>
+</body>
+</html>

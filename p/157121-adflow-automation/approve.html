@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>승인 큐 · AdFlowKit (제안용 데모)</title>
+<meta name="description" content="생성 소재 승인·반려 워크플로우. 반려 시 사유 입력→재생성 트리거. 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%236d7cff'/><path d='M16 7l2.5 6 6 2.5-6 2.5L16 24l-2.5-6-6-2.5 6-2.5z' fill='white'/></svg>">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+<div class="app">
+  <main class="main">
+    <header class="top">
+      <div><h2>승인 큐</h2><div class="sub">게시 전 담당자 검토 · 승인/반려 워크플로우</div></div>
+      <div class="spacer"></div>
+      <span class="st wait" id="cnt">● 대기 5</span>
+    </header>
+    <div class="wrap stack">
+
+      <div class="grid g-2">
+        <div class="card"><div class="card-b">
+          <div class="flex between">
+            <div><div class="small muted">이번 주 승인 처리</div><div style="font-size:22px;font-weight:750">42<span class="small muted" style="font-weight:400"> 건</span></div></div>
+            <div id="donut"></div>
+          </div>
+        </div></div>
+        <div class="card"><div class="card-h"><h3>멀티채널 알림</h3><span class="spacer"></span><span class="small muted">승인 요청 발송 미리보기</span></div>
+          <div class="card-b" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div class="notif"><div class="nh"><span class="dot" style="background:#4a154b"></span>Slack · #ad-approval</div><div class="nb"><b>A-5521</b> 소재 승인 요청<br>데일리 프로바이오틱 · 정지형 1:1<br><span class="muted">벤치마킹 R-2041 · Meta·Instagram</span></div></div>
+            <div class="notif"><div class="nh"><span class="dot" style="background:#fae100"></span>카카오 비즈 · 알림톡</div><div class="nb">[승인요청] 신규 광고 소재 2건이 검토 대기 중입니다. 대시보드에서 확인해 주세요.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-h"><h3>검토 대기 소재</h3><span class="spacer"></span>
+          <button class="btn sm" id="approve-all">전체 승인</button>
+        </div>
+        <div class="card-b">
+          <div class="queue" id="queue"></div>
+        </div>
+      </div>
+
+      <div class="note"><b>승인 프로세스</b>(발주 2-3) — 생성 소재는 게시 전 임시 저장소(승인 큐)에 보관되고, 담당자에게 Slack 웹훅·카카오 알림톡·웹 대시보드로 승인 요청이 갑니다. <b>반려</b> 시 사유를 입력받아 소재 생성 모듈로 재전송(재생성 트리거), <b>승인</b> 시 게시 모듈로 이관됩니다. 이 데모는 상태 전이·알림 흐름을 클릭으로 시연하며, 실제 웹훅 전송은 계약 후 연동합니다.</div>
+    </div>
+  </main>
+</div>
+
+<!-- 반려 모달 -->
+<div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:80;place-items:center">
+  <div class="card" style="width:min(440px,92vw)">
+    <div class="card-h"><h3>반려 · 재생성 요청</h3></div>
+    <div class="card-b">
+      <div class="small muted" id="mtarget" style="margin-bottom:10px"></div>
+      <div class="field">
+        <label>반려 사유 <span class="muted">(재생성 프롬프트에 반영)</span></label>
+        <textarea id="reason" placeholder="예: 카피 톤이 과함 · 제품이 너무 작음 · 배경 채도 낮춰주세요"></textarea>
+        <div class="hint">사유는 변경 이력에 기록되고 소재 생성 모듈로 전달됩니다.</div>
+      </div>
+      <div class="flex" style="justify-content:flex-end;gap:8px">
+        <button class="btn ghost" id="m-cancel">취소</button>
+        <button class="btn dang" id="m-confirm">반려 · 재생성</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/app.js"></script>
+<script src="assets/js/charts.js"></script>
+<script>
+  AF.renderShell('approve');
+  Charts.donut(document.getElementById('donut'), 71, 'var(--ok)');
+  var q = document.getElementById('queue');
+  var state = AF.QUEUE.map(function(x){ return Object.assign({}, x); });
+
+  function render(){
+    q.innerHTML = state.map(function(it){
+      var st = it.status;
+      var stHtml = st==='wait' ? '<span class="st wait">● 대기</span>'
+        : st==='ok' ? '<span class="st ok">✓ 승인 · 게시 이관</span>'
+        : '<span class="st dang">↩ 반려 · 재생성 큐</span>';
+      var act = st==='wait'
+        ? '<div class="qact"><button class="btn dang" data-rej="'+it.id+'">반려</button><button class="btn ok" data-app="'+it.id+'">승인</button></div>'
+        : '<div class="qact"><button class="btn sm ghost" data-undo="'+it.id+'" style="width:100%">되돌리기</button></div>';
+      return '<div class="qcard"><div class="qthumb"><img src="'+it.img+'" alt="소재">'
+        + '<div class="badges">'+it.ch.map(AF.chTag).join('')+'</div></div>'
+        + '<div class="qb"><h4>'+it.title+'</h4>'
+        + '<div class="small muted">'+it.id+' · '+it.fmt+'</div>'
+        + '<div class="prov">벤치마킹 <b>'+it.ref+'</b> ('+it.refCap+')<br>프롬프트: '+it.prompt+'</div>'
+        + stHtml + act + '</div></div>';
+    }).join('');
+    var waiting = state.filter(function(x){ return x.status==='wait'; }).length;
+    document.getElementById('cnt').innerHTML = '● 대기 '+waiting;
+  }
+  render();
+
+  var pending = null;
+  q.addEventListener('click', function(e){
+    var app = e.target.closest('[data-app]'), rej = e.target.closest('[data-rej]'), undo = e.target.closest('[data-undo]');
+    if (app){ setStatus(app.dataset.app,'ok'); AF.toast(app.dataset.app+' 승인 → 게시 모듈 이관', 'ok'); }
+    if (undo){ setStatus(undo.dataset.undo,'wait'); }
+    if (rej){ pending = rej.dataset.rej; openModal(pending); }
+  });
+  function setStatus(id, s){ var it = state.find(function(x){return x.id===id;}); if(it){ it.status=s; render(); } }
+
+  function openModal(id){
+    var it = state.find(function(x){return x.id===id;});
+    document.getElementById('mtarget').innerHTML = '<b style="color:var(--ink)">'+it.title+'</b> · '+it.id;
+    document.getElementById('reason').value = '';
+    document.getElementById('modal').style.display = 'grid';
+  }
+  document.getElementById('m-cancel').onclick = function(){ document.getElementById('modal').style.display='none'; pending=null; };
+  document.getElementById('m-confirm').onclick = function(){
+    var reason = document.getElementById('reason').value.trim();
+    if (!reason){ AF.toast('반려 사유를 입력하세요', 'dang'); return; }
+    setStatus(pending, 'rej');
+    document.getElementById('modal').style.display='none';
+    AF.toast('↩ '+pending+' 반려 · 사유 기록 → 소재 재생성 트리거', 'dang');
+    pending = null;
+  };
+  document.getElementById('approve-all').onclick = function(){
+    state.forEach(function(x){ if(x.status==='wait') x.status='ok'; });
+    render(); AF.toast('전체 승인 → 게시 모듈 일괄 이관', 'ok');
+  };
+</script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>레퍼런스 수집 · AdFlowKit (제안용 데모)</title>
+<meta name="description" content="메타·틱톡·인스타 광고 레퍼런스 수집 화면. 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%236d7cff'/><path d='M16 7l2.5 6 6 2.5-6 2.5L16 24l-2.5-6-6-2.5 6-2.5z' fill='white'/></svg>">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+<div class="app">
+  <main class="main">
+    <header class="top">
+      <div><h2>레퍼런스 수집</h2><div class="sub">경쟁사·시장 광고 레퍼런스 아카이빙 · 채널 3종</div></div>
+      <div class="spacer"></div>
+      <button class="btn" id="btn-sync">⟳ 크롬 확장으로 수집</button>
+      <a class="btn primary" href="generate.html">선택 소재로 생성 →</a>
+    </header>
+    <div class="wrap stack">
+
+      <div class="grid g-3">
+        <div class="card"><div class="card-b flex between"><div><div class="small muted">Meta 광고 라이브러리</div><div style="font-size:22px;font-weight:750;margin-top:2px">64<span class="small muted" style="font-weight:400"> 건</span></div></div><span class="tag meta">Meta</span></div></div>
+        <div class="card"><div class="card-b flex between"><div><div class="small muted">Instagram</div><div style="font-size:22px;font-weight:750;margin-top:2px">47<span class="small muted" style="font-weight:400"> 건</span></div></div><span class="tag insta">Instagram</span></div></div>
+        <div class="card"><div class="card-b flex between"><div><div class="small muted">TikTok 광고</div><div style="font-size:22px;font-weight:750;margin-top:2px">31<span class="small muted" style="font-weight:400"> 건</span></div></div><span class="tag tiktok">TikTok</span></div></div>
+      </div>
+
+      <div class="card">
+        <div class="card-h">
+          <h3>수집된 레퍼런스</h3>
+          <span class="spacer"></span>
+          <div class="chips" id="filters">
+            <button class="chip on" data-f="all">전체</button>
+            <button class="chip" data-f="meta">Meta</button>
+            <button class="chip" data-f="insta">Instagram</button>
+            <button class="chip" data-f="tiktok">TikTok</button>
+            <button class="chip" data-f="save">★ 저장됨</button>
+          </div>
+        </div>
+        <div class="card-b">
+          <div class="refs" id="refgrid"></div>
+        </div>
+      </div>
+
+      <div class="note"><b>데이터 아카이빙</b> — 수집 시 광고 이미지·영상 링크·카피 텍스트·참여지표를 데이터베이스로 분류 저장합니다(발주 2-1). 이 데모의 수집 버튼은 합성 레퍼런스를 그리드에 추가하는 시연이며, 실제 메타 그래프 API·틱톡 마케팅 API 호출은 계약 후 연동합니다. 저작권상 실제 경쟁사 소재는 표시하지 않고 가상 이미지로 대체했습니다.</div>
+    </div>
+  </main>
+</div>
+
+<script src="assets/js/app.js"></script>
+<script>
+  AF.renderShell('collect');
+  var grid = document.getElementById('refgrid');
+  var cur = 'all';
+  function draw() {
+    var items = AF.REFS.filter(function(r){
+      if (cur === 'all') return true;
+      if (cur === 'save') return r.save;
+      return r.ch === cur;
+    });
+    grid.innerHTML = items.map(function(r){
+      return '<div class="ref">'
+        + '<div class="thumb"><img src="'+r.img+'" alt="레퍼런스 소재" loading="lazy">'
+        + '<span class="ch">'+AF.chTag(r.ch)+'</span>'
+        + '<button class="save" title="저장" data-id="'+r.id+'">'+(r.save?'★':'☆')+'</button></div>'
+        + '<div class="meta"><div class="cap">'+r.cap+'</div>'
+        + '<div class="row"><span>'+r.id+'</span><span>·</span><span>'+r.eng+'</span></div></div></div>';
+    }).join('');
+  }
+  draw();
+  document.getElementById('filters').addEventListener('click', function(e){
+    var b = e.target.closest('.chip'); if (!b) return;
+    document.querySelectorAll('#filters .chip').forEach(function(c){ c.classList.remove('on'); });
+    b.classList.add('on'); cur = b.dataset.f; draw();
+  });
+  grid.addEventListener('click', function(e){
+    var s = e.target.closest('.save'); if (!s) return;
+    var r = AF.REFS.find(function(x){ return x.id === s.dataset.id; });
+    r.save = !r.save; draw();
+    AF.toast((r.save?'★ 저장됨 · ':'☆ 해제 · ')+r.id);
+  });
+  document.getElementById('btn-sync').addEventListener('click', function(){
+    var chs = ['meta','insta','tiktok'];
+    var caps = ['신규 훅 · "첫 3초에 잡는 장 건강"','성분 스토리 · 발효 유산균','비포애프터 · 2주 챌린지'];
+    var imgs = [AF.IMG.refLife, AF.IMG.refFlat, AF.IMG.refTok];
+    var n = 2 + Math.floor(Math.random()*2);
+    for (var i=0;i<n;i++){
+      var k = Math.floor(Math.random()*3);
+      AF.REFS.unshift({ id:'R-'+(2042+i), ch:chs[k], img:imgs[k], cap:caps[k], eng:'참여 '+(2+Math.random()*4).toFixed(1)+'%', save:false });
+    }
+    draw();
+    AF.toast('⟳ 크롬 확장 수집 · <b>'+n+'건</b> 아카이빙됨', 'ok');
+  });
+</script>
+</body>
+</html>
