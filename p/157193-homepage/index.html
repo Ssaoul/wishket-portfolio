@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>홈 · 등기다리 (제안용 데모)</title>
+<meta name="description" content="등기다리 홈 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+  <section class="hero" style="padding:0">
+    <div class="hero-img" style="background-image:url('assets/img/hero.svg')"></div>
+    <div class="hero-txt"><div class="wrap" style="padding:0">
+      <div class="eyebrow">DOCS ON AUTOPILOT</div>
+      <h1>주소만 넣으면
+문서는 알아서</h1>
+      <p>부동산 등기와 건축물대장 발급을 사람 손 대신 파이프라인이 처리합니다. 주소 목록을 올리면 발급·저장·파싱·전달까지 한 흐름으로 이어집니다.</p>
+      <div class="btns"><a class="btn solid" href="catalog.html">제품·서비스 보기</a><a class="btn line" href="about.html#contact">문의하기</a></div>
+    </div></div>
+  </section>
+  <section><div class="wrap"><div class="stats"><div class="stat"><div class="n">이중 경로</div><div class="l">공식 API 우선 · 브라우저 자동화 폴백</div></div><div class="stat"><div class="n">대량 처리</div><div class="l">비동기 큐 · 자동 재시도</div></div><div class="stat"><div class="n">구조화</div><div class="l">PDF 원본과 JSON 데이터 동시 보관</div></div><div class="stat"><div class="n">연동</div><div class="l">REST API · Webhook 콜백</div></div></div></div></section>
+  <section class="alt"><div class="wrap">
+    <div class="sec-head"><span class="tag">Products</span><h2>제품·서비스</h2><p>등기다리는 부동산 문서 발급을 사람이 건별로 누르는 일에서 시스템이 처리하는 일로 옮기는 백엔드를 만듭니다. 공식 공개 API로 해결되는 구간은 API로, 원본 </p></div>
+    <div class="prod-grid">
+        <article class="prod"><div class="pimg" style="background-image:url('assets/img/item-0.svg')"></div>
+          <div class="pbody"><span class="chip">문서 발급</span><h3 style="margin-top:10px">등기사항전부증명서 발급</h3>
+          <div class="desc">주소 또는 부동산 고유번호로 등기 문서를 열람·발급하고 PDF 원본을 그대로 보관합니다. 열람용과 발급용을 용도에 따라 나눠 요청할 수 있습니다.</div><div class="meta"><span>열람 / 발급 선택</span><b>자세히 →</b></div></div></article>
+        <article class="prod"><div class="pimg" style="background-image:url('assets/img/item-1.svg')"></div>
+          <div class="pbody"><span class="chip">문서 발급</span><h3 style="margin-top:10px">건축물대장 조회·발급</h3>
+          <div class="desc">표제부·층별개요·전유부를 공식 공개 API로 먼저 조회하고, 원본 문서가 필요한 경우에만 발급 경로로 넘깁니다.</div><div class="meta"><span>API 우선 · 발급 선택</span><b>자세히 →</b></div></div></article>
+        <article class="prod"><div class="pimg" style="background-image:url('assets/img/item-2.svg')"></div>
+          <div class="pbody"><span class="chip">문서 발급</span><h3 style="margin-top:10px">인증 세션 관리</h3>
+          <div class="desc">인증 수단과 계정을 한 곳에서 관리하고, 만료가 다가오면 담당자에게 미리 알립니다. 승인이 필요한 단계는 사람에게 넘깁니다.</div><div class="meta"><span>만료 알림 · 승인 분기</span><b>자세히 →</b></div></div></article></div>
+    <div class="center mt"><a class="btn brand" href="catalog.html">전체 보기</a></div>
+  </div></section>
+  <section><div class="wrap">
+    <div class="sec-head"><span class="tag">Projects</span><h2>시공·구축 사례</h2></div>
+    <div class="gallery">
+        <div class="case" style="background-image:url('assets/img/case-0.svg')"><span class="badge">백엔드 연동</span>
+          <div class="cap"><div class="t">주소 1건 요청 → 문서 반환</div><div class="s">단건 API 흐름</div></div></div>
+        <div class="case" style="background-image:url('assets/img/case-1.svg')"><span class="badge">배치 운영</span>
+          <div class="cap"><div class="t">엑셀 주소 목록 일괄 발급</div><div class="s">업로드형 배치</div></div></div>
+        <div class="case" style="background-image:url('assets/img/case-2.svg')"><span class="badge">배치 운영</span>
+          <div class="cap"><div class="t">공공 서버 지연 시 자동 재시도</div><div class="s">재시도 · 타임아웃</div></div></div></div>
+    <div class="center mt"><a class="btn brand" href="gallery.html">전체 보기</a></div>
+  </div></section>
+  <section class="alt"><div class="wrap"><div class="note"><b>제안용 데모</b> — 발주 내용을 바탕으로 자동 생성한 시안입니다. 발주의 과업 범위 ①~④를 그대로 화면으로 옮긴 데모입니다 — 단건·대량 발급 요청, 큐와 자동 재시도, Webhook 결과 전송, PDF 파싱 결과의 JSON 구조화, 실패 건 재실행과 예치금 알림까지 한 흐름으로 구성했고, 브로커 API를 주 경로로 두고 브라우저 자동화를 폴백으로 배치한 이중 구조를 건별 처리 경로 표시로 보여 줍니다. 브랜드·이미지·수치·사례는 모두 합성이며, 실제 구축 시 발주처 자료로 대체합니다.</div></div></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("index"); DEMO.footer();</script>
+
+</body>
+</html>
