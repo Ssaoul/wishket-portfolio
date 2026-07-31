@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>제품 · PRISM 페인트 (제안용 데모)</title>
+<meta name="description" content="PRISM 페인트 제품 라인업. 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%232f6f5e'/><rect x='9' y='8' width='5' height='16' rx='2' fill='%23c06a4a'/><rect x='16' y='8' width='5' height='16' rx='2' fill='%23ecd9b6'/></svg>">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+  <section style="padding-bottom:0">
+    <div class="wrap">
+      <div class="sec-head"><span class="tag">Products</span><h2>제품 라인업</h2><p>실내·외부·기능성·컬러 컬렉션. 현장 용도에 맞게 제안합니다.</p></div>
+      <div class="filters" id="filters">
+        <button class="on" data-f="전체">전체</button>
+        <button data-f="실내용">실내용</button>
+        <button data-f="외부용">외부용</button>
+        <button data-f="기능성">기능성</button>
+        <button data-f="컬러 컬렉션">컬러 컬렉션</button>
+      </div>
+    </div>
+  </section>
+  <section style="padding-top:26px">
+    <div class="wrap"><div class="prod-grid" id="grid"></div></div>
+  </section>
+  <div class="wrap" style="padding-bottom:44px"><div class="note"><b>정직 고지</b> — 제품·색상·기능 표기는 전부 가상 예시입니다. 실제 구축 시 발주처 제품 정보로 채우고, 관리자에서 직접 등록·수정할 수 있게 만듭니다(관리자 메뉴 참조).</div></div>
+</main>
+<script src="assets/js/site.js"></script>
+<script>
+  PR.renderChrome('products'); PR.renderFooter();
+  var cur = '전체';
+  function draw(){
+    var items = PR.PRODUCTS.filter(function(p){ return cur==='전체' || p.cat===cur; });
+    document.getElementById('grid').innerHTML = items.map(function(p){
+      return '<article class="prod"><div class="pimg" style="background-image:url(\''+p.img+'\')"><span class="chip">'+p.cat+'</span></div>'
+        + '<div class="pbody"><h3>'+p.name+'</h3><div class="desc">'+p.desc+'</div>'+PR.swatchRow(p.colors)
+        + '<div class="meta"><span>'+p.tags.join(' · ')+'</span><b>'+p.feature+'</b></div></div></article>';
+    }).join('');
+  }
+  draw();
+  document.getElementById('filters').addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    document.querySelectorAll('#filters button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PRISM 페인트 — 색으로 공간을 바꾸다 (제안용 데모)</title>
+<meta name="description" content="페인트 기업 소개 홈페이지 제안용 데모. 가상 브랜드이며 이미지·제품·시공사례는 모두 합성입니다.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%232f6f5e'/><rect x='9' y='8' width='5' height='16' rx='2' fill='%23c06a4a'/><rect x='16' y='8' width='5' height='16' rx='2' fill='%23ecd9b6'/></svg>">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+  <section class="hero" style="padding:0">
+    <div class="hero-img" style="background-image:url('assets/img/hero.jpg')"></div>
+    <div class="hero-txt">
+      <span class="eyebrow">Premium Architectural Paint</span>
+      <h1>색으로 공간의 인상을 바꿉니다</h1>
+      <p>실내·외부·기능성까지, 현장에 맞는 페인트와 컬러 컨설팅을 제안하는 프리미엄 건축용 페인트 브랜드입니다.</p>
+      <div class="btns">
+        <a href="products.html" class="btn solid">제품 보기</a>
+        <a href="projects.html" class="btn line">시공 사례</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 브랜드 소개 -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head center" style="margin:0 auto 40px">
+        <span class="tag">About PRISM</span>
+        <h2>현장을 아는 페인트</h2>
+        <p style="margin-left:auto;margin-right:auto">단순한 색이 아니라, 공간의 용도·빛·마감을 함께 읽고 제품과 컬러를 제안합니다.</p>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="n">18<span style="font-size:.5em">년</span></div><div class="l">축적된 도장 노하우</div></div>
+        <div class="stat"><div class="n">1,200<span style="font-size:.5em">+</span></div><div class="l">시공 프로젝트</div></div>
+        <div class="stat"><div class="n">120<span style="font-size:.5em">색</span></div><div class="l">큐레이션 컬러</div></div>
+        <div class="stat"><div class="n">친환경</div><div class="l">저VOC·친환경 인증</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 제품 하이라이트 -->
+  <section class="alt">
+    <div class="wrap">
+      <div class="sec-head"><span class="tag">Products</span><h2>대표 제품</h2><p>실내·외부·기능성 라인업. 용도에 맞게 골라 쓰는 프리미엄 페인트.</p></div>
+      <div class="prod-grid" id="prodHi"></div>
+      <div class="center mt"><a href="products.html" class="btn brand">전체 제품 보기</a></div>
+    </div>
+  </section>
+
+  <!-- 시공 사례 하이라이트 -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head"><span class="tag">Projects</span><h2>시공 사례</h2><p>자사 제품으로 완성한 주거·상업·외부 도장 현장.</p></div>
+      <div class="gallery" id="caseHi"></div>
+      <div class="center mt"><a href="projects.html" class="btn brand">전체 사례 보기</a></div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="alt">
+    <div class="wrap grid2">
+      <div>
+        <div class="sec-head" style="margin-bottom:18px"><span class="tag">Get a quote</span><h2>공간에 맞는 색, 함께 찾아드립니다</h2><p>제품 선택부터 컬러 컨설팅·시공까지. 견적 문의를 남겨주시면 담당자가 연락드립니다.</p></div>
+        <a href="about.html#contact" class="btn brand">견적 문의하기</a>
+      </div>
+      <div class="split-img" style="background-image:url('assets/img/swatch.jpg')"></div>
+    </div>
+  </section>
+
+  <div class="wrap" style="padding-bottom:40px"><div class="note"><b>제안용 데모 안내</b> — 발주(회사 소개·제품 안내·시공 사례·연락처 + 내부 콘텐츠 관리)를 실제로 눌러볼 수 있게 만든 프로토타입입니다. PRISM은 가상 브랜드이고 이미지·제품·시공사례·수치는 전부 합성입니다. 상단 “관리자” 메뉴에서 제품·시공사례를 직접 등록·수정·삭제해 보실 수 있습니다. 실제 구축은 아임웹 등 웹빌더 위에 이 구조를 그대로 올려 진행합니다.</div></div>
+</main>
+
+<script src="assets/js/site.js"></script>
+<script>
+  PR.renderChrome('index'); PR.renderFooter();
+  document.getElementById('prodHi').innerHTML = PR.PRODUCTS.slice(0,3).map(function(p){
+    return '<article class="prod"><div class="pimg" style="background-image:url(\''+p.img+'\')"><span class="chip">'+p.cat+'</span></div>'
+      + '<div class="pbody"><h3>'+p.name+'</h3><div class="desc">'+p.desc+'</div>'+PR.swatchRow(p.colors)
+      + '<div class="meta"><span>'+p.tags.join(' · ')+'</span><b>'+p.feature+'</b></div></div></article>';
+  }).join('');
+  document.getElementById('caseHi').innerHTML = PR.CASES.slice(0,3).map(function(c){
+    return '<a class="case" href="projects.html" style="background-image:url(\''+c.img+'\')"><span class="badge">'+c.type+'</span><div class="cap"><div class="t">'+c.title+'</div><div class="s">'+c.product+'</div></div></a>';
+  }).join('');
+</script>
+</body>
+</html>

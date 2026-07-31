@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>회사 소개 · PRISM 페인트 (제안용 데모)</title>
+<meta name="description" content="PRISM 페인트 회사 소개·연혁·비전·연락처. 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%232f6f5e'/><rect x='9' y='8' width='5' height='16' rx='2' fill='%23c06a4a'/><rect x='16' y='8' width='5' height='16' rx='2' fill='%23ecd9b6'/></svg>">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+  <section style="padding-bottom:0">
+    <div class="wrap grid2">
+      <div>
+        <div class="sec-head"><span class="tag">About</span><h2>색을 다루는 태도</h2>
+          <p>PRISM 페인트는 “색은 공간의 인상을 바꾼다”는 믿음으로, 제품과 컬러를 현장 용도에 맞게 제안합니다. 화려함이 아니라 오래 봐도 편안한 색, 그리고 잘 발리고 오래 가는 마감을 지향합니다.</p></div>
+      </div>
+      <div class="split-img" style="background-image:url('assets/img/hero.jpg')"></div>
+    </div>
+  </section>
+
+  <!-- 연혁 -->
+  <section class="alt">
+    <div class="wrap">
+      <div class="sec-head"><span class="tag">History</span><h2>연혁</h2></div>
+      <div class="timeline">
+        <div class="tl"><div class="y">2008</div><div class="d">도장 시공 전문으로 시작. 주거 리모델링 현장 다수 수행.</div></div>
+        <div class="tl"><div class="y">2015</div><div class="d">자사 컬러 컬렉션 개발, 큐레이션 팔레트 60색 발표.</div></div>
+        <div class="tl"><div class="y">2020</div><div class="d">친환경 저VOC 라인 출시 · 친환경 인증 획득.</div></div>
+        <div class="tl"><div class="y">2024</div><div class="d">외부용·기능성 라인 확장, 누적 시공 1,200건 돌파.</div></div>
+        <div class="tl"><div class="y">2026</div><div class="d">브랜드 리뉴얼 및 컬러 컨설팅 서비스 정식 런칭.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 비전 -->
+  <section>
+    <div class="wrap">
+      <div class="stats">
+        <div class="stat"><div class="n">품질</div><div class="l">잘 발리고 오래 가는 마감</div></div>
+        <div class="stat"><div class="n">색</div><div class="l">오래 봐도 편안한 큐레이션</div></div>
+        <div class="stat"><div class="n">환경</div><div class="l">저VOC·친환경 인증 지향</div></div>
+        <div class="stat"><div class="n">현장</div><div class="l">용도에 맞는 제품 제안</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 연락처 -->
+  <section class="alt" id="contact">
+    <div class="wrap">
+      <div class="sec-head"><span class="tag">Contact</span><h2>견적 문의 · 오시는 길</h2><p>제품·컬러·시공 관련 문의를 남겨주시면 담당자가 연락드립니다.</p></div>
+      <div class="contact-grid">
+        <div>
+          <div class="info-row"><div class="ic">📍</div><div><div class="k">오시는 길</div><div class="v">서울시 (가상 주소) · 쇼룸 방문 예약제</div></div></div>
+          <div class="info-row"><div class="ic">🕘</div><div><div class="k">운영 시간</div><div class="v">평일 09:00 – 18:00 (주말·공휴일 휴무)</div></div></div>
+          <div class="info-row"><div class="ic">💬</div><div><div class="k">문의</div><div class="v">아래 폼으로 견적·상담 요청</div></div></div>
+          <div class="map"><svg class="pin" width="34" height="46" viewBox="0 0 34 46"><path d="M17 0C7.6 0 0 7.6 0 17c0 12 17 29 17 29s17-17 17-29C34 7.6 26.4 0 17 0z" fill="#2f6f5e"/><circle cx="17" cy="17" r="6" fill="#fff"/></svg>
+            <div style="position:absolute;left:0;right:0;bottom:14px;text-align:center;font-size:12px;color:var(--ink-3)">지도 영역 (실제 구축 시 지도 API 연동)</div></div>
+        </div>
+        <form class="form" id="form" novalidate>
+          <div class="field" id="f-name"><label>이름 *</label><input id="name" placeholder="성함"><div class="err">이름을 입력해 주세요.</div></div>
+          <div class="field" id="f-phone"><label>연락처 *</label><input id="phone" placeholder="연락 가능한 번호"><div class="err">연락처를 입력해 주세요.</div></div>
+          <div class="field"><label>문의 유형</label><select id="type"><option>제품 문의</option><option>컬러 컨설팅</option><option>시공 견적</option><option>기타</option></select></div>
+          <div class="field" id="f-msg"><label>문의 내용 *</label><textarea id="msg" placeholder="공간·면적·원하는 색 등을 적어주시면 상담에 도움이 됩니다."></textarea><div class="err">문의 내용을 입력해 주세요.</div></div>
+          <button type="submit" class="btn brand" style="width:100%;justify-content:center">문의 보내기</button>
+          <div class="note" style="margin-top:12px">이 폼은 데모입니다 — 실제로 전송되지 않고 화면 동작만 재현합니다. 실제 구축 시 이메일 알림·문의 저장으로 연결합니다.</div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>
+  PR.renderChrome('about'); PR.renderFooter();
+  document.getElementById('form').addEventListener('submit', function(e){
+    e.preventDefault();
+    var ok=true;
+    [['name','f-name'],['phone','f-phone'],['msg','f-msg']].forEach(function(p){
+      var bad = !document.getElementById(p[0]).value.trim();
+      document.getElementById(p[1]).classList.toggle('bad', bad); if(bad) ok=false;
+    });
+    if(!ok){ PR.toast('필수 항목을 확인해 주세요'); return; }
+    PR.toast('✓ 문의가 접수되었습니다 (데모 — 실제 전송 안 함)');
+    document.getElementById('form').reset();
+  });
+  if(location.hash==='#contact'){ setTimeout(function(){ document.getElementById('contact').scrollIntoView(); }, 100); }
+</script>
+</body>
+</html>
