@@ -3,7 +3,7 @@
   --paper:#faf8f5; --paper-2:#f0eeeb; --paper-3:#e1dfdd;
   --ink:#201d18; --ink-2:#4c463d; --ink-3:#857c6f; --ink-4:#b3a99a;
   --line:rgba(32,29,24,.12); --line-2:rgba(32,29,24,.06);
-  --brand:#0E3B5C; --brand-2:#1B6E9C; --accent:#F2994A; --dark:#2c2c2e;
+  --brand:#0F4C5C; --brand-2:#1B7A8C; --accent:#F08A24; --dark:#2c2c2e;
   --sans:'Pretendard Variable','Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif;
   --serif:'Nanum Myeongjo','Noto Serif KR',Georgia,serif;
   --wrap:1200px; --gut:clamp(18px,5vw,56px); --ease:cubic-bezier(.22,.61,.36,1); --hdr:66px;
