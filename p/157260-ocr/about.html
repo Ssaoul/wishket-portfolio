@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>회사 소개 · 폼스캔 (제안용 데모)</title>
+<meta name="description" content="폼스캔 회사 소개 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+  <section style="padding-bottom:0"><div class="wrap grid2">
+    <div><div class="sec-head"><span class="tag">About</span><h2>종이에 남은 응답을 그대로 두지 않습니다</h2><p>디지털 기기 사용이 익숙하지 않은 대상자에게서 모인 설문은 대부분 종이로 쌓입니다. 폼스캔은 스캔본을 읽어 데이터로 바꾸는 일부터, 기계가 확신하지 못한 항목을 사람이 확인하는 검수, 그리고 검증된 데이터로 수행하는 통계 분석까지를 하나의 흐름으로 연결합니다. 손글씨 인식은 완벽할 수 없다는 전제 위에서 설계했고, 그래서 검수 화면을 부가 기능이 아니라 중심에 두었습니다.</p></div></div>
+    <div class="split-img" style="background-image:url('assets/img/hero.svg')"></div>
+  </div></section>
+  <section class="alt"><div class="wrap"><div class="sec-head"><span class="tag">Process</span><h2>진행 단계</h2></div><div class="timeline"><div class="tl"><div class="y">1단계</div><div class="d">요구사항·기능 정의, 설문 양식 표본 분석, 화면 설계 및 데이터 정책 수립</div></div><div class="tl"><div class="y">2단계</div><div class="d">OCR 엔진 연동과 양식 템플릿 구조 설계, 체크박스·숫자·손글씨 추출 파이프라인 구현</div></div><div class="tl"><div class="y">3단계</div><div class="d">검수 워크스페이스 개발 — 원본 대조 편집, 신뢰도 기반 우선순위, 변경 이력 기록</div></div><div class="tl"><div class="y">4단계</div><div class="d">통계 분석 로직과 리포팅 대시보드 구현, 표·그래프 시각화 및 리포트 내보내기</div></div><div class="tl"><div class="y">5단계</div><div class="d">AWS 인프라 구성, 데이터 암호화·접근 제어 적용, 대량 처리 성능 점검 및 인수 산출물 정리</div></div></div></div></section>
+  <section id="contact"><div class="wrap">
+    <div class="sec-head"><span class="tag">Contact</span><h2>문의</h2><p>문의를 남기시면 담당자가 연락드립니다.</p></div>
+    <div class="contact-grid">
+      <div>
+        <div class="info-row"><div class="ic">📍</div><div><div class="k">오시는 길</div><div class="v">(가상 주소) · 방문 예약제</div></div></div>
+        <div class="info-row"><div class="ic">🕘</div><div><div class="k">운영 시간</div><div class="v">평일 09:00 – 18:00</div></div></div>
+        <div class="info-row"><div class="ic">💬</div><div><div class="k">문의</div><div class="v">오른쪽 폼으로 상담 요청</div></div></div>
+      </div>
+      <form class="form" id="form" novalidate>
+        <div class="field" id="f-nm"><label>이름 *</label><input id="nm" placeholder="성함"><div class="err">이름을 입력해 주세요.</div></div>
+        <div class="field" id="f-ph"><label>연락처 *</label><input id="ph" placeholder="연락 가능한 번호"><div class="err">연락처를 입력해 주세요.</div></div>
+        <div class="field" id="f-ms"><label>문의 내용 *</label><textarea id="ms" placeholder="필요하신 내용을 적어주세요."></textarea><div class="err">문의 내용을 입력해 주세요.</div></div>
+        <button type="submit" class="btn brand" style="width:100%;justify-content:center">문의 보내기</button>
+        <div class="note" style="margin-top:12px">이 폼은 데모입니다 — 실제로 전송되지 않고 화면 동작만 재현합니다.</div>
+      </form>
+    </div>
+  </div></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("about"); DEMO.footer();</script>
+<script>
+(function(){
+  var f=document.getElementById('form'); if(!f) return;
+  f.addEventListener('submit', function(e){
+    e.preventDefault(); var ok=true;
+    [['nm','f-nm'],['ph','f-ph'],['ms','f-ms']].forEach(function(p){
+      var bad=!document.getElementById(p[0]).value.trim();
+      document.getElementById(p[1]).classList.toggle('bad', bad); if(bad) ok=false;
+    });
+    if(!ok){ DEMO.toast('필수 항목을 확인해 주세요'); return; }
+    DEMO.toast('✓ 문의가 접수되었습니다 (데모 — 실제 전송 안 함)'); f.reset();
+  });
+  if(location.hash==='#contact'){ setTimeout(function(){ var el=document.getElementById('contact'); if(el) el.scrollIntoView(); },80); }
+})();
+</script>
+</body>
+</html>
