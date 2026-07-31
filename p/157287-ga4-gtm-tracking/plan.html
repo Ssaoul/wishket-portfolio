@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TagLab · 이벤트 태깅 내역서 (제안용 데모)</title>
+<meta name="description" content="산출물 형식 — 이벤트별 트리거·파라미터·PII 처리를 정리한 태깅 내역서. 제안용 데모.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%233d5afe'/><path d='M7 20l5-9 4 6 3-4 6 7' fill='none' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+<div class="app">
+  <main class="main">
+    <header class="top">
+      <div><h2>이벤트 태깅 내역서</h2><div class="sub">산출물 형식 · 이벤트 → 트리거 → 파라미터 → PII 처리</div></div>
+      <div class="sp"></div>
+      <button class="btn" id="exportBtn">GTM 컨테이너 Export (JSON)</button>
+    </header>
+    <div class="wrap stack">
+      <div class="chips">
+        <span class="chip"><span class="tag pv">page_view</span></span>
+        <span class="chip"><span class="tag click">공통 클릭 8</span></span>
+        <span class="chip"><span class="tag conv">전환 9</span></span>
+        <span class="chip"><span class="tag pii">PII 처리 2</span></span>
+      </div>
+
+      <div class="card">
+        <div class="card-h"><h3>공통 이벤트 (7개 사이트 표준)</h3></div>
+        <div class="card-b" style="padding-top:6px;overflow-x:auto">
+          <table class="tbl">
+            <thead><tr><th>이벤트명</th><th>구분</th><th>트리거</th><th>핵심 파라미터</th><th>PII</th></tr></thead>
+            <tbody id="commonRows"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-h"><h3>전환 이벤트 (브랜드 성격별)</h3><span class="sp"></span><span class="small muted">GA4 '주요 이벤트'로 표시</span></div>
+        <div class="card-b" style="padding-top:6px;overflow-x:auto">
+          <table class="tbl">
+            <thead><tr><th>브랜드</th><th>전환</th><th>이벤트명</th><th>트리거(선택자)</th><th>PII</th></tr></thead>
+            <tbody id="convRows"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="note"><b>산출물</b> — 발주 산출물인 "GTM 컨테이너 Export(JSON) + 이벤트 태깅 내역서"의 형식을 그대로 보여드립니다. 위 Export 버튼을 누르면 태깅 구조가 담긴 JSON 파일이 내려받아집니다(데모용 샘플). 실제 납품 시에는 7개 사이트의 실제 선택자·전환값을 채운 컨테이너와 내역서를 드립니다.</div>
+    </div>
+  </main>
+</div>
+
+<script src="assets/js/app.js"></script>
+<script>
+  TL.renderShell('plan');
+  var common = [
+    ['page_view','페이지뷰','pv','모든 페이지 로드','page_location, page_title','—'],
+    ['menu_click','클릭','click','GNB 링크 클릭','link_text, link_url','—'],
+    ['select_promotion','클릭','click','메인 배너 클릭','promotion_name, creative_slot','—'],
+    ['outbound_click','클릭','click','외부 도메인 링크','link_domain, outbound','—'],
+    ['scroll_depth','클릭','click','25/50/75/90% 스크롤','percent_scrolled','—'],
+    ['file_download','클릭','click','PDF·자료 다운로드','file_name, file_extension','—'],
+    ['view_search_results','클릭','click','사이트 내 검색','search_term','—'],
+    ['video_start','클릭','click','소개 영상 재생','video_title','—'],
+  ];
+  document.getElementById('commonRows').innerHTML = common.map(function(r){
+    var badge = r[2]==='pv'?'<span class="tag pv">PV</span>':'<span class="tag click">클릭</span>';
+    return '<tr><td><b class="mono">'+r[0]+'</b></td><td>'+badge+'</td><td>'+r[3]+'</td><td class="mono small">'+r[4]+'</td><td>'+r[5]+'</td></tr>';
+  }).join('');
+
+  var conv = {
+    'lead_submit':['상담/문의 폼 제출','form[data-role=lead] submit','name→마스킹, phone→해싱'],
+    'purchase':['구매 완료','#order-complete view','value, currency, transaction_id'],
+    'sign_up':['회원가입 완료','#signup-done view','method'],
+    'reservation':['예약/클래스 신청','button.reserve click','item_name, date'],
+    'store_locate':['매장 찾기 실행','button.store-find click','store_name'],
+  };
+  document.getElementById('convRows').innerHTML = TL.BRANDS.map(function(b){
+    var c = conv[b.conv] || ['전환','—','—'];
+    var pii = /해싱|마스킹/.test(c[2]) ? '<span class="tag pii">마스킹·해싱</span>' : '—';
+    return '<tr><td><b>'+b.nm+'</b><br><span class="mono small muted">'+b.dm+'</span></td>'
+      + '<td>'+b.kpi+'</td><td><b class="mono" style="color:var(--ok)">'+b.conv+'</b></td>'
+      + '<td class="mono small">'+c[1]+'</td><td>'+pii+'</td></tr>';
+  }).join('');
+
+  // Export — 데모용 컨테이너 JSON 다운로드
+  document.getElementById('exportBtn').addEventListener('click', function(){
+    var container = {
+      exportFormatVersion: 2, _note: '제안용 데모 샘플 · 실제 GTM 컨테이너 아님',
+      containerVersion: {
+        container: { name: '7-brand-unified', publicId: 'GTM-DEMO000' },
+        tag: TL.BRANDS.map(function(b,i){ return { name:'GA4 - '+b.conv+' ('+b.nm+')', type:'gaawe', parameter:[{key:'eventName',value:b.conv},{key:'measurementIdOverride',value:'G-XXXX'+i}] }; }),
+        trigger: common.map(function(c){ return { name:'CLICK - '+c[0], type:'click' }; }),
+        variable: [{name:'DLV - name (masked)',type:'v'},{name:'DLV - phone (hashed)',type:'v'},{name:'client_id',type:'v'}]
+      }
+    };
+    var blob = new Blob([JSON.stringify(container,null,2)], {type:'application/json'});
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'gtm-container-demo.json'; a.click();
+    TL.toast('컨테이너 Export 내려받기 (데모 샘플)');
+  });
+</script>
+</body>
+</html>

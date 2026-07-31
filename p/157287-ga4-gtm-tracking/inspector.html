@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TagLab · 라이브 이벤트 인스펙터 (제안용 데모)</title>
+<meta name="description" content="목업 사이트를 클릭하면 GA4 이벤트가 dataLayer로 발화되는 것을 실시간 콘솔로 확인. 제안용 데모 · 합성.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%233d5afe'/><path d='M7 20l5-9 4 6 3-4 6 7' fill='none' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+<div class="app">
+  <main class="main">
+    <header class="top">
+      <div><h2>라이브 이벤트 인스펙터</h2><div class="sub">목업 사이트를 클릭 → GA4 이벤트가 dataLayer 로 발화 (GA4 DebugView · GTM 미리보기 재현)</div></div>
+      <div class="sp"></div>
+      <select id="brandSel" class="btn" style="padding-right:26px"></select>
+      <button class="btn ghost" id="clearBtn">콘솔 지우기</button>
+    </header>
+    <div class="wrap">
+      <div class="inspector">
+        <!-- 좌: 목업 사이트 -->
+        <div class="stage">
+          <div class="browser-bar"><div class="dots"><i></i><i></i><i></i></div><div class="url" id="urlBar">https://academy.example.kr</div></div>
+          <div class="mock">
+            <div class="gnb" id="gnb"></div>
+            <div class="banner" id="banner" data-ev="select_promotion">
+              <h4 id="bannerH">여름 특강 30% 할인</h4>
+              <p>메인 배너 클릭 · select_promotion 이벤트 발화</p>
+            </div>
+            <div class="cta-row" id="ctaRow"></div>
+            <a class="out" id="outlink" href="#" data-ev="outbound_click">↗ 제휴 사이트로 이동 (아웃바운드)</a>
+          </div>
+        </div>
+        <!-- 우: 라이브 콘솔 -->
+        <div class="console">
+          <div class="ch">GA4 이벤트 스트림 <span class="live"><i></i>LIVE · dataLayer</span></div>
+          <div class="stream" id="stream"><div class="empty">왼쪽 화면의 메뉴·배너·버튼을 눌러보세요.<br>클릭할 때마다 GA4 이벤트가 여기로 발화됩니다.</div></div>
+        </div>
+      </div>
+
+      <div class="note" style="margin-top:16px"><b>이게 QA 방식입니다</b> — 실제 프로젝트에서는 GTM 미리보기 모드와 GA4 DebugView 로 태그가 의도대로 발송되는지 이렇게 확인합니다(발주 2-3 데이터 검증). 이 데모는 그 흐름을 dataLayer 시뮬레이션으로 재현한 것이고, 실제 GA4 로는 전송하지 않습니다. 전환 이벤트(<span class="tag conv">노란색</span>)와 일반 클릭(<span class="tag click">초록</span>), 페이지뷰(<span class="tag pv">파랑</span>)를 색으로 구분합니다.</div>
+    </div>
+  </main>
+</div>
+
+<script src="assets/js/app.js"></script>
+<script>
+  TL.renderShell('inspector');
+  var B = TL.BRANDS, DL = TL.TagLab;
+  var cur = B[0];
+
+  // 브랜드 선택
+  var sel = document.getElementById('brandSel');
+  sel.innerHTML = B.map(function(b,i){ return '<option value="'+i+'">'+b.nm+' · '+b.dm+'</option>'; }).join('');
+  sel.addEventListener('change', function(){ cur = B[+sel.value]; paintSite(); fire('page_view', {}); });
+
+  var GNB = ['홈','과정 안내','수강 후기','오시는 길','공지사항'];
+  function paintSite(){
+    document.getElementById('urlBar').textContent = 'https://'+cur.dm;
+    document.getElementById('banner').style.background = 'linear-gradient(120deg,'+cur.color+',#7a5af8)';
+    document.getElementById('gnb').innerHTML = GNB.map(function(g){ return '<button data-ev="menu_click" data-label="'+g+'">'+g+'</button>'; }).join('');
+    // 전환 CTA — 브랜드 성격별
+    var ctas = [
+      { cls:'consult', label:cur.kpi, ev:cur.conv, conv:true },
+      { cls:'signup', label:'회원가입', ev:'sign_up', conv:true },
+      { cls:'buy', label:'바로구매', ev:'purchase', conv:true }
+    ];
+    document.getElementById('ctaRow').innerHTML = ctas.map(function(c){
+      return '<button class="cta '+c.cls+'" data-ev="'+c.ev+'" data-label="'+c.label+'" data-conv="1">'+c.label+'</button>';
+    }).join('');
+  }
+  paintSite();
+
+  var CONV = ['lead_submit','purchase','sign_up','reservation','store_locate'];
+  function fire(name, params){
+    var isConv = CONV.indexOf(name) >= 0;
+    var e = DL.push(Object.assign({ event: name, brand: cur.key, page_domain: cur.dm }, params));
+    render(e, isConv ? 'conv' : name === 'page_view' ? 'pv' : 'click');
+  }
+
+  // 클릭 → 이벤트
+  document.querySelector('.mock').addEventListener('click', function(ev){
+    var el = ev.target.closest('[data-ev]'); if(!el) return;
+    if (el.id === 'outlink') ev.preventDefault();
+    var name = el.dataset.ev;
+    var params = {};
+    if (el.dataset.label) params[name==='menu_click'?'link_text':'item_name'] = el.dataset.label;
+    if (name==='outbound_click') { params.link_domain = 'partner.example.com'; params.outbound = true; }
+    if (name==='select_promotion') params.promotion_name = document.getElementById('bannerH').textContent;
+    fire(name, params);
+  });
+
+  var streamEl = document.getElementById('stream'); var hasEvt=false;
+  function render(e, kind){
+    if(!hasEvt){ streamEl.innerHTML=''; hasEvt=true; }
+    var params = Object.keys(e).filter(function(k){ return k[0]!=='_' && ['event'].indexOf(k)<0; });
+    var kv = params.map(function(k){ return '<div class="kv"><span class="k">'+k+'</span>: <span class="v">'+String(e[k])+'</span></div>'; }).join('');
+    var badge = kind==='conv'?'<span class="tag conv">전환</span>':kind==='pv'?'<span class="tag pv">페이지뷰</span>':'<span class="tag click">클릭</span>';
+    var div = document.createElement('div'); div.className = 'evt '+kind;
+    div.innerHTML = '<div class="top2"><span class="name">'+e.event+'</span>'+badge+'<span class="t">#'+e._seq+' · '+e._t+'</span></div>'+kv;
+    streamEl.insertBefore(div, streamEl.firstChild);
+    if(kind==='conv') TL.toast('🎯 전환 이벤트 발화: <b>'+e.event+'</b>');
+  }
+
+  document.getElementById('clearBtn').addEventListener('click', function(){
+    streamEl.innerHTML='<div class="empty">콘솔을 지웠습니다. 다시 클릭해 보세요.</div>'; hasEvt=false;
+  });
+  // 진입 시 page_view 한 번
+  fire('page_view', {});
+</script>
+</body>
+</html>

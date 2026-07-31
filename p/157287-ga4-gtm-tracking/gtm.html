@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TagLab · GTM 컨테이너 구조 (제안용 데모)</title>
+<meta name="description" content="GTM 컨테이너의 태그·트리거·변수 구조와 7개 사이트 배포 방식. 제안용 데모.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%233d5afe'/><path d='M7 20l5-9 4 6 3-4 6 7' fill='none' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+<div class="app">
+  <main class="main">
+    <header class="top">
+      <div><h2>GTM 컨테이너 구조</h2><div class="sub">태그 · 트리거 · 변수 + 7개 사이트 스니펫 배포</div></div>
+    </header>
+    <div class="wrap stack">
+      <div class="card">
+        <div class="card-h"><h3>컨테이너 구성</h3><span class="sp"></span><span class="tag ga mono">GTM-DEMO000</span></div>
+        <div class="card-b">
+          <div class="gtm-tree">
+            <div class="gtm-col">
+              <h4>태그 (Tags)</h4>
+              <div class="node"><div class="nm">GA4 Configuration</div><div class="meta">7개 measurement_id · consent 반영</div></div>
+              <div class="node"><div class="nm">GA4 Event — 공통 클릭</div><div class="meta">menu·banner·outbound·scroll…</div></div>
+              <div class="node"><div class="nm">GA4 Event — 전환</div><div class="meta">lead_submit·purchase·sign_up…</div></div>
+              <div class="node"><div class="nm">PII Safe Transform</div><div class="meta">발송 전 마스킹·해싱 변수 적용</div></div>
+            </div>
+            <div class="gtm-col">
+              <h4>트리거 (Triggers)</h4>
+              <div class="node"><div class="nm">All Pages</div><div class="meta">page_view</div></div>
+              <div class="node"><div class="nm">Click - GNB / CTA</div><div class="meta">CSS 선택자 매칭</div></div>
+              <div class="node"><div class="nm">Form Submit - Lead</div><div class="meta">상담·문의 폼</div></div>
+              <div class="node"><div class="nm">Scroll / Timer</div><div class="meta">25·50·75·90%</div></div>
+            </div>
+            <div class="gtm-col">
+              <h4>변수 (Variables)</h4>
+              <div class="node"><div class="nm">client_id</div><div class="meta">크로스도메인 linker</div></div>
+              <div class="node"><div class="nm">DLV - name (masked)</div><div class="meta">홍**</div></div>
+              <div class="node"><div class="nm">DLV - phone (hashed)</div><div class="meta">sha256</div></div>
+              <div class="node"><div class="nm">Lookup - 브랜드별 GA4 ID</div><div class="meta">도메인 → measurement_id</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-h"><h3>7개 사이트 스니펫 일괄 적용</h3><span class="sp"></span><span class="small muted">발주 "소스코드 내 GTM 컨테이너 스니펫 일괄 적용"</span></div>
+        <div class="card-b">
+          <div class="pii-out" style="background:var(--con-bg)"><span style="color:var(--con-ink2)">&lt;!-- 모든 사이트 &lt;head&gt; 상단 동일 스니펫 --&gt;</span><br>
+&lt;script&gt;(function(w,d,s,l,i){...})(window,document,'script','dataLayer',<span style="color:var(--con-green)">'GTM-DEMO000'</span>);&lt;/script&gt;<br>
+<span style="color:var(--con-ink2)">&lt;!-- 브랜드별 GA4 ID 는 컨테이너 안 Lookup 변수가 도메인으로 분기 --&gt;</span></div>
+          <div class="flex" style="flex-wrap:wrap;gap:8px;margin-top:14px" id="siteChips"></div>
+          <div class="small muted" style="margin-top:10px">컨테이너 하나로 7개 사이트를 관리하고, 사이트별 GA4 속성은 도메인 기반 Lookup 변수로 자동 분기합니다. 사이트마다 코드를 따로 고칠 필요 없이 GTM 에서 태그를 배포·수정합니다.</div>
+        </div>
+      </div>
+
+      <div class="note"><b>정직 고지</b> — 이 구조는 제안용 설계 예시입니다. 실제 컨테이너 ID·GA4 속성·선택자는 계약 후 7개 사이트를 분석해 확정하고, 산출물(컨테이너 Export + 태깅 내역서)로 드립니다. 표시된 값은 전부 가상입니다.</div>
+    </div>
+  </main>
+</div>
+
+<script src="assets/js/app.js"></script>
+<script>
+  TL.renderShell('gtm');
+  document.getElementById('siteChips').innerHTML = TL.BRANDS.map(function(b){
+    return '<span class="chip mono" style="border-color:'+b.color+'"><span class="dot" style="background:'+b.color+';margin-right:5px"></span>'+b.dm+'</span>';
+  }).join('');
+</script>
+</body>
+</html>

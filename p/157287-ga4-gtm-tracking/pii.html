@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TagLab · PII 마스킹·해싱 (제안용 데모)</title>
+<meta name="description" content="이름·전화번호 등 PII가 GA4로 전송되지 않도록 마스킹·해싱하는 세이프가드 데모.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%233d5afe'/><path d='M7 20l5-9 4 6 3-4 6 7' fill='none' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+<div class="app">
+  <main class="main">
+    <header class="top">
+      <div><h2>PII 마스킹 · 해싱</h2><div class="sub">개인정보(이름·전화)가 GA4 로 전송되지 않도록 발송 전 처리 — 발주 필수 요건</div></div>
+    </header>
+    <div class="wrap stack">
+      <div class="card">
+        <div class="card-h"><h3>상담 신청 폼 → GA4 전송 시뮬레이션</h3><span class="sp"></span><span class="tag pii">발송 전 세이프가드</span></div>
+        <div class="card-b">
+          <div class="pii-grid">
+            <div class="pii-col raw">
+              <h4>① 사용자가 입력한 원본 <span class="tag pii">PII</span></h4>
+              <div class="field"><label>이름</label><input id="inName" value="홍길동"></div>
+              <div class="field"><label>전화번호</label><input id="inPhone" value="010-2345-6789"></div>
+              <div class="field"><label>이메일</label><input id="inEmail" value="user@example.com"></div>
+              <div class="field"><label>문의 내용</label><input id="inMsg" value="여름 특강 상담 원해요"></div>
+              <div class="small" style="color:var(--dang);margin-top:6px">⚠️ 이 값을 그대로 GA4 로 보내면 개인정보 위반</div>
+            </div>
+            <div class="arrow-mid">→</div>
+            <div class="pii-col safe">
+              <h4>② GA4 로 실제 전송되는 payload <span class="tag conv">안전</span></h4>
+              <div class="pii-out" id="payload"></div>
+              <div class="small" style="color:var(--ok);margin-top:10px">✓ 이름 마스킹 · 전화·이메일 SHA-256 해싱 · 문의 본문 제외</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid g-2b">
+        <div class="card"><div class="card-h"><h3>처리 규칙</h3></div><div class="card-b">
+          <table class="tbl">
+            <thead><tr><th>필드</th><th>처리</th><th>GA4 전송</th></tr></thead>
+            <tbody>
+              <tr><td>이름</td><td>첫 글자만 남기고 마스킹</td><td class="mono small">홍** </td></tr>
+              <tr><td>전화번호</td><td>SHA-256 해싱(또는 완전 제외)</td><td class="mono small">sha256:…</td></tr>
+              <tr><td>이메일</td><td>정규화 후 SHA-256 해싱</td><td class="mono small">sha256:…</td></tr>
+              <tr><td>문의 본문</td><td>전송 안 함(자유입력 PII 위험)</td><td>—</td></tr>
+              <tr><td>전환 사실</td><td>이벤트·값만 전송</td><td class="mono small" style="color:var(--ok)">lead_submit</td></tr>
+            </tbody>
+          </table>
+        </div></div>
+        <div class="card"><div class="card-h"><h3>어디서 막나</h3></div><div class="card-b">
+          <div class="stack" style="gap:10px">
+            <div class="node"><div class="nm">1 · GTM 커스텀 템플릿/변수</div><div class="meta">전송 직전 dataLayer 값을 마스킹·해싱 변수로 변환</div></div>
+            <div class="node"><div class="nm">2 · GA4 데이터 재정의 차단</div><div class="meta">이메일·전화를 user_data 로 넘기지 않음</div></div>
+            <div class="node"><div class="nm">3 · 내부 트래픽 필터</div><div class="meta">직원 IP·디버그 트래픽 제외(발주 2-3)</div></div>
+            <div class="node"><div class="nm">4 · QA</div><div class="meta">DebugView 로 payload 에 원문 PII 없음 확인</div></div>
+          </div>
+        </div></div>
+      </div>
+
+      <div class="note"><b>왜 이걸 강조하나</b> — 발주 비기능 요구사항에 "개인정보(이름·전화 등 PII)가 GA4 로 전송되지 않도록 마스킹·해싱 처리 필수"가 명시돼 있습니다. 실무에서 이 처리를 빼먹으면 GA4 계정 정지·법적 리스크로 이어집니다. 위 입력값을 바꿔보시면 전송 payload 가 실시간으로 안전하게 변환되는 걸 확인하실 수 있습니다(해시는 데모용 표기이며 실제 구현은 SHA-256).</div>
+    </div>
+  </main>
+</div>
+
+<script src="assets/js/app.js"></script>
+<script>
+  TL.renderShell('pii');
+  function render(){
+    var name = document.getElementById('inName').value;
+    var phone = document.getElementById('inPhone').value;
+    var email = document.getElementById('inEmail').value;
+    var html = ''
+      + '<div><span class="k">event</span>: <span class="safe">"lead_submit"</span></div>'
+      + '<div><span class="k">user_name_masked</span>: "'+TL.maskName(name)+'"</div>'
+      + '<div><span class="k">phone_sha256</span>: <span class="safe">"'+TL.fauxHash(phone)+'"</span></div>'
+      + '<div><span class="k">email_sha256</span>: <span class="safe">"'+TL.fauxHash(email.toLowerCase().trim())+'"</span></div>'
+      + '<div><span class="k">value</span>: 1, <span class="k">currency</span>: "KRW"</div>'
+      + '<div style="color:var(--con-ink2);margin-top:6px">// 원문 이름·전화·이메일·문의본문은 전송되지 않음</div>';
+    document.getElementById('payload').innerHTML = html;
+  }
+  ['inName','inPhone','inEmail','inMsg'].forEach(function(id){ document.getElementById(id).addEventListener('input', render); });
+  render();
+</script>
+</body>
+</html>
