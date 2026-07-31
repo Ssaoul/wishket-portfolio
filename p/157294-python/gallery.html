@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>도입 사례 · 세담엔진 (제안용 데모)</title>
+<meta name="description" content="세담엔진 도입 사례 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+  <section style="padding-bottom:0"><div class="wrap">
+    <div class="sec-head"><span class="tag">Cases</span><h2>도입 사례</h2><p>카드를 클릭하면 크게 볼 수 있습니다.</p></div>
+    <div class="filters" id="filters"><button class="on" data-f="전체">전체</button><button data-f="통합 시나리오">통합 시나리오</button><button data-f="판정 분기">판정 분기</button><button data-f="근거·검증">근거·검증</button></div>
+  </div></section>
+  <section style="padding-top:26px"><div class="wrap"><div class="gallery" id="grid"></div></div></section>
+  <div class="wrap" style="padding-bottom:44px"><div class="note"><b>정직 고지</b> — 사진·사례명은 전부 합성입니다. 갤러리는 <b>비율 고정 격자</b>로 짜서 어떤 비율의 사진이 올라와도 정렬이 무너지지 않습니다.</div></div>
+  <div class="lb" id="lb"><button class="x" id="lbx">×</button><button class="nav-btn prev" id="lbp">‹</button>
+    <div><img id="lbimg" src="" alt="사례"><div class="cap" id="lbcap"></div></div>
+    <button class="nav-btn next" id="lbn">›</button></div>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("gallery"); DEMO.footer();</script>
+<script>
+(function(){
+  var cur='전체', view=[], idx=0, D=DEMO.D;
+  var grid=document.getElementById('grid'), fl=document.getElementById('filters'), lb=document.getElementById('lb');
+  function draw(){
+    view=D.cases.filter(function(x){return cur==='전체'||x.type===cur;});
+    grid.innerHTML=view.map(function(x,i){
+      return '<div class="case" data-i="'+i+'" style="background-image:url(\''+x.img+'\')"><span class="badge">'+DEMO.esc(x.type)+'</span>'
+      +'<div class="cap"><div class="t">'+DEMO.esc(x.title)+'</div><div class="s">'+DEMO.esc(x.sub)+'</div></div></div>';
+    }).join('');
+  }
+  function open(i){
+    idx=i; var x=view[i]; if(!x) return;
+    document.getElementById('lbimg').src=x.img;
+    document.getElementById('lbcap').innerHTML='<b>'+DEMO.esc(x.title)+'</b> · '+DEMO.esc(x.type)+'<br><span style="opacity:.85">'+DEMO.esc(x.desc)+'</span>';
+    lb.classList.add('on');
+  }
+  fl.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+  grid.addEventListener('click', function(e){ var el=e.target.closest('.case'); if(el) open(+el.dataset.i); });
+  document.getElementById('lbx').onclick=function(){ lb.classList.remove('on'); };
+  lb.addEventListener('click', function(e){ if(e.target.id==='lb') lb.classList.remove('on'); });
+  document.getElementById('lbp').onclick=function(){ open((idx-1+view.length)%view.length); };
+  document.getElementById('lbn').onclick=function(){ open((idx+1)%view.length); };
+  document.addEventListener('keydown', function(e){
+    if(!lb.classList.contains('on')) return;
+    if(e.key==='Escape') lb.classList.remove('on');
+    if(e.key==='ArrowLeft') document.getElementById('lbp').click();
+    if(e.key==='ArrowRight') document.getElementById('lbn').click();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>

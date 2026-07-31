@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 700" width="1600" height="700">
+<defs>
+<linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0e1f27"/><stop offset="1" stop-color="#13293b"/></linearGradient>
+<radialGradient id="g2"><stop offset="0" stop-color="#7d9ab2"/><stop offset="1" stop-color="#27567F" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="1600" height="700" fill="url(#g1)"/><circle cx="341" cy="222" r="146" fill="url(#g2)" opacity="0.20"/><circle cx="559" cy="139" r="125" fill="url(#g2)" opacity="0.19"/><circle cx="631" cy="21" r="277" fill="url(#g2)" opacity="0.16"/><path d="M0 270 Q 480 203 880.0000000000001 270 T 1600 240 V 700 H0 Z" fill="#50657b" opacity="0.25"/><path d="M0 374 Q 480 287 880.0000000000001 374 T 1600 344 V 700 H0 Z" fill="#50657b" opacity="0.35"/><path d="M0 450 Q 480 360 880.0000000000001 450 T 1600 420 V 700 H0 Z" fill="#50657b" opacity="0.19"/><path d="M0 553 Q 480 440 880.0000000000001 553 T 1600 523 V 700 H0 Z" fill="#27567F" opacity="0.33"/><path d="M0 634 Q 480 550 880.0000000000001 634 T 1600 604 V 700 H0 Z" fill="#d9a177" opacity="0.21"/></svg>
