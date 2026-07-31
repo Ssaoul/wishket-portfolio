@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
-<rect width="800" height="600" fill="#a1aec5"/>
-<rect y="408" width="800" height="192" fill="#616162" opacity="0.55"/>
-<rect x="22" y="103" width="133" height="157" rx="6" fill="#2E4A7D" opacity="0.45"/><rect x="293" y="179" width="112" height="221" rx="6" fill="#4A6FA5" opacity="0.35"/><rect x="511" y="117" width="74" height="89" rx="6" fill="#2E4A7D" opacity="0.22"/><rect x="253" y="198" width="211" height="229" rx="6" fill="#4A6FA5" opacity="0.24"/>
-<rect x="64" y="72" width="208" height="300" rx="4" fill="#cbd2df" opacity="0.5"/></svg>
+<rect width="800" height="600" fill="#c6cadb"/>
+<rect y="420" width="800" height="180" fill="#1e2450" opacity="0.4"/>
+<rect x="294" y="104" width="132" height="153" rx="6" fill="#4f5da0" opacity="0.21"/><rect x="169" y="272" width="149" height="263" rx="6" fill="#e08e6d" opacity="0.29"/><rect x="371" y="112" width="152" height="202" rx="6" fill="#4f5da0" opacity="0.23"/>
+<rect x="64" y="84" width="192" height="288" rx="4" fill="#33417e" opacity="0.22"/></svg>
