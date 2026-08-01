@@ -1,6 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 700" width="1600" height="700">
 <defs>
-<linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#282829"/><stop offset="1" stop-color="#233246"/></linearGradient>
-<radialGradient id="g2"><stop offset="0" stop-color="#82a7c8"/><stop offset="1" stop-color="#2E6DA4" stop-opacity="0"/></radialGradient>
+<linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1e2450"/><stop offset="1" stop-color="#33417e"/></linearGradient>
+<radialGradient id="g2"><stop offset="0" stop-color="#4f5da0" stop-opacity="0.5"/><stop offset="1" stop-color="#4f5da0" stop-opacity="0"/></radialGradient>
 </defs>
-<rect width="1600" height="700" fill="url(#g1)"/><circle cx="593" cy="5" r="314" fill="url(#g2)" opacity="0.16"/><circle cx="532" cy="24" r="285" fill="url(#g2)" opacity="0.17"/><circle cx="629" cy="294" r="130" fill="url(#g2)" opacity="0.17"/><path d="M0 246 Q 480 169 880.0000000000001 246 T 1600 216 V 700 H0 Z" fill="#516b8a" opacity="0.29"/><path d="M0 359 Q 480 232 880.0000000000001 359 T 1600 329 V 700 H0 Z" fill="#59bda3" opacity="0.16"/><path d="M0 458 Q 480 379 880.0000000000001 458 T 1600 428 V 700 H0 Z" fill="#12A17C" opacity="0.23"/><path d="M0 518 Q 480 430 880.0000000000001 518 T 1600 488 V 700 H0 Z" fill="#12A17C" opacity="0.17"/><path d="M0 639 Q 480 576 880.0000000000001 639 T 1600 609 V 700 H0 Z" fill="#516b8a" opacity="0.19"/></svg>
+<rect width="1600" height="700" fill="url(#g1)"/>
+<circle cx="1184" cy="210" r="329" fill="url(#g2)"/>
+<path d="M0 280 Q 480 206 880.0000000000001 280 T 1600 250 V 700 H0 Z" fill="#e08e6d" opacity="0.21"/><path d="M0 396 Q 480 277 880.0000000000001 396 T 1600 366 V 700 H0 Z" fill="#e08e6d" opacity="0.13"/><path d="M0 499 Q 480 423 880.0000000000001 499 T 1600 469 V 700 H0 Z" fill="#4f5da0" opacity="0.17"/><path d="M0 574 Q 480 490 880.0000000000001 574 T 1600 544 V 700 H0 Z" fill="#4f5da0" opacity="0.13"/></svg>
