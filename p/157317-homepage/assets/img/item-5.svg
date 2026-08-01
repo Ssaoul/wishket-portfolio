@@ -1,4 +1,3 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
-<defs><linearGradient id="b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b3c7cc"/><stop offset="1" stop-color="#81a1aa"/></linearGradient></defs>
-<rect width="800" height="600" fill="url(#b)"/><rect x="0" y="226" width="200" height="374" fill="#2f7d8c" opacity="0.97"/><rect x="200" y="188" width="200" height="412" fill="#c38843" opacity="1.00"/><rect x="400" y="169" width="200" height="431" fill="#608893" opacity="0.76"/><rect x="600" y="174" width="200" height="426" fill="#789ba3" opacity="0.94"/>
-<circle cx="576" cy="168" r="74" fill="#bccdd1" opacity="0.5"/></svg>
+<defs><linearGradient id="b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b2d3d5"/><stop offset="1" stop-color="#81b6ba"/></linearGradient></defs>
+<rect width="800" height="600" fill="url(#b)"/><rect x="0" y="113" width="267" height="487" fill="#529ca1" opacity="0.97"/><rect x="267" y="100" width="267" height="500" fill="#e07a5f" opacity="0.90"/><rect x="533" y="212" width="267" height="388" fill="#e07a5f" opacity="1.00"/></svg>
