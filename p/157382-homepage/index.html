@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>홈 · 예측그리드 (제안용 데모)</title>
+<meta name="description" content="예측그리드 홈 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+  <section class="hero" style="padding:0">
+    <div class="hero-img" style="background-image:url('assets/img/hero.svg')"></div>
+    <div class="hero-txt"><div class="wrap" style="padding:0">
+      <div class="eyebrow">CHANNEL REVENUE FORECAST</div>
+      <h1>채널별 수익 예측을
+매월 자동으로</h1>
+      <p>담당자별 수작업으로 흩어져 있던 채널 수익 예측을 하나의 산출 로직으로 이식하고, 매월 지정일에 자동 실행합니다. 경영진과 사업부는 웹에서 연·월만 골라 결과를 바로 확인합니다.</p>
+      <div class="btns"><a class="btn solid" href="catalog.html">제품·서비스 보기</a><a class="btn line" href="about.html#contact">문의하기</a></div>
+    </div></div>
+  </section>
+  <section><div class="wrap"><div class="stats"><div class="stat"><div class="n">자동</div><div class="l">매월 지정일 배치 실행</div></div><div class="stat"><div class="n">연·월</div><div class="l">조건 검색으로 즉시 조회</div></div><div class="stat"><div class="n">Aurora</div><div class="l">사내 MySQL 직접 연동</div></div><div class="stat"><div class="n">대조</div><div class="l">이관 전후 산출 결과 검증</div></div></div></div></section>
+  <section class="alt"><div class="wrap">
+    <div class="sec-head"><span class="tag">Products</span><h2>제품·서비스</h2><p>예측그리드는 이미 검증된 사내 산출 로직을 그대로 시스템에 옮기는 일을 합니다. 새로운 계산 방식을 제안하기보다, 담당자마다 달랐던 실행 순서와 예외 처리를 하나</p></div>
+    <div class="prod-grid">
+        <article class="prod"><div class="pimg" style="background-image:url('assets/img/item-0.svg')"></div>
+          <div class="pbody"><span class="chip">데이터 연동</span><h3 style="margin-top:10px">Aurora DB 커넥터</h3>
+          <div class="desc">사내 Aurora(MySQL)에 읽기 계정으로 접속해 채널별 거래액·수익·미사용 상품권 원천 데이터를 수신합니다. 접속 정보는 코드가 아닌 환경변수로 분리합니다.</div><div class="meta"><span>MySQL · 읽기 전용 계정</span><b>자세히 →</b></div></div></article>
+        <article class="prod"><div class="pimg" style="background-image:url('assets/img/item-1.svg')"></div>
+          <div class="pbody"><span class="chip">데이터 연동</span><h3 style="margin-top:10px">채널별 원천 데이터 수집</h3>
+          <div class="desc">채널 A~D의 월 거래액과 정산 수익을 동일한 기준월 단위로 정규화해 적재합니다. 채널이 늘어도 설정만 추가하면 되도록 구성했습니다.</div><div class="meta"><span>기준월 단위 정규화</span><b>자세히 →</b></div></div></article>
+        <article class="prod"><div class="pimg" style="background-image:url('assets/img/item-2.svg')"></div>
+          <div class="pbody"><span class="chip">예측 자동화</span><h3 style="margin-top:10px">미사용 상품권 수익 산출</h3>
+          <div class="desc">발행 후 미사용 상태로 남은 상품권에서 발생하는 수익을 유효기간·환불 규칙에 따라 계산합니다. 클라이언트 제공 로직을 그대로 옮기는 것을 원칙으로 합니다.</div><div class="meta"><span>유효기간·환불 규칙 반영</span><b>자세히 →</b></div></div></article></div>
+    <div class="center mt"><a class="btn brand" href="catalog.html">전체 보기</a></div>
+  </div></section>
+  <section><div class="wrap">
+    <div class="sec-head"><span class="tag">Projects</span><h2>시공·구축 사례</h2></div>
+    <div class="gallery">
+        <div class="case" style="background-image:url('assets/img/case-0.svg')"><span class="badge">조회 화면</span>
+          <div class="cap"><div class="t">월별 채널 수익 조회 화면</div><div class="s">단일 페이지 · 합계 고정</div></div></div>
+        <div class="case" style="background-image:url('assets/img/case-1.svg')"><span class="badge">조회 화면</span>
+          <div class="cap"><div class="t">연·월 조건 검색 동작</div><div class="s">조건 공유 가능</div></div></div>
+        <div class="case" style="background-image:url('assets/img/case-2.svg')"><span class="badge">조회 화면</span>
+          <div class="cap"><div class="t">공용 계정 로그인</div><div class="s">사내 열람 전용</div></div></div></div>
+    <div class="center mt"><a class="btn brand" href="gallery.html">전체 보기</a></div>
+  </div></section>
+  <section class="alt"><div class="wrap"><div class="note"><b>제안용 데모</b> — 발주 내용을 바탕으로 자동 생성한 시안입니다. 발주에 적힌 두 모듈을 그대로 구현한 데모입니다 — Aurora(MySQL) 원천 데이터에서 채널별 거래액·수익·미사용 상품권 수익을 산출하는 월 배치 자동화, 그리고 공용 계정 로그인 뒤 연·월을 선택해 결과 목록을 조회하는 단일 페이지 웹입니다. 이관 정확성 확인을 위해 수작업 엑셀 값과의 항목별 대조 화면도 함께 넣었습니다. 브랜드·이미지·수치·사례는 모두 합성이며, 실제 구축 시 발주처 자료로 대체합니다.</div></div></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("index"); DEMO.footer();</script>
+
+</body>
+</html>
