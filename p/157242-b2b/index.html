@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>홈 · 하버링크 (제안용 데모)</title>
+<meta name="description" content="하버링크 홈 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+  <section class="hero" style="padding:0">
+    <div class="hero-img" style="background-image:url('assets/img/hero.svg')"></div>
+    <div class="hero-txt"><div class="wrap" style="padding:0">
+      <div class="eyebrow">VN-KR LOGISTICS DATA</div>
+      <h1>흩어진 물류 파트너
+데이터를 한 곳에서</h1>
+      <p>베트남–한국 항로의 회사·창고·항만·포워더·관세법인 정보를 하나의 스키마로 통합합니다. 신규 등록 건은 자동 검증 파이프라인을 거쳐 확신도에 따라 분류되고, 확인이 필요한 항목만 관리자 검토 큐로 올라옵니다.</p>
+      <div class="btns"><a class="btn solid" href="catalog.html">제품·서비스 보기</a><a class="btn line" href="about.html#contact">문의하기</a></div>
+    </div></div>
+  </section>
+  <section><div class="wrap"><div class="stats"><div class="stat"><div class="n">통합 스키마</div><div class="l">유형별 확장 필드</div></div><div class="stat"><div class="n">자동 검증</div><div class="l">웹검색·DNS·텍스트 매칭</div></div><div class="stat"><div class="n">90일 재검증</div><div class="l">주기 자동화</div></div><div class="stat"><div class="n">인라인 편집</div><div class="l">어드민 직접 수정</div></div></div></div></section>
+  <section class="alt"><div class="wrap">
+    <div class="sec-head"><span class="tag">Products</span><h2>제품·서비스</h2><p>이미 돌아가는 프로토타입을 갈아엎지 않고, 스키마와 검증 흐름부터 다시 세우는 방식으로 고도화합니다. 사람이 손으로 확인하던 판단은 자동 검증이 먼저 걸러 내고,</p></div>
+    <div class="prod-grid">
+        <article class="prod"><div class="pimg" style="background-image:url('assets/img/item-0.svg')"></div>
+          <div class="pbody"><span class="chip">파트너 데이터</span><h3 style="margin-top:10px">통합 파트너 스키마</h3>
+          <div class="desc">회사·창고·항만·포워더·관세법인·회계법인을 공통 필드로 묶고, 유형별 확장 필드를 따로 둡니다. 유형이 늘어도 테이블을 새로 파지 않습니다.</div><div class="meta"><span>PostgreSQL · 공통+확장</span><b>자세히 →</b></div></div></article>
+        <article class="prod"><div class="pimg" style="background-image:url('assets/img/item-1.svg')"></div>
+          <div class="pbody"><span class="chip">파트너 데이터</span><h3 style="margin-top:10px">지도 기반 위치 조회</h3>
+          <div class="desc">창고·항만 좌표를 지도에 올려 권역별로 확인합니다. 목록과 지도가 같은 필터를 공유합니다.</div><div class="meta"><span>Leaflet · OSM</span><b>자세히 →</b></div></div></article>
+        <article class="prod"><div class="pimg" style="background-image:url('assets/img/item-2.svg')"></div>
+          <div class="pbody"><span class="chip">검증 파이프라인</span><h3 style="margin-top:10px">신규 등록 검증 파이프라인</h3>
+          <div class="desc">계정이 등록되면 웹검색·DNS/HTTP 접속 확인·텍스트 매칭 결과를 수집해 확신도를 자동 산출합니다.</div><div class="meta"><span>Edge Function · 비동기</span><b>자세히 →</b></div></div></article></div>
+    <div class="center mt"><a class="btn brand" href="catalog.html">전체 보기</a></div>
+  </div></section>
+  <section><div class="wrap">
+    <div class="sec-head"><span class="tag">Projects</span><h2>시공·구축 사례</h2></div>
+    <div class="gallery">
+        <div class="case" style="background-image:url('assets/img/case-0.svg')"><span class="badge">대시보드</span>
+          <div class="cap"><div class="t">검증 현황 대시보드</div><div class="s">상태 배지 · 유형별 분포</div></div></div>
+        <div class="case" style="background-image:url('assets/img/case-1.svg')"><span class="badge">검토·승인</span>
+          <div class="cap"><div class="t">관리자 검토 큐</div><div class="s">근거 대조 뷰</div></div></div>
+        <div class="case" style="background-image:url('assets/img/case-2.svg')"><span class="badge">검토·승인</span>
+          <div class="cap"><div class="t">일괄 승인·반려</div><div class="s">다중 선택 · 사유 입력</div></div></div></div>
+    <div class="center mt"><a class="btn brand" href="gallery.html">전체 보기</a></div>
+  </div></section>
+  <section class="alt"><div class="wrap"><div class="note"><b>제안용 데모</b> — 발주 내용을 바탕으로 자동 생성한 시안입니다. 발주의 두 축인 통합 데이터 플랫폼(유형별 확장 필드를 가진 공통 스키마, 신규 등록 자동 검증, 확신도 분류, 90일 재검증, 검토 큐)과 어드민 고도화(인라인 편집, 검증 상태 배지, 다중 일괄 승인·반려, 신규 데이터 추가 워크플로우)를 화면으로 구현한 데모입니다. 기존 읽기 전용 어드민의 조회·검색·필터·CSV 내보내기 동작은 유지한 채 편집 기능을 얹는 방식을 그대로 반영했습니다. 브랜드·이미지·수치·사례는 모두 합성이며, 실제 구축 시 발주처 자료로 대체합니다.</div></div></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("index"); DEMO.footer();</script>
+
+</body>
+</html>
