@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>홈 · 가온평가원 (제안용 데모)</title>
+<meta name="description" content="가온평가원 홈 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+  <section class="hero" style="padding:0">
+    <div class="hero-img" style="background-image:url('assets/img/hero.svg')"></div>
+    <div class="hero-txt"><div class="wrap" style="padding:0">
+      <div class="eyebrow">ASSIGNMENT ENGINE</div>
+      <h1>신청이 몰려도
+배정은 한도 안에서</h1>
+      <p>기업 신청 건을 지역과 일일 한도에 따라 평가위원에게 자동으로 배정합니다. 화면은 기존 시스템 그대로 두고, 그 사이에서 동작하는 배정 로직만 API로 더합니다.</p>
+      <div class="btns"><a class="btn solid" href="catalog.html">제품·서비스 보기</a><a class="btn line" href="about.html#contact">문의하기</a></div>
+    </div></div>
+  </section>
+  <section><div class="wrap"><div class="stats"><div class="stat"><div class="n">동일 지역 우선</div><div class="l">1차 배정 규칙</div></div><div class="stat"><div class="n">인접 지역 우회</div><div class="l">한도 소진 시 2차</div></div><div class="stat"><div class="n">한도 초과 차단</div><div class="l">DB 수준 동시성 제어</div></div><div class="stat"><div class="n">실시간 조회</div><div class="l">위원별 당일 배정 수</div></div></div></div></section>
+  <section class="alt"><div class="wrap">
+    <div class="sec-head"><span class="tag">Products</span><h2>제품·서비스</h2><p>기존 웹사이트의 수동 배정 화면과 위원 조회 화면은 손대지 않습니다. 어느 위원에게 보낼지를 정하는 판단 부분만 API로 떼어내 붙입니다. 규칙을 코드로 옮기는 </p></div>
+    <div class="prod-grid">
+        <article class="prod"><div class="pimg" style="background-image:url('assets/img/item-0.svg')"></div>
+          <div class="pbody"><span class="chip">연동 API</span><h3 style="margin-top:10px">배정 요청 API</h3>
+          <div class="desc">기존 사이트가 신청 접수 시 호출합니다. 규칙에 따라 담당 위원을 지정하고 결과를 즉시 반환합니다.</div><div class="meta"><span>POST /assignments · 인증 키 필요</span><b>자세히 →</b></div></div></article>
+        <article class="prod"><div class="pimg" style="background-image:url('assets/img/item-1.svg')"></div>
+          <div class="pbody"><span class="chip">배정 엔진</span><h3 style="margin-top:10px">1차 동일 지역 배정</h3>
+          <div class="desc">신청 기업과 같은 시·도의 평가위원을 후보로 삼고, 당일 배정 수가 적은 위원을 먼저 고릅니다.</div><div class="meta"><span>선택 기준은 착수 전 협의로 확정</span><b>자세히 →</b></div></div></article>
+        <article class="prod"><div class="pimg" style="background-image:url('assets/img/item-2.svg')"></div>
+          <div class="pbody"><span class="chip">배정 엔진</span><h3 style="margin-top:10px">2차 인접 지역 우회</h3>
+          <div class="desc">동일 지역 위원이 모두 일일 한도에 닿으면 인접 시·도 위원 중 여유가 있는 위원으로 넘깁니다.</div><div class="meta"><span>시·도 단위 인접 관계표 기준</span><b>자세히 →</b></div></div></article></div>
+    <div class="center mt"><a class="btn brand" href="catalog.html">전체 보기</a></div>
+  </div></section>
+  <section><div class="wrap">
+    <div class="sec-head"><span class="tag">Projects</span><h2>시공·구축 사례</h2></div>
+    <div class="gallery">
+        <div class="case" style="background-image:url('assets/img/case-0.svg')"><span class="badge">배정 시나리오</span>
+          <div class="cap"><div class="t">동일 지역 정상 배정</div><div class="s">수용 기준 1</div></div></div>
+        <div class="case" style="background-image:url('assets/img/case-1.svg')"><span class="badge">배정 시나리오</span>
+          <div class="cap"><div class="t">한도 소진 후 인접 지역 우회</div><div class="s">수용 기준 2</div></div></div>
+        <div class="case" style="background-image:url('assets/img/case-2.svg')"><span class="badge">배정 시나리오</span>
+          <div class="cap"><div class="t">전원 소진 시 대기 전환</div><div class="s">수용 기준 3</div></div></div></div>
+    <div class="center mt"><a class="btn brand" href="gallery.html">전체 보기</a></div>
+  </div></section>
+  <section class="alt"><div class="wrap"><div class="note"><b>제안용 데모</b> — 발주 내용을 바탕으로 자동 생성한 시안입니다. 발주의 3단계 배정 규칙(동일 지역 → 인접 지역 우회 → 수동 배정 대기)과 위원별 일일 한도 카운터, 배정 요청·당일 현황 조회 API를 그대로 구현해 화면으로 보여주는 데모입니다. 핵심 요구인 피크 시간대 동시 신청 시 한도 초과 차단을 잔여 1 경계 조건까지 재현해 검증 결과를 함께 담았습니다. 브랜드·이미지·수치·사례는 모두 합성이며, 실제 구축 시 발주처 자료로 대체합니다.</div></div></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("index"); DEMO.footer();</script>
+
+</body>
+</html>
