@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>회사 소개 · 애드플로우 (제안용 데모)</title>
+<meta name="description" content="애드플로우 회사 소개 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+  <section style="padding-bottom:0"><div class="wrap grid2">
+    <div><div class="sec-head"><span class="tag">About</span><h2>구축 이후에도 직접 운영하도록</h2><p>퍼포먼스·콘텐츠·브랜드 마케팅을 함께 굴리는 대행사는 업무 형태가 자주 바뀝니다. 그래서 화면과 항목을 담당자가 직접 늘리고 고칠 수 있는 노코드·로우코드 구성을 택하되, 데이터는 도구별로 흩어지지 않게 하나의 저장소에 모읍니다. 인수인계 시점에는 워크플로우 설정과 연동 명세, 정산 로직 정의서를 운영 매뉴얼과 함께 넘겨 발주처가 스스로 운영을 이어갈 수 있게 합니다.</p></div></div>
+    <div class="split-img" style="background-image:url('assets/img/hero.svg')"></div>
+  </div></section>
+  <section class="alt"><div class="wrap"><div class="sec-head"><span class="tag">Process</span><h2>진행 단계</h2></div><div class="timeline"><div class="tl"><div class="y">1주차</div><div class="d">업무 규칙 정의와 데이터 구조 설계 — 광고주·프로젝트·캠페인·업무·정산을 단일 저장소 기준으로 정리</div></div><div class="tl"><div class="y">2~4주차</div><div class="d">노코드·로우코드 플랫폼 배합안 확정, 광고주·프로젝트 관리 화면 구축, 기존 엑셀 양식 정리</div></div><div class="tl"><div class="y">5~8주차</div><div class="d">네이버·구글·메타 API 연동과 지표 통일 규칙 적용, 제작 일정·업무 관리 기능 구축</div></div><div class="tl"><div class="y">9~11주차</div><div class="d">정산 계산 로직과 통합 대시보드 구축, 역할별 권한·알림·모바일 조회 화면 대응</div></div><div class="tl"><div class="y">12~13주차</div><div class="d">엑셀 자료 일괄 이관, 운영 환경 구성과 백업 설정, 사용자 교육과 관리자 권한 이관</div></div></div></div></section>
+  <section id="contact"><div class="wrap">
+    <div class="sec-head"><span class="tag">Contact</span><h2>문의</h2><p>문의를 남기시면 담당자가 연락드립니다.</p></div>
+    <div class="contact-grid">
+      <div>
+        <div class="info-row"><div class="ic">📍</div><div><div class="k">오시는 길</div><div class="v">(가상 주소) · 방문 예약제</div></div></div>
+        <div class="info-row"><div class="ic">🕘</div><div><div class="k">운영 시간</div><div class="v">평일 09:00 – 18:00</div></div></div>
+        <div class="info-row"><div class="ic">💬</div><div><div class="k">문의</div><div class="v">오른쪽 폼으로 상담 요청</div></div></div>
+      </div>
+      <form class="form" id="form" novalidate>
+        <div class="field" id="f-nm"><label>이름 *</label><input id="nm" placeholder="성함"><div class="err">이름을 입력해 주세요.</div></div>
+        <div class="field" id="f-ph"><label>연락처 *</label><input id="ph" placeholder="연락 가능한 번호"><div class="err">연락처를 입력해 주세요.</div></div>
+        <div class="field" id="f-ms"><label>문의 내용 *</label><textarea id="ms" placeholder="필요하신 내용을 적어주세요."></textarea><div class="err">문의 내용을 입력해 주세요.</div></div>
+        <button type="submit" class="btn brand" style="width:100%;justify-content:center">문의 보내기</button>
+        <div class="note" style="margin-top:12px">이 폼은 데모입니다 — 실제로 전송되지 않고 화면 동작만 재현합니다.</div>
+      </form>
+    </div>
+  </div></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("about"); DEMO.footer();</script>
+<script>
+(function(){
+  var f=document.getElementById('form'); if(!f) return;
+  f.addEventListener('submit', function(e){
+    e.preventDefault(); var ok=true;
+    [['nm','f-nm'],['ph','f-ph'],['ms','f-ms']].forEach(function(p){
+      var bad=!document.getElementById(p[0]).value.trim();
+      document.getElementById(p[1]).classList.toggle('bad', bad); if(bad) ok=false;
+    });
+    if(!ok){ DEMO.toast('필수 항목을 확인해 주세요'); return; }
+    DEMO.toast('✓ 문의가 접수되었습니다 (데모 — 실제 전송 안 함)'); f.reset();
+  });
+  if(location.hash==='#contact'){ setTimeout(function(){ var el=document.getElementById('contact'); if(el) el.scrollIntoView(); },80); }
+})();
+</script>
+</body>
+</html>
