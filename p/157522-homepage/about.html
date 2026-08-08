@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>회사 소개 · 세움파트너스 (제안용 데모)</title>
+<meta name="description" content="세움파트너스 회사 소개 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+  <section style="padding-bottom:0"><div class="wrap grid2">
+    <div><div class="sec-head"><span class="tag">About</span><h2>만들고 끝나지 않는 홈페이지</h2><p>세움파트너스는 기업 소개 웹사이트와 이를 운영할 관리자 페이지를 함께 만듭니다. 공지사항과 블로그, 접속 팝업까지 담당자가 개발자 도움 없이 직접 등록하고 수정할 수 있도록 관리 화면을 먼저 설계합니다. React와 Next.js, TypeScript, PostgreSQL로 구현하고 서버 구성과 배포까지 마친 뒤 소스 코드와 관리자 계정을 함께 넘겨드립니다.</p></div></div>
+    <div class="split-img" style="background-image:url('assets/img/hero.svg')"></div>
+  </div></section>
+  <section class="alt"><div class="wrap"><div class="sec-head"><span class="tag">Process</span><h2>진행 단계</h2></div><div class="timeline"><div class="tl"><div class="y">1주차</div><div class="d">제공된 와이어프레임 검토, 화면 목록과 데이터 구조 확정</div></div><div class="tl"><div class="y">2주차</div><div class="d">사용자 페이지 퍼블리싱 — 소개·공지·블로그·팝업 화면 구현</div></div><div class="tl"><div class="y">3주차</div><div class="d">관리자 페이지 개발 — 글 작성·수정·삭제, 팝업 등록과 노출 제어</div></div><div class="tl"><div class="y">4주차</div><div class="d">서버·데이터베이스 구성, 배포 후 관리자 계정 전달과 사용 안내</div></div></div></div></section>
+  <section id="contact"><div class="wrap">
+    <div class="sec-head"><span class="tag">Contact</span><h2>문의</h2><p>문의를 남기시면 담당자가 연락드립니다.</p></div>
+    <div class="contact-grid">
+      <div>
+        <div class="info-row"><div class="ic">📍</div><div><div class="k">오시는 길</div><div class="v">(가상 주소) · 방문 예약제</div></div></div>
+        <div class="info-row"><div class="ic">🕘</div><div><div class="k">운영 시간</div><div class="v">평일 09:00 – 18:00</div></div></div>
+        <div class="info-row"><div class="ic">💬</div><div><div class="k">문의</div><div class="v">오른쪽 폼으로 상담 요청</div></div></div>
+      </div>
+      <form class="form" id="form" novalidate>
+        <div class="field" id="f-nm"><label>이름 *</label><input id="nm" placeholder="성함"><div class="err">이름을 입력해 주세요.</div></div>
+        <div class="field" id="f-ph"><label>연락처 *</label><input id="ph" placeholder="연락 가능한 번호"><div class="err">연락처를 입력해 주세요.</div></div>
+        <div class="field" id="f-ms"><label>문의 내용 *</label><textarea id="ms" placeholder="필요하신 내용을 적어주세요."></textarea><div class="err">문의 내용을 입력해 주세요.</div></div>
+        <button type="submit" class="btn brand" style="width:100%;justify-content:center">문의 보내기</button>
+        <div class="note" style="margin-top:12px">이 폼은 데모입니다 — 실제로 전송되지 않고 화면 동작만 재현합니다.</div>
+      </form>
+    </div>
+  </div></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("about"); DEMO.footer();</script>
+<script>
+(function(){
+  var f=document.getElementById('form'); if(!f) return;
+  f.addEventListener('submit', function(e){
+    e.preventDefault(); var ok=true;
+    [['nm','f-nm'],['ph','f-ph'],['ms','f-ms']].forEach(function(p){
+      var bad=!document.getElementById(p[0]).value.trim();
+      document.getElementById(p[1]).classList.toggle('bad', bad); if(bad) ok=false;
+    });
+    if(!ok){ DEMO.toast('필수 항목을 확인해 주세요'); return; }
+    DEMO.toast('✓ 문의가 접수되었습니다 (데모 — 실제 전송 안 함)'); f.reset();
+  });
+  if(location.hash==='#contact'){ setTimeout(function(){ var el=document.getElementById('contact'); if(el) el.scrollIntoView(); },80); }
+})();
+</script>
+</body>
+</html>
