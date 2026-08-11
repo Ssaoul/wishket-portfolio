@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>회사 소개 · 채도 아뜰리에 (제안용 데모)</title>
+<meta name="description" content="채도 아뜰리에 회사 소개 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+  <section style="padding-bottom:0"><div class="wrap grid2">
+    <div><div class="sec-head"><span class="tag">About</span><h2>전형적인 상담센터의 얼굴을 벗는 일</h2><p>채도 아뜰리에는 미술치료와 심리상담을 예술의 문법으로 다시 씁니다. 병원 같은 인상 대신, 여백과 타이포그래피, 예술 재료의 질감을 앞세운 에디토리얼 화면으로 브랜드의 태도를 먼저 전합니다. 방문자는 철학과 공간을 충분히 읽은 뒤 예약으로 이동하고, 기업·기관은 별도의 맞춤 문의 동선으로 안내받습니다.</p></div></div>
+    <div class="split-img" style="background-image:url('assets/img/hero.svg')"></div>
+  </div></section>
+  <section class="alt"><div class="wrap"><div class="sec-head"><span class="tag">Process</span><h2>진행 단계</h2></div><div class="timeline"><div class="tl"><div class="y">STEP 01</div><div class="d">사이트맵·화면 설계서 확정, 브랜드 톤앤매너 정의 (착수 후 2주 내)</div></div><div class="tl"><div class="y">STEP 02</div><div class="d">워드프레스 테마 선정 및 하이엔드 커스터마이징 디자인 완료 (4주 내)</div></div><div class="tl"><div class="y">STEP 03</div><div class="d">반응형 퍼블리싱·스크롤 인터랙션 구현, 네이버 예약 위젯 연동</div></div><div class="tl"><div class="y">STEP 04</div><div class="d">CMS 세팅 — 프로그램·저널 에디터, 문의 관리, FAQ·팝업 관리 (6주 내)</div></div><div class="tl"><div class="y">STEP 05</div><div class="d">SEO 기본 세팅·이미지/영상 로딩 최적화, 관리자 매뉴얼 전달 후 오픈</div></div></div></div></section>
+  <section id="contact"><div class="wrap">
+    <div class="sec-head"><span class="tag">Contact</span><h2>문의</h2><p>문의를 남기시면 담당자가 연락드립니다.</p></div>
+    <div class="contact-grid">
+      <div>
+        <div class="info-row"><div class="ic">📍</div><div><div class="k">오시는 길</div><div class="v">(가상 주소) · 방문 예약제</div></div></div>
+        <div class="info-row"><div class="ic">🕘</div><div><div class="k">운영 시간</div><div class="v">평일 09:00 – 18:00</div></div></div>
+        <div class="info-row"><div class="ic">💬</div><div><div class="k">문의</div><div class="v">오른쪽 폼으로 상담 요청</div></div></div>
+      </div>
+      <form class="form" id="form" novalidate>
+        <div class="field" id="f-nm"><label>이름 *</label><input id="nm" placeholder="성함"><div class="err">이름을 입력해 주세요.</div></div>
+        <div class="field" id="f-ph"><label>연락처 *</label><input id="ph" placeholder="연락 가능한 번호"><div class="err">연락처를 입력해 주세요.</div></div>
+        <div class="field" id="f-ms"><label>문의 내용 *</label><textarea id="ms" placeholder="필요하신 내용을 적어주세요."></textarea><div class="err">문의 내용을 입력해 주세요.</div></div>
+        <button type="submit" class="btn brand" style="width:100%;justify-content:center">문의 보내기</button>
+        <div class="note" style="margin-top:12px">이 폼은 데모입니다 — 실제로 전송되지 않고 화면 동작만 재현합니다.</div>
+      </form>
+    </div>
+  </div></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("about"); DEMO.footer();</script>
+<script>
+(function(){
+  var f=document.getElementById('form'); if(!f) return;
+  f.addEventListener('submit', function(e){
+    e.preventDefault(); var ok=true;
+    [['nm','f-nm'],['ph','f-ph'],['ms','f-ms']].forEach(function(p){
+      var bad=!document.getElementById(p[0]).value.trim();
+      document.getElementById(p[1]).classList.toggle('bad', bad); if(bad) ok=false;
+    });
+    if(!ok){ DEMO.toast('필수 항목을 확인해 주세요'); return; }
+    DEMO.toast('✓ 문의가 접수되었습니다 (데모 — 실제 전송 안 함)'); f.reset();
+  });
+  if(location.hash==='#contact'){ setTimeout(function(){ var el=document.getElementById('contact'); if(el) el.scrollIntoView(); },80); }
+})();
+</script>
+</body>
+</html>
