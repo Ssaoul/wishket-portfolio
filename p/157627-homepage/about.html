@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>회사 소개 · 덴티스크 (제안용 데모)</title>
+<meta name="description" content="덴티스크 회사 소개 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+  <section style="padding-bottom:0"><div class="wrap grid2">
+    <div><div class="sec-head"><span class="tag">About</span><h2>데스크에서 실제로 쓰이는 순서대로 만듭니다</h2><p>치과 데스크는 전화를 받으면서 예약을 잡고, 수납을 기록하고, 다음 내원을 안내하는 일이 한 흐름으로 이어집니다. 화면을 기능 단위로 쪼개는 대신 그 흐름을 따라 배치해, 응대 중에 창을 옮겨 다니지 않도록 설계했습니다. 환자 정보는 역할별 접근 권한으로 나누고 저장 시 암호화해 개인정보보호 요구사항을 만족하도록 구성합니다.</p></div></div>
+    <div class="split-img" style="background-image:url('assets/img/hero.svg')"></div>
+  </div></section>
+  <section class="alt"><div class="wrap"><div class="sec-head"><span class="tag">Process</span><h2>진행 단계</h2></div><div class="timeline"><div class="tl"><div class="y">1단계</div><div class="d">화면 설계(IA)와 예약 스케줄러 UX, 데이터베이스 구조를 정리합니다.</div></div><div class="tl"><div class="y">2단계</div><div class="d">데스크 실사용 흐름에 맞춘 UI/UX 디자인을 확정합니다.</div></div><div class="tl"><div class="y">3단계</div><div class="d">예약·환자·수납 화면과 백엔드 API를 개발하고 연결합니다.</div></div><div class="tl"><div class="y">4단계</div><div class="d">SMS·알림톡 발송 연동과 통계 화면을 붙입니다.</div></div><div class="tl"><div class="y">5단계</div><div class="d">클라우드 서버·DB 구성, 권한 통제와 데이터 암호화를 적용하고 매뉴얼과 산출물을 전달합니다.</div></div></div></div></section>
+  <section id="contact"><div class="wrap">
+    <div class="sec-head"><span class="tag">Contact</span><h2>문의</h2><p>문의를 남기시면 담당자가 연락드립니다.</p></div>
+    <div class="contact-grid">
+      <div>
+        <div class="info-row"><div class="ic">📍</div><div><div class="k">오시는 길</div><div class="v">(가상 주소) · 방문 예약제</div></div></div>
+        <div class="info-row"><div class="ic">🕘</div><div><div class="k">운영 시간</div><div class="v">평일 09:00 – 18:00</div></div></div>
+        <div class="info-row"><div class="ic">💬</div><div><div class="k">문의</div><div class="v">오른쪽 폼으로 상담 요청</div></div></div>
+      </div>
+      <form class="form" id="form" novalidate>
+        <div class="field" id="f-nm"><label>이름 *</label><input id="nm" placeholder="성함"><div class="err">이름을 입력해 주세요.</div></div>
+        <div class="field" id="f-ph"><label>연락처 *</label><input id="ph" placeholder="연락 가능한 번호"><div class="err">연락처를 입력해 주세요.</div></div>
+        <div class="field" id="f-ms"><label>문의 내용 *</label><textarea id="ms" placeholder="필요하신 내용을 적어주세요."></textarea><div class="err">문의 내용을 입력해 주세요.</div></div>
+        <button type="submit" class="btn brand" style="width:100%;justify-content:center">문의 보내기</button>
+        <div class="note" style="margin-top:12px">이 폼은 데모입니다 — 실제로 전송되지 않고 화면 동작만 재현합니다.</div>
+      </form>
+    </div>
+  </div></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("about"); DEMO.footer();</script>
+<script>
+(function(){
+  var f=document.getElementById('form'); if(!f) return;
+  f.addEventListener('submit', function(e){
+    e.preventDefault(); var ok=true;
+    [['nm','f-nm'],['ph','f-ph'],['ms','f-ms']].forEach(function(p){
+      var bad=!document.getElementById(p[0]).value.trim();
+      document.getElementById(p[1]).classList.toggle('bad', bad); if(bad) ok=false;
+    });
+    if(!ok){ DEMO.toast('필수 항목을 확인해 주세요'); return; }
+    DEMO.toast('✓ 문의가 접수되었습니다 (데모 — 실제 전송 안 함)'); f.reset();
+  });
+  if(location.hash==='#contact'){ setTimeout(function(){ var el=document.getElementById('contact'); if(el) el.scrollIntoView(); },80); }
+})();
+</script>
+</body>
+</html>
