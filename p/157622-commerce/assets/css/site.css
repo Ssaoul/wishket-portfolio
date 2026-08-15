@@ -2,10 +2,10 @@
    색상 규칙: 검증된 팔레트 4색(brand·brand-2·accent·dark)만 사용한다.
    무채색(paper/ink/line)은 전부 palette 의 paper·dark 에서 파생시켜 새 색상이 생기지 않게 한다. */
 :root{
-  --paper:#f8f8fc; --paper-2:#eeeef2; --paper-3:#dfdfe3;
-  --ink:#181d40; --ink-2:#626685; --ink-3:#9396ab; --ink-4:#bcbdcb;
-  --line:rgba(30,36,80,.14); --line-2:rgba(30,36,80,.07);
-  --brand:#33417e; --brand-2:#4f5da0; --accent:#e08e6d; --dark:#1e2450;
+  --paper:#f9f9f7; --paper-2:#efefed; --paper-3:#e0e0de;
+  --ink:#121925; --ink-2:#5c626d; --ink-3:#8f939b; --ink-4:#b9bcc0;
+  --line:rgba(22,31,46,.14); --line-2:rgba(22,31,46,.07);
+  --brand:#1f3352; --brand-2:#3a5480; --accent:#d4a24c; --dark:#161f2e;
   --sans:'Pretendard Variable','Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif;
   --serif:'Nanum Myeongjo','Noto Serif KR',Georgia,serif;
   --wrap:1200px; --gut:clamp(18px,5vw,56px); --ease:cubic-bezier(.22,.61,.36,1); --hdr:66px;
