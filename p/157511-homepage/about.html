@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>회사 소개 · 정한정밀 (제안용 데모)</title>
+<meta name="description" content="정한정밀 회사 소개 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+  <section style="padding-bottom:0"><div class="wrap grid2">
+    <div><div class="sec-head"><span class="tag">About</span><h2>현장이 문서를 찾지 않게 합니다</h2><p>작업표준이 인쇄물과 개별 PC 파일로 관리되면 개정본이 현장에 늦게 닿고, 작업자는 지금 하는 공정과 무관하게 문서를 뒤져야 합니다. 정한정밀의 작업표준 자동 표시 시스템은 메인 PC가 자료와 설정을 보관하고 각 공정 PC가 현재 공정의 표준을 자동으로 띄우는 구조로 이 과정을 없앱니다. Windows 10/11에서 동작하며, 콘텐츠 교체와 공정 순서 편집은 개발자 없이 현업 엔지니어가 직접 합니다.</p></div></div>
+    <div class="split-img" style="background-image:url('assets/img/hero.svg')"></div>
+  </div></section>
+  <section class="alt"><div class="wrap"><div class="sec-head"><span class="tag">Process</span><h2>진행 단계</h2></div><div class="timeline"><div class="tl"><div class="y">1단계</div><div class="d">상세 기획 — 요구사항 정의서 최종화, 화면 설계서 및 메뉴 구조도, PLC 인터페이스 규격서(주소맵), 공정 순서 정의 파일 형식 설계</div></div><div class="tl"><div class="y">2단계</div><div class="d">UI/UX 디자인 — 키오스크형 전체화면 설계, 터치·비터치 겸용 조작, 한국어·영어·스페인어 다국어 화면</div></div><div class="tl"><div class="y">3단계</div><div class="d">클라이언트 개발 — 공정 PC용 모델 선택·작업·경고 화면 구현, PDF 렌더링 및 공정 순환 로직</div></div><div class="tl"><div class="y">4단계</div><div class="d">메인 PC·연동 개발 — 자료·설정 관리 및 배포, PLC 통신 모듈, 콘텐츠 관리 로직, 통신 예외 처리</div></div><div class="tl"><div class="y">5단계</div><div class="d">시험·현장 적용 — 단위·통합·현장 시험, 설치 패키지 및 운영 지침서, 관리자 교육(콘텐츠 교체·설정 변경 실습)</div></div></div></div></section>
+  <section id="contact"><div class="wrap">
+    <div class="sec-head"><span class="tag">Contact</span><h2>문의</h2><p>문의를 남기시면 담당자가 연락드립니다.</p></div>
+    <div class="contact-grid">
+      <div>
+        <div class="info-row"><div class="ic">📍</div><div><div class="k">오시는 길</div><div class="v">(가상 주소) · 방문 예약제</div></div></div>
+        <div class="info-row"><div class="ic">🕘</div><div><div class="k">운영 시간</div><div class="v">평일 09:00 – 18:00</div></div></div>
+        <div class="info-row"><div class="ic">💬</div><div><div class="k">문의</div><div class="v">오른쪽 폼으로 상담 요청</div></div></div>
+      </div>
+      <form class="form" id="form" novalidate>
+        <div class="field" id="f-nm"><label>이름 *</label><input id="nm" placeholder="성함"><div class="err">이름을 입력해 주세요.</div></div>
+        <div class="field" id="f-ph"><label>연락처 *</label><input id="ph" placeholder="연락 가능한 번호"><div class="err">연락처를 입력해 주세요.</div></div>
+        <div class="field" id="f-ms"><label>문의 내용 *</label><textarea id="ms" placeholder="필요하신 내용을 적어주세요."></textarea><div class="err">문의 내용을 입력해 주세요.</div></div>
+        <button type="submit" class="btn brand" style="width:100%;justify-content:center">문의 보내기</button>
+        <div class="note" style="margin-top:12px">이 폼은 데모입니다 — 실제로 전송되지 않고 화면 동작만 재현합니다.</div>
+      </form>
+    </div>
+  </div></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("about"); DEMO.footer();</script>
+<script>
+(function(){
+  var f=document.getElementById('form'); if(!f) return;
+  f.addEventListener('submit', function(e){
+    e.preventDefault(); var ok=true;
+    [['nm','f-nm'],['ph','f-ph'],['ms','f-ms']].forEach(function(p){
+      var bad=!document.getElementById(p[0]).value.trim();
+      document.getElementById(p[1]).classList.toggle('bad', bad); if(bad) ok=false;
+    });
+    if(!ok){ DEMO.toast('필수 항목을 확인해 주세요'); return; }
+    DEMO.toast('✓ 문의가 접수되었습니다 (데모 — 실제 전송 안 함)'); f.reset();
+  });
+  if(location.hash==='#contact'){ setTimeout(function(){ var el=document.getElementById('contact'); if(el) el.scrollIntoView(); },80); }
+})();
+</script>
+</body>
+</html>
