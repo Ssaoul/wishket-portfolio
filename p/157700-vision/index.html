@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>홈 · 레이스픽 (제안용 데모)</title>
+<meta name="description" content="레이스픽 홈 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+  <section class="hero" style="padding:0">
+    <div class="hero-img" style="background-image:url('assets/img/hero.svg')"></div>
+    <div class="hero-txt"><div class="wrap" style="padding:0">
+      <div class="eyebrow">BIB · FACE · OUTFIT</div>
+      <h1>100만 장 속에서
+내 사진만 0.1초에</h1>
+      <p>마라톤·스포츠 대회에서 쏟아지는 고화질 사진을 한 번의 배치로 자동 분류·색인합니다. 참가자는 배번호만 입력하면 본인 사진을 바로 찾습니다.</p>
+      <div class="btns"><a class="btn solid" href="catalog.html">제품·서비스 보기</a><a class="btn line" href="about.html#contact">문의하기</a></div>
+    </div></div>
+  </section>
+  <section><div class="wrap"><div class="stats"><div class="stat"><div class="n">배치 1회</div><div class="l">사전 색인 후 조회는 DB에서</div></div><div class="stat"><div class="n">3단 매칭</div><div class="l">배번호 · 얼굴 · 의상</div></div><div class="stat"><div class="n">2-Pass</div><div class="l">미식별 구제 + 오탐 배제</div></div><div class="stat"><div class="n">On-Demand</div><div class="l">배치 때만 GPU 가동·자동 회수</div></div></div></div></section>
+  <section class="alt"><div class="wrap">
+    <div class="sec-head"><span class="tag">Products</span><h2>제품·서비스</h2><p>레이스픽은 스포츠 대회 사진을 한 번의 배치로 분류·색인하는 백엔드 파이프라인을 만듭니다. 배번호가 보이는 사진은 검출과 OCR로, 가려진 사진은 얼굴과 의상 벡</p></div>
+    <div class="prod-grid">
+        <article class="prod"><div class="pimg" style="background-image:url('assets/img/item-0.svg')"></div>
+          <div class="pbody"><span class="chip">Vision AI 파이프라인</span><h3 style="margin-top:10px">배번호 검출 (YOLO)</h3>
+          <div class="desc">번호표 영역을 BBox로 감지하고, 가려짐·흔들림·역광 프레임은 별도 큐로 분리해 후속 유사도 매칭 대상으로 넘깁니다.</div><div class="meta"><span>YOLOv8/v11 · OpenCV</span><b>자세히 →</b></div></div></article>
+        <article class="prod"><div class="pimg" style="background-image:url('assets/img/item-1.svg')"></div>
+          <div class="pbody"><span class="chip">Vision AI 파이프라인</span><h3 style="margin-top:10px">배번호 OCR 판독</h3>
+          <div class="desc">검출된 번호표를 OCR로 읽고 대회별 배번호 정규식으로 필터링해, 광고 문구·기록칩 숫자 같은 오독을 걸러냅니다.</div><div class="meta"><span>PaddleOCR / EasyOCR</span><b>자세히 →</b></div></div></article>
+        <article class="prod"><div class="pimg" style="background-image:url('assets/img/item-2.svg')"></div>
+          <div class="pbody"><span class="chip">Vision AI 파이프라인</span><h3 style="margin-top:10px">Golden Sample 생성</h3>
+          <div class="desc">배번호 인식에 성공한 사진군에서 참가자별 대표 얼굴 벡터와 상체 의상 벡터를 자동 추출해 기준값으로 저장합니다.</div><div class="meta"><span>InsightFace · HSV/ReID</span><b>자세히 →</b></div></div></article></div>
+    <div class="center mt"><a class="btn brand" href="catalog.html">전체 보기</a></div>
+  </div></section>
+  <section><div class="wrap">
+    <div class="sec-head"><span class="tag">Projects</span><h2>시공·구축 사례</h2></div>
+    <div class="gallery">
+        <div class="case" style="background-image:url('assets/img/case-0.svg')"><span class="badge">관리자 콘솔</span>
+          <div class="cap"><div class="t">대량 업로드 트리거</div><div class="s">대회 선택 → 경로 지정 → 배치 시작</div></div></div>
+        <div class="case" style="background-image:url('assets/img/case-1.svg')"><span class="badge">관리자 콘솔</span>
+          <div class="cap"><div class="t">배치 진행률 모니터링</div><div class="s">단계별 진행률 · 워커 현황</div></div></div>
+        <div class="case" style="background-image:url('assets/img/case-2.svg')"><span class="badge">관리자 콘솔</span>
+          <div class="cap"><div class="t">GPU 워커 · 비용 뷰</div><div class="s">인스턴스 가동/회수 이력</div></div></div></div>
+    <div class="center mt"><a class="btn brand" href="gallery.html">전체 보기</a></div>
+  </div></section>
+  <section class="alt"><div class="wrap"><div class="note"><b>제안용 데모</b> — 발주 내용을 바탕으로 자동 생성한 시안입니다. 발주의 AI 파이프라인(YOLO 배번호 검출 → OCR 판독 → Golden Sample 얼굴·의상 벡터 → 2-Pass 유사도 필터링)과 대용량 배치 인프라(Celery+Redis 분산 큐, Spot GPU 자동 회수, 매핑 테이블 색인)를 화면 단위로 옮겨 놓은 데모입니다. 관리자용 업로드 트리거·진행률 모니터링과 참가자용 배번호 조회까지 API 흐름 그대로 구성했고, 프런트엔드는 인하우스 개발 전제에 맞춰 백엔드 계약을 보여주는 데 초점을 뒀습니다. 브랜드·이미지·수치·사례는 모두 합성이며, 실제 구축 시 발주처 자료로 대체합니다.</div></div></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("index"); DEMO.footer();</script>
+
+</body>
+</html>
