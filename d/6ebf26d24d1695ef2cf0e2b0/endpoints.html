@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title> · 기사밥상 멤버패스 (제안용 데모)</title>
+<meta name="description" content="기사밥상 멤버패스  — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>엔드포인트</h2><p>요청과 응답의 계약을 먼저 못박는다</p></div><div class="field"><b>POST /v1/auth/qr</b><p>QR 스캔값으로 회원 여부 확인, 인증세션 발급</p><pre class="note">요청 {&quot;deviceId&quot;:&quot;KIOSK-LG-01&quot;,&quot;qrPayload&quot;:&quot;MP:MBR-2026-004173:9f21c8&quot;,&quot;scannedAt&quot;:&quot;2026-08-21T11:42:10+09:00&quot;}
+응답 {&quot;authId&quot;:&quot;AUTH-20260821-0417&quot;,&quot;member&quot;:true,&quot;memberNo&quot;:&quot;MBR-2026-004173&quot;,&quot;displayName&quot;:&quot;김*수&quot;,&quot;tier&quot;:&quot;기사회원&quot;,&quot;expiresIn&quot;:180}</pre></div><div class="field"><b>POST /v1/auth/phone</b><p>휴대폰 뒷자리 입력 방식(카메라 없는 포스 대안 경로)</p><pre class="note">요청 {&quot;deviceId&quot;:&quot;POS-MINI-03&quot;,&quot;phoneTail&quot;:&quot;7412&quot;,&quot;nameHint&quot;:&quot;김&quot;}
+응답 {&quot;authId&quot;:&quot;AUTH-20260821-0418&quot;,&quot;member&quot;:true,&quot;memberNo&quot;:&quot;MBR-2026-004173&quot;,&quot;matchCount&quot;:1,&quot;expiresIn&quot;:180}</pre></div><div class="field"><b>POST /v1/pricing/quote</b><p>장바구니에 회원 단가를 적용해 결제 전 최종 금액 산출</p><pre class="note">요청 {&quot;authId&quot;:&quot;AUTH-20260821-0417&quot;,&quot;items&quot;:[{&quot;menuCode&quot;:&quot;MN-BEKJ-01&quot;,&quot;qty&quot;:1},{&quot;menuCode&quot;:&quot;MN-GBAP-02&quot;,&quot;qty&quot;:1}]}
+응답 {&quot;quoteId&quot;:&quot;QT-20260821-1173&quot;,&quot;listTotal&quot;:16000,&quot;memberTotal&quot;:11000,&quot;discount&quot;:5000,&quot;appliedRule&quot;:&quot;DRIVER_FIXED_PRICE&quot;,&quot;validUntil&quot;:&quot;2026-08-21T11:45:10+09:00&quot;}</pre></div><div class="field"><b>POST /v1/payments/commit</b><p>결제 승인 결과와 적용 금액을 확정 기록(멱등)</p><pre class="note">요청 {&quot;idempotencyKey&quot;:&quot;PAY-KIOSK-LG-01-20260821-114312&quot;,&quot;quoteId&quot;:&quot;QT-20260821-1173&quot;,&quot;authId&quot;:&quot;AUTH-20260821-0417&quot;,&quot;approvalNo&quot;:&quot;00418822&quot;,&quot;paidAmount&quot;:11000}
+응답 {&quot;paymentId&quot;:&quot;PAY-20260821-00931&quot;,&quot;status&quot;:&quot;COMMITTED&quot;,&quot;replayed&quot;:false,&quot;discountApplied&quot;:5000}</pre></div><div class="field"><b>POST /v1/members/import</b><p>엑셀·구글시트 명단 주 1회 업로드(차이 반영, 전량 교체 아님)</p><pre class="note">요청 {&quot;batchId&quot;:&quot;IMP-2026W34&quot;,&quot;source&quot;:&quot;google_sheet&quot;,&quot;rows&quot;:312,&quot;mode&quot;:&quot;upsert&quot;}
+응답 {&quot;batchId&quot;:&quot;IMP-2026W34&quot;,&quot;inserted&quot;:11,&quot;updated&quot;:6,&quot;skipped&quot;:2,&quot;rejected&quot;:3,&quot;reportUrl&quot;:&quot;/v1/members/import/IMP-2026W34/report&quot;}</pre></div><div class="field"><b>GET /v1/devices/{deviceId}/health</b><p>단말 상태·오프라인 대기건 확인(운영자 화면·배포 후 점검용)</p><pre class="note">요청 {&quot;deviceId&quot;:&quot;KIOSK-LG-01&quot;}
+응답 {&quot;deviceId&quot;:&quot;KIOSK-LG-01&quot;,&quot;online&quot;:true,&quot;pendingCommits&quot;:2,&quot;lastSyncAt&quot;:&quot;2026-08-21T11:40:02+09:00&quot;,&quot;sdkVersion&quot;:&quot;plugin-1.4.2&quot;}</pre></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("endpoints"); DEMO.footer();</script>
+
+</body>
+</html>
