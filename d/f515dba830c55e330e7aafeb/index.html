@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>홈 · 기사밥상 멤버패스 (제안용 데모)</title>
+<meta name="description" content="기사밥상 멤버패스 홈 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="hero"><div class="hero-txt">
+<p class="pill">MembersPass for Toss Place Kiosk — Driver Membership Discount</p>
+<h1>키오스크에서 메뉴 고르기 전 '회원 인증 → 회원가 자동 적용 → 결제 전송 → 관리자 명단·QR 처리'까지 한 바퀴가 실제로 도는 화면입니다.</h1>
+<p>어려운 지점은 할인 계산이 아니라 '인증을 어느 시점에 두느냐'와 '인증이 실패했을 때 줄이 멈추지 않게 하는 것'입니다. 대형 키오스크와 소형 포스는 카메라 유무가 달라 같은 화면을 쓸 수 없고, 주 1회 엑셀 업로드는 중복 번호·서식 오류가 반드시 섞여 들어옵니다. 그래서 이 데모는 성공 흐름과 함께 인증 실패·명단 미등록·QR 만료·업로드 반려를 같이 담았습니다.</p>
+</div></section><section class="wrap"><div class="stats"><div class="stat"><b>2가지</b><span>인증 방식 (QR · 휴대폰 뒷4자리)</span></div><div class="stat"><b>4단계</b><span>결제 전·중·후 데이터 전송 구간</span></div><div class="stat"><b>2종</b><span>대응 단말 (대형 키오스크 · 포스)</span></div><div class="stat"><b>주 1회</b><span>회원 명단 수동 반영 주기</span></div></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section><section class="wrap"><div class="sec-head"><h2>이용 흐름</h2><p>사용자가 하는 일이 끊기지 않는다</p></div><div class="timeline"><div class="tl"><b>1. 1. 고객 구분 선택</b><span>첫 화면에서 '기사 회원' 또는 '일반 고객'을 고른다. 일반 고객은 인증 없이 바로 메뉴로 넘어간다.</span></div><div class="tl"><b>2. 2. 회원 인증</b><span>기사 회원은 QR을 카메라에 대거나, 카메라가 없는 포스에서는 휴대폰 뒷4자리를 눌러 명단과 대조한다.</span></div><div class="tl"><b>3. 3. 인증 결과 확인</b><span>성공하면 '회원 확인 · 김○○ 님' 안내와 함께 회원가 화면으로 전환된다. 실패하면 사유(미등록·번호 불일치·QR 만료)를 그대로 보여주고 재시도 또는 일반가 진행을 고른다.</span></div><div class="tl"><b>4. 4. 메뉴 선택 · 금액 확인</b><span>회원가와 정상가를 함께 표시해 차감액이 얼마인지 결제 전에 보이게 한다. 할인 제외 품목은 배지로 구분한다.</span></div><div class="tl"><b>5. 5. 결제 · 내역 저장</b><span>결제 요청 시 인증결과·회원번호·적용단가·차감액을 함께 전송하고, 결제 완료·취소·중단 각각을 내역으로 남긴다.</span></div></div></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("index"); DEMO.footer();</script>
+
+</body>
+</html>
