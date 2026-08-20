@@ -3,18 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>홈 · 기사밥상 멤버패스 (제안용 데모)</title>
-<meta name="description" content="기사밥상 멤버패스 홈 — 제안용 데모 · 합성 데이터.">
+<title>홈 · 기사밥상 회원인증 브릿지 (제안용 데모)</title>
+<meta name="description" content="기사밥상 회원인증 브릿지 홈 — 제안용 데모 · 합성 데이터.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="assets/css/site.css">
 </head>
 <body>
 <main>
 <section class="hero"><div class="hero-txt">
-<p class="pill">MemberPass — Kiosk Membership Discount Bridge for Taxi Driver Diners</p>
-<h1>키오스크에서 회원을 인증하고 할인가를 적용해 결제까지 넘기는 전 구간의 요청/응답 계약과, 실패·중복·재시도 처리를 실제 응답으로 보여주는 데모입니다.</h1>
-<p>키오스크는 네트워크가 끊겨도 손님은 그 앞에 서 있습니다. QR 인식이 한 번에 안 되거나, 결제 승인 직후 응답이 유실돼 같은 주문이 두 번 올라가거나, 주 1회 올린 엑셀 명단에 중복 번호가 섞여 있을 때 무엇을 어떻게 처리할지가 이 시스템의 실제 난이도입니다. 대형 키오스크와 소형 포스가 같은 계약을 쓰되 카메라 유무만 다르게 분기하도록 설계했습니다.</p>
-</div></section><section class="wrap"><div class="stats"><div class="stat"><b>6종</b><span>공개 엔드포인트</span></div><div class="stat"><b>3단계</b><span>결제 전·중·후 전송 지점</span></div><div class="stat"><b>6종</b><span>정의된 실패 코드</span></div><div class="stat"><b>24시간</b><span>멱등키 보존 창</span></div></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section><section class="wrap"><div class="sec-head"><h2>연동 구성</h2><p>무엇과 무엇이 어떤 순서로 오가는가</p></div><div class="timeline"><div class="tl"><b>1. POST /v1/auth/qr</b><span>QR 스캔값으로 회원 여부 확인, 인증세션 발급</span></div><div class="tl"><b>2. POST /v1/auth/phone</b><span>휴대폰 뒷자리 입력 방식(카메라 없는 포스 대안 경로)</span></div><div class="tl"><b>3. POST /v1/pricing/quote</b><span>장바구니에 회원 단가를 적용해 결제 전 최종 금액 산출</span></div><div class="tl"><b>4. POST /v1/payments/commit</b><span>결제 승인 결과와 적용 금액을 확정 기록(멱등)</span></div></div><p class="note">키오스크 단말은 개발자센터에 등록된 단말ID와 발급 키로만 API를 호출하고, 인증세션(authId)은 3분 뒤 만료돼 화면에 남은 회원 정보가 다음 손님에게 이어지지 않습니다. 회원 조회 응답에는 회원번호·마스킹된 성명만 담고 전체 휴대폰번호는 어떤 응답에도 실리지 않으며, 명단 업로드·조회는 운영자 계정 권한으로 분리했습니다. 결제 확정은 단말이 만든 멱등키(단말ID+일시)를 기준으로 24시간 동안 동일 요청을 같은 결과로 되돌려주므로, 네트워크가 끊겨 단말이 재전송하더라도 결제건과 할인 내역이 두 번 쌓이지 않습니다.</p></section>
+<p class="pill">Kiosk Membership Discount Bridge · Plugin ↔ Member API</p>
+<h1>키오스크 플러그인과 회원 서버 사이의 요청/응답 계약을 실제 페이로드로 고정하고, 통신 끊김·중복 결제·명단 갱신 실패까지 처리 경로를 그려 둔 연동 설계 데모입니다.</h1>
+<p>할인은 화면이 아니라 계약에서 어긋납니다. 인증은 됐는데 응답이 늦어 정상가로 결제되거나, 손님이 [인증] 버튼을 두 번 눌러 할인이 두 번 적용되거나, 주 1회 올리는 엑셀 명단에 중복 번호·공백이 섞여 어제 되던 기사님이 오늘 미인증으로 뜨는 식입니다. 그래서 이 데모는 성공 화면이 아니라 타임아웃·중복·명단 오류가 났을 때 키오스크가 무엇을 띄우고 서버가 무엇을 남기는지를 먼저 보여줍니다.</p>
+</div></section><section class="wrap"><div class="stats"><div class="stat"><b>6종</b><span>확정 엔드포인트</span></div><div class="stat"><b>5단계</b><span>결제 전·중·후 상태</span></div><div class="stat"><b>6종</b><span>정의된 실패 코드</span></div><div class="stat"><b>400ms</b><span>인증 응답 목표(초과 시 정상가 폴백)</span></div></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section><section class="wrap"><div class="sec-head"><h2>연동 구성</h2><p>무엇과 무엇이 어떤 순서로 오가는가</p></div><div class="timeline"><div class="tl"><b>1. POST /v1/auth/verify</b><span>QR 또는 휴대폰번호로 회원 여부 확인 → 인증세션 발급(유효 180초)</span></div><div class="tl"><b>2. POST /v1/auth/verify</b><span>휴대폰번호 대안 인증(동일 계약·credential 형식만 다름)</span></div><div class="tl"><b>3. POST /v1/price/quote</b><span>장바구니에 인증세션을 붙여 회원가·정상가 확정(결제 전)</span></div><div class="tl"><b>4. POST /v1/settlement/commit</b><span>토스 결제 승인 결과를 인증세션·견적과 묶어 확정 기록(결제 후)</span></div></div><p class="note">키오스크 플러그인은 매장 단위로 발급한 단말 키로 서명하고, 서버는 등록된 deviceId 목록에 있는 단말의 요청만 받습니다(개인 회원 정보는 단말에 저장하지 않고, 응답도 마스킹된 값만 내려갑니다). 중복 방지는 두 단계입니다 — 인증 요청은 requestId로, 결제 확정은 '단말ID:견적ID' 조합의 idempotencyKey로 묶어, 같은 키가 다시 들어오면 새로 처리하지 않고 최초 결과를 그대로 돌려줍니다(duplicated:true). 재시도는 인증·견적 조회처럼 상태를 바꾸지 않는 호출만 자동으로(최대 2회, 200ms·600ms 간격) 수행하고, 결제 확정은 자동 재시도 대신 관리자 큐에 남겨 사람이 판단하도록 했습니다.</p></section>
 </main>
 <script src="assets/js/site.js"></script>
 <script>DEMO.chrome("index"); DEMO.footer();</script>

@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title> · 기사밥상 멤버패스 (제안용 데모)</title>
-<meta name="description" content="기사밥상 멤버패스  — 제안용 데모 · 합성 데이터.">
+<title> · 기사밥상 회원인증 브릿지 (제안용 데모)</title>
+<meta name="description" content="기사밥상 회원인증 브릿지  — 제안용 데모 · 합성 데이터.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="assets/css/site.css">
 </head>
 <body>
 <main>
-<section class="wrap"><div class="sec-head"><h2>필드 매핑</h2><p>외부 스키마가 바뀌어도 여기만 고친다</p></div><table class="tbl"><thead><tr><th>외부 필드</th><th>내부 필드</th><th>변환 규칙</th></tr></thead><tbody><tr><td>성명 (엑셀 A열)</td><td>member.name</td><td>앞뒤 공백 제거, 화면에는 가운데 글자 마스킹(김*수)으로만 노출</td></tr><tr><td>휴대폰번호 (엑셀 B열)</td><td>member.phoneHash / phoneTail</td><td>하이픈·공백 제거 후 11자리 검증 → 전체는 해시 저장, 뒷 4자리만 조회용으로 별도 보관</td></tr><tr><td>QR 스캔값</td><td>auth.memberNo</td><td>`MP:&lt;회원번호&gt;:&lt;검증코드6자리&gt;` 형식 파싱, 검증코드 불일치 시 즉시 거절</td></tr><tr><td>키오스크 장바구니 menuCode</td><td>pricing.menuCode</td><td>포스 메뉴코드와 1:1 매핑표 유지, 미등록 코드는 할인 미적용·정상가 처리</td></tr><tr><td>결제 승인번호</td><td>payment.approvalNo</td><td>문자열로 보존(선행 0 유실 방지), 일자+단말ID와 묶어 유일성 확인</td></tr><tr><td>단말 구분 (대형/소형)</td><td>device.profile</td><td>KIOSK=카메라 인증 우선, POS=번호 입력 우선. 계약은 동일, 기본 진입 화면만 분기</td></tr><tr><td>회원 적용 단가</td><td>pricing.memberPrice</td><td>할인율이 아닌 회원 전용 고정단가 테이블 참조(반올림 오차 제거)</td></tr><tr><td>업로드 시각</td><td>import.effectiveFrom</td><td>업로드 완료 시각 기준 즉시 반영, 이전 배치는 이력으로 보존해 되돌리기 가능</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+<section class="wrap"><div class="sec-head"><h2>필드 매핑</h2><p>외부 스키마가 바뀌어도 여기만 고친다</p></div><table class="tbl"><thead><tr><th>외부 필드</th><th>내부 필드</th><th>변환 규칙</th></tr></thead><tbody><tr><td>성명 (엑셀 A열)</td><td>member.name</td><td>앞뒤 공백·중간 이중공백 제거. 화면 노출은 항상 마스킹(김*수)</td></tr><tr><td>휴대폰번호 (엑셀 B열)</td><td>member.phoneHash</td><td>하이픈·공백 제거 → 11자리 검증 → SHA-256 해시 저장. 평문은 저장하지 않음</td></tr><tr><td>휴대폰번호 뒤 4자리</td><td>member.phoneTail</td><td>조회 성능용 인덱스 및 화면 확인용. 단독으로는 인증 불가</td></tr><tr><td>QR 코드값 (발급 시 생성)</td><td>member.qrToken</td><td>TXD-XXXX-XXXX 형식. 재발급 시 이전 토큰 즉시 폐기(revoked)</td></tr><tr><td>토스 플러그인 deviceId</td><td>store.terminalId</td><td>KIOSK-* → 대형 키오스크, POS-* → 소형 포스. 미등록 단말은 인증 거부</td></tr><tr><td>토스 결제 paymentKey</td><td>settlement.paymentKey</td><td>정산 원장의 자연키. quoteId와 1:1, 중복 수신 시 기존 건 반환</td></tr><tr><td>메뉴 코드 (포스 상품코드)</td><td>menu.menuCode</td><td>M-XXX-NN 로 정규화. 미매핑 코드는 할인 대상 제외(정상가)</td></tr><tr><td>회원가 (관리자 입력)</td><td>price.memberAmount</td><td>정상가보다 크거나 음수면 저장 거부. 변경 이력은 적용 시각과 함께 보존</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
 </main>
 <script src="assets/js/site.js"></script>
 <script>DEMO.chrome("mapping"); DEMO.footer();</script>
