@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>회사 소개 · 셀트레이스 (제안용 데모)</title>
+<meta name="description" content="셀트레이스 회사 소개 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+  <section style="padding-bottom:0"><div class="wrap grid2">
+    <div><div class="sec-head"><span class="tag">About</span><h2>화면 수가 아니라, 데이터가 들어오는 입구</h2><p>이 시스템의 난이도는 대시보드가 아니라 장비마다 다른 출력 양식과 무인으로 도는 수집 프로그램에 있습니다. 그래서 정상 경로보다 실패 경로를 먼저 설계합니다 — 파싱이 어긋난 건, LOT이 붙지 않은 건, 프로그램이 멈춘 건이 조용히 묻히지 않고 목록과 알림으로 드러나게 만듭니다. 원본 파일은 어떤 경로로도 수정되지 않도록 보관하고, 모든 활동은 변경 전후 값과 함께 기록해 연구 데이터의 증빙 가치를 지킵니다.</p></div></div>
+    <div class="split-img" style="background-image:url('assets/img/hero.svg')"></div>
+  </div></section>
+  <section class="alt"><div class="wrap"><div class="sec-head"><span class="tag">Process</span><h2>진행 단계</h2></div><div class="timeline"><div class="tl"><div class="y">1단계</div><div class="d">요구사항정의서·기능정의서 확정. 장비 8~10종 실제 출력 양식 확보와 매핑 정의서 작성, 운영 환경(사내 서버/폐쇄형 클라우드) 비용·보안 비교 제안.</div></div><div class="tl"><div class="y">2단계</div><div class="d">데이터베이스 스키마 설계. LOT·레시피·환경값·측정값 구조와 감사 로그, 추후 AI 활용을 고려한 연구노트 구조화 스키마를 함께 정의.</div></div><div class="tl"><div class="y">3단계</div><div class="d">장비 PC용 수집 프로그램 개발. 파일 감지·전송·원본 무결성 보관, 파싱 실패와 네트워크 단선 시 오류 기록과 담당자 알림, 설치 패키지 배포.</div></div><div class="tl"><div class="y">4단계</div><div class="d">중앙 웹 시스템 개발. LOT 계통도, 계산식 엔진과 버전 관리, 그래프 겹쳐보기, 연구노트, 역할별 권한과 감사 로그.</div></div><div class="tl"><div class="y">5단계</div><div class="d">통합 검증과 폐쇄망 백업·복구 점검. 설치·운영 매뉴얼 제공 및 연구원 대상 사용 교육.</div></div></div></div></section>
+  <section id="contact"><div class="wrap">
+    <div class="sec-head"><span class="tag">Contact</span><h2>문의</h2><p>문의를 남기시면 담당자가 연락드립니다.</p></div>
+    <div class="contact-grid">
+      <div>
+        <div class="info-row"><div class="ic">📍</div><div><div class="k">오시는 길</div><div class="v">(가상 주소) · 방문 예약제</div></div></div>
+        <div class="info-row"><div class="ic">🕘</div><div><div class="k">운영 시간</div><div class="v">평일 09:00 – 18:00</div></div></div>
+        <div class="info-row"><div class="ic">💬</div><div><div class="k">문의</div><div class="v">오른쪽 폼으로 상담 요청</div></div></div>
+      </div>
+      <form class="form" id="form" novalidate>
+        <div class="field" id="f-nm"><label>이름 *</label><input id="nm" placeholder="성함"><div class="err">이름을 입력해 주세요.</div></div>
+        <div class="field" id="f-ph"><label>연락처 *</label><input id="ph" placeholder="연락 가능한 번호"><div class="err">연락처를 입력해 주세요.</div></div>
+        <div class="field" id="f-ms"><label>문의 내용 *</label><textarea id="ms" placeholder="필요하신 내용을 적어주세요."></textarea><div class="err">문의 내용을 입력해 주세요.</div></div>
+        <button type="submit" class="btn brand" style="width:100%;justify-content:center">문의 보내기</button>
+        <div class="note" style="margin-top:12px">이 폼은 데모입니다 — 실제로 전송되지 않고 화면 동작만 재현합니다.</div>
+      </form>
+    </div>
+  </div></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("about"); DEMO.footer();</script>
+<script>
+(function(){
+  var f=document.getElementById('form'); if(!f) return;
+  f.addEventListener('submit', function(e){
+    e.preventDefault(); var ok=true;
+    [['nm','f-nm'],['ph','f-ph'],['ms','f-ms']].forEach(function(p){
+      var bad=!document.getElementById(p[0]).value.trim();
+      document.getElementById(p[1]).classList.toggle('bad', bad); if(bad) ok=false;
+    });
+    if(!ok){ DEMO.toast('필수 항목을 확인해 주세요'); return; }
+    DEMO.toast('✓ 문의가 접수되었습니다 (데모 — 실제 전송 안 함)'); f.reset();
+  });
+  if(location.hash==='#contact'){ setTimeout(function(){ var el=document.getElementById('contact'); if(el) el.scrollIntoView(); },80); }
+})();
+</script>
+</body>
+</html>
