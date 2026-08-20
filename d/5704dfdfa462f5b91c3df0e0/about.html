@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>회사 소개 · 온율 구강악안면외과 (제안용 데모)</title>
+<meta name="description" content="온율 구강악안면외과 회사 소개 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>이 시안을 이렇게 읽어 주세요</h2></div><p>온율은 이 제안을 위해 지어낸 가상의 구강악안면외과이고, 화면의 문구·이미지·의료진 정보는 전부 합성 데이터입니다. 실제 작업에서는 발주처가 확정한 와이어프레임과 원고, 제공 사진 소스를 그대로 쓰고, 이 데모는 톤과 정보 구조·반응형 규칙이 어떤 모습으로 합의될 수 있는지를 미리 맞춰 보는 용도입니다. 치료 방법과 회복 경과는 개인차가 있어 단정적인 표현이나 결과 보장 문구는 넣지 않았고, B&amp;A 이미지와 후기 영역은 발주처 공통 정책 문서를 확인한 뒤 표기 방식을 정하는 항목으로 비워 두었습니다. 1차 3종 확인 후 나머지 화면으로 전개할 때 재사용할 수 있도록, 타이포·컬러·컴포넌트 기준을 화면과 같은 순서로 정리해 두었습니다.</p><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("about"); DEMO.footer();</script>
+<script>
+(function(){
+  var f=document.getElementById('form'); if(!f) return;
+  f.addEventListener('submit', function(e){
+    e.preventDefault(); var ok=true;
+    [['nm','f-nm'],['ph','f-ph'],['ms','f-ms']].forEach(function(p){
+      var bad=!document.getElementById(p[0]).value.trim();
+      document.getElementById(p[1]).classList.toggle('bad', bad); if(bad) ok=false;
+    });
+    if(!ok){ DEMO.toast('필수 항목을 확인해 주세요'); return; }
+    DEMO.toast('✓ 문의가 접수되었습니다 (데모 — 실제 전송 안 함)'); f.reset();
+  });
+  if(location.hash==='#contact'){ setTimeout(function(){ var el=document.getElementById('contact'); if(el) el.scrollIntoView(); },80); }
+})();
+</script>
+</body>
+</html>
