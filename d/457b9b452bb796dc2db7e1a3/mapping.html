@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title> · 밥차패스 (제안용 데모)</title>
+<meta name="description" content="밥차패스  — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>필드 매핑</h2><p>외부 스키마가 바뀌어도 여기만 고친다</p></div><table class="tbl"><thead><tr><th>외부 필드</th><th>내부 필드</th><th>변환 규칙</th></tr></thead><tbody><tr><td>구글시트 [성명]</td><td>member.name / member.maskedName</td><td>공백·괄호 제거 후 저장. 화면 노출은 가운데 글자 마스킹(김*수). 원본 성명은 키오스크로 내려보내지 않음</td></tr><tr><td>구글시트 [휴대폰번호]</td><td>member.phoneHash + phoneTail</td><td>하이픈·공백 제거 → 11자리 정규화 → 솔트 해시 저장. 조회용 뒷 8자리만 별도 인덱스, 평문 전체번호는 미보관</td></tr><tr><td>QR 스캔 문자열 BPQR:xxxx</td><td>member.qrToken</td><td>접두사 BPQR: 검증 후 10자리 토큰만 추출. 토큰-회원 매핑은 1:1, 재발급 시 이전 토큰 즉시 폐기</td></tr><tr><td>키오스크 deviceType(large/small)</td><td>device.capability</td><td>large → 카메라 인증 우선, small → 번호패드 인증 우선. 응답의 nextAction 문구가 단말별로 분기</td></tr><tr><td>토스 포스 결제결과 payResult</td><td>order.ledgerStatus</td><td>DONE→SETTLED, CANCELED→ROLLED_BACK, PARTIAL_CANCEL→ADJUSTED. 그 외 값은 저장하되 UNKNOWN 격리 후 관리자 알림</td></tr><tr><td>메뉴 단가표 [정상가]</td><td>pricing.listPrice</td><td>원 단위 정수. 회원가는 별도 컬럼 우선, 값이 비면 정상가 그대로(무할인 품목 — 공기밥·음료)</td></tr><tr><td>시트 [비고] 열 '탈퇴','정지'</td><td>member.status</td><td>탈퇴→WITHDRAWN, 정지→SUSPENDED, 공란→ACTIVE. ACTIVE 아닌 회원은 인증 시 VERIFIED가 아니라 NOT_ELIGIBLE 반환</td></tr><tr><td>업로드 배치 batchId</td><td>import.revision</td><td>IMP-YYYYMMDD-Wnn 형식. 커밋 시 이전 리비전 스냅샷 보관 → 잘못 올린 명단은 직전 리비전으로 되돌림</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("mapping"); DEMO.footer();</script>
+
+</body>
+</html>

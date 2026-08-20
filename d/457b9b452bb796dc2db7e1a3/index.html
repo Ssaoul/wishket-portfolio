@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>홈 · 밥차패스 (제안용 데모)</title>
+<meta name="description" content="밥차패스 홈 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="hero"><div class="hero-txt">
+<p class="pill">BabchaPass · Kiosk Member Verification &amp; Fare Discount API</p>
+<h1>기사 회원이 키오스크 앞에서 QR을 대거나 번호를 누르는 3초 동안, 키오스크·인증서버·POS 사이에 어떤 요청과 응답이 오가는지를 계약 단위로 펼친 화면입니다.</h1>
+<p>어려운 지점은 인증 성공률이 아니라 결제 실패 이후입니다. 회원 인증은 됐는데 결제가 취소되거나, 네트워크가 끊겨 키오스크가 같은 인증을 두 번 보내거나, 주 1회 올리는 엑셀 명단이 반영되기 전에 신규 기사가 오는 경우를 어떻게 다루느냐가 실제 운영 품질을 결정합니다. 대형 키오스크와 소형 포스가 같은 계약을 쓰되 카메라 유무만 다르게 처리되도록 엔드포인트를 설계했습니다.</p>
+</div></section><section class="wrap"><div class="stats"><div class="stat"><b>6종</b><span>공개 엔드포인트</span></div><div class="stat"><b>3초 / 800ms</b><span>인증 타임아웃 · 응답 목표</span></div><div class="stat"><b>24시간</b><span>멱등키 보존 구간</span></div><div class="stat"><b>5가지</b><span>정의된 실패 코드</span></div></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section><section class="wrap"><div class="sec-head"><h2>연동 구성</h2><p>무엇과 무엇이 어떤 순서로 오가는가</p></div><div class="timeline"><div class="tl"><b>1. POST /v1/auth/qr</b><span>QR 스캔값으로 기사 회원 여부 확인. 대형 키오스크 카메라·소형 포스 스캐너 공용</span></div><div class="tl"><b>2. POST /v1/auth/phone</b><span>QR 미소지 기사용 대안. 휴대폰 뒷 8자리 입력으로 조회, 동명이인·중복 시 선택 응답</span></div><div class="tl"><b>3. GET /v1/pricing/menu</b><span>인증 결과에 따른 메뉴 단가 조회. authId 없으면 정상가, 있으면 회원가 세트를 내려줌</span></div><div class="tl"><b>4. POST /v1/orders/confirm</b><span>결제 직전 인증-금액 확정. 인증 만료·단가 버전 불일치를 여기서 차단</span></div></div><p class="note">키오스크 단말은 매장별로 발급한 디바이스 키로 인증하고, 회원 개인정보는 단말에 내려보내지 않습니다 — 키오스크가 받는 것은 회원 참조번호와 할인 등급, 마스킹된 이름뿐입니다. 명단 업로드·QR 재발급 같은 관리 동작은 매장 관리자 권한에서만 가능하고 단말 키로는 호출되지 않도록 권한을 분리했습니다. 중복 방지는 인증·주문·결제 콜백 세 지점 모두 idempotencyKey를 필수로 받아 24시간 동안 최초 응답을 재생하는 방식으로 처리하며, 재시도가 반복돼도 할인은 주문 한 건에 한 번만 적용됩니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("index"); DEMO.footer();</script>
+
+</body>
+</html>
