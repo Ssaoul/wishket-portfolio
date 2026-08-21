@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>필드 매핑 · 기사한상 멤버패스 (제안용 데모)</title>
-<meta name="description" content="기사한상 멤버패스 필드 매핑 — 제안용 데모 · 합성 데이터.">
+<title>필드 매핑 · 기사밥상 멤버패스 (제안용 데모)</title>
+<meta name="description" content="기사밥상 멤버패스 필드 매핑 — 제안용 데모 · 합성 데이터.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="assets/css/site.css">
 </head>
 <body>
 <main>
-<section class="wrap"><div class="sec-head"><h2>필드 매핑</h2><p>외부 스키마가 바뀌어도 여기만 고친다</p></div><table class="tbl"><thead><tr><th>외부 필드</th><th>내부 필드</th><th>변환 규칙</th></tr></thead><tbody><tr><td>단말 식별자 (deviceId)</td><td>terminal.code</td><td>대형=KIOSK-L-***, 소형(포스)=KIOSK-S-*** 접두어로 화면 규격 분기</td></tr><tr><td>장바구니 항목 (cart.items[])</td><td>quote.lines[]</td><td>menuCode 기준 조인, 미등록 코드는 정상가로 통과시키고 경고 로그만 남김</td></tr><tr><td>휴대폰번호 (원문 11자리)</td><td>member.phoneHash + phoneTail</td><td>SHA-256 해시 저장, 뒷 4자리만 평문 보관 — 단말에는 마스킹 값만 회신</td></tr><tr><td>회원 명단 성명</td><td>member.maskedName</td><td>가운데 글자 마스킹(김*수)으로 변환 후 저장, 단말 화면에는 마스킹본만 노출</td></tr><tr><td>단말 거래번호 (terminalTxnId)</td><td>payment.idempotencyKey</td><td>deviceId + ':' + terminalTxnId 로 결합해 유일키 구성(24시간 보존)</td></tr><tr><td>결제 금액 (paidAmount)</td><td>payment.payableTotal</td><td>quote 의 payableTotal 과 불일치 시 확정 거부(AMOUNT_MISMATCH)</td></tr><tr><td>QR 토큰 (qrToken)</td><td>member.qrMappingId</td><td>발급 시 회원별 1:1 매핑, 재발급 시 이전 토큰 즉시 폐기</td></tr><tr><td>시트 열 '가입일'</td><td>member.joinedAt</td><td>2026.03.04 / 2026-03-04 / 26.3.4 세 표기 허용 → ISO-8601 정규화, 실패 행은 스킵 리포트</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+<section class="wrap"><div class="sec-head"><h2>필드 매핑</h2><p>외부 스키마가 바뀌어도 여기만 고친다</p></div><table class="tbl"><thead><tr><th>외부 필드</th><th>내부 필드</th><th>변환 규칙</th></tr></thead><tbody><tr><td>단말 스캔값 (QR 페이로드 문자열)</td><td>credential</td><td>접두어 MPQR- 확인 후 하이픈 제거·대문자 정규화. 형식 불일치면 서버 조회 없이 단말에서 즉시 재스캔 안내.</td></tr><tr><td>입력 휴대폰번호 (010-4712-xxxx)</td><td>phoneHash + lastFour</td><td>하이픈·공백 제거 → 숫자 11자리 → SHA-256(번호+매장솔트). 원본 번호는 단말·로그 어디에도 저장하지 않고 뒷 4자리만 화면 확인용으로 남긴다.</td></tr><tr><td>명단 시트 '성명' 열</td><td>maskedName</td><td>가운데 글자 마스킹(김민수 → 김*수). 두 글자 이름은 뒷글자만 마스킹. 인증 성공 화면 본인 확인용으로만 쓴다.</td></tr><tr><td>명단 시트 '가입일' 열</td><td>joinedAt</td><td>2026.03.04 / 26-3-4 / 2026년 3월 4일 혼재 → ISO 8601(Asia/Seoul)로 통일. 파싱 실패 행은 반려 목록에 담아 운영자에게 되돌린다.</td></tr><tr><td>단말 거래 식별자</td><td>requestId</td><td>kioskId + 단말 일련번호로 조합해 매장 전체에서 유일. 멱등 키로 그대로 사용하므로 재시도 시 값을 새로 만들지 않는다.</td></tr><tr><td>장바구니 메뉴 코드</td><td>sku</td><td>포스 메뉴 코드 ↔ 내부 SKU 매핑표 조회. 미등록 코드는 할인 대상에서 제외하고 정상가로 계산(결제는 막지 않는다).</td></tr><tr><td>결제 승인 결과 코드</td><td>payResult</td><td>승인/취소/부분취소를 APPROVED·CANCELED·PARTIAL 세 값으로 축약. 취소 수신 시 해당 txnId 의 할인 기록을 상계 처리한다.</td></tr><tr><td>단말 구분 (대형 키오스크 / 포스)</td><td>deviceType</td><td>LARGE·COMPACT 로 정규화. COMPACT 는 카메라 스캔이 불안정할 수 있어 휴대폰번호 인증을 기본 화면으로 먼저 띄운다.</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
 </main>
 <script src="assets/js/site.js"></script>
 <script>DEMO.chrome("mapping"); DEMO.footer();</script>

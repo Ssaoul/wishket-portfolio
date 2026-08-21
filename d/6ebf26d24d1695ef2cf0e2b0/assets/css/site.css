@@ -28,6 +28,19 @@ h1,h2,h3{letter-spacing:-.03em;line-height:1.2;margin:0}
 .hdr .cta{background:var(--brand);color:#fff;padding:8px 15px;border-radius:9px;font-size:13.5px;font-weight:700;border:0}
 .hdr .cta:hover{background:var(--brand-2)}
 .hero{position:relative}
+/* 유형별 시안용 히어로.
+   기본 .hero-txt 는 position:absolute 라 배경 이미지 높이(16/7)에 갇힌다. 유형별 시안은
+   헤드라인·설명이 길어서 위아래로 넘쳐 잘렸다(2026-08-21: 6건 전부 그렇게 나갔다).
+   → .flow 변형은 텍스트를 정상 흐름에 두고, 이미지는 배경으로 깔아 내용만큼 늘어난다. */
+.hero.flow{padding:0;background:var(--dark) center/cover no-repeat}
+.hero.flow::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(20,18,14,.78),rgba(20,18,14,.45))}
+.hero.flow .hero-img{display:none}
+.hero.flow .hero-txt{position:static;inset:auto;padding:64px var(--gut);min-height:0}
+.hero.flow .hero-txt{position:relative;z-index:2}
+/* h1 이 배경 그라디언트에 묻혀 회색으로 보였다 — 흰색을 명시하고 그림자로 대비를 준다. */
+.hero.flow .hero-txt h1{max-width:22ch;color:#fff;text-shadow:0 2px 18px rgba(0,0,0,.45)}
+.hero.flow .hero-txt .eyebrow,.hero.flow .hero-txt p{color:#fff}
+.hero.flow .hero-txt p{max-width:56ch}
 .hero-img{aspect-ratio:16/7;background:var(--paper-3) center/cover no-repeat;min-height:380px;position:relative}
 .hero-img::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(20,18,14,.6),rgba(20,18,14,.12))}
 .hero-txt{position:absolute;inset:0;z-index:2;max-width:var(--wrap);margin:0 auto;padding:0 var(--gut);display:flex;flex-direction:column;justify-content:center;color:#fff}
