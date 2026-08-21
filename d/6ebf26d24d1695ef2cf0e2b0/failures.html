@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title> · 기사밥상 회원인증 브릿지 (제안용 데모)</title>
-<meta name="description" content="기사밥상 회원인증 브릿지  — 제안용 데모 · 합성 데이터.">
+<title>실패 처리 · 기사한상 멤버패스 (제안용 데모)</title>
+<meta name="description" content="기사한상 멤버패스 실패 처리 — 제안용 데모 · 합성 데이터.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="assets/css/site.css">
 </head>
 <body>
 <main>
-<section class="wrap"><div class="sec-head"><h2>실패 처리</h2><p>연동은 실패를 어떻게 다루느냐로 갈린다</p></div><table class="tbl"><thead><tr><th>코드</th><th>원인</th><th>처리</th></tr></thead><tbody><tr><td><span class="chip">AUTH_TIMEOUT</span></td><td>회원 서버 응답이 400ms를 넘거나 매장 네트워크가 끊김</td><td>키오스크는 정상가로 즉시 진행(결제를 막지 않음). '회원 확인이 지연되어 정상가로 진행합니다' 안내 + 영수증에 사후정정 코드 인쇄, 서버에 미인증 결제로 기록</td></tr><tr><td><span class="chip">DUPLICATE_SUBMIT</span></td><td>손님이 [인증]·[결제] 버튼을 연타해 같은 요청이 두 번 도착</td><td>requestId·idempotencyKey로 기존 결과를 그대로 재응답(duplicated:true). 할인 2회 적용·이중 정산 기록 없음</td></tr><tr><td><span class="chip">AUTH_EXPIRED</span></td><td>인증 후 메뉴를 고르다 180초 초과(견적도 함께 만료)</td><td>결제 직전 재검증에서 차단하고 인증 화면으로 복귀. 만료된 authId로 온 commit은 거부</td></tr><tr><td><span class="chip">QR_REVOKED</span></td><td>분실 신고 후 재발급된 이전 QR을 그대로 스캔</td><td>인증 거부 + '재발급된 코드로 다시 시도해 주세요' 안내. 휴대폰번호 인증으로 우회 가능, 시도 이력 기록</td></tr><tr><td><span class="chip">IMPORT_ROW_INVALID</span></td><td>업로드 명단에 번호 자릿수 오류·성명 공백·같은 번호 중복 행</td><td>배치 전체를 반려하지 않고 정상 행만 스테이징. 반려 행은 원본 행번호와 사유로 반환, 관리자 확정 전까지 운영 명단 미변경</td></tr><tr><td><span class="chip">SETTLE_MISMATCH</span></td><td>토스 승인 금액과 견적의 회원가가 불일치(견적 만료 후 결제 등)</td><td>commit 보류 후 관리자 큐로 이관. 결제 자체는 유효하게 두고 할인 적용 여부만 사람이 판정 — 자동 취소·자동 재승인은 하지 않음</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+<section class="wrap"><div class="sec-head"><h2>실패 처리</h2><p>연동은 실패를 어떻게 다루느냐로 갈린다</p></div><table class="tbl"><thead><tr><th>코드</th><th>원인</th><th>처리</th></tr></thead><tbody><tr><td><span class="chip">AUTH_NOT_FOUND</span></td><td>QR·휴대폰번호가 회원 명단에 없다. 일반 손님이거나 이번 주 업로드에 아직 안 실린 신규 기사</td><td>할인 미적용으로 주문을 계속 진행한다(결제를 막지 않는다). 화면은 '회원 확인이 되지 않아 정상가로 진행합니다 · 직원 호출' 안내. 미확인 시도는 로그에 남겨 주간 업로드 누락 점검에 쓴다</td></tr><tr><td><span class="chip">AUTH_REVOKED</span></td><td>탈퇴·재발급으로 폐기된 QR을 그대로 들고 왔다</td><td>정상가로 진행하되 실패 사유를 REVOKED로 구분 기록. 동일 코드가 3회 이상 스캔되면 관리 화면에 재발급 안내 배지 노출</td></tr><tr><td><span class="chip">SESSION_EXPIRED</span></td><td>메뉴 선택 전 인증 후 손님이 5분 넘게 머물러 인증세션 유효기간이 지났다</td><td>결제 직전 재확인에서 잡아 GUEST_PRICE로 폴백하고, 화면에 '다시 인증' 버튼을 띄운다. 만료된 세션으로 온 견적 요청은 거절해 할인 금액이 결제에 실리지 않게 한다</td></tr><tr><td><span class="chip">QUOTE_MISMATCH</span></td><td>견적 발급 후 손님이 메뉴를 추가·삭제했는데 옛 quoteId로 결제가 들어왔다</td><td>결제 이벤트를 409로 거절하고 재견적을 요구한다. 키오스크는 자동으로 quote를 다시 받아 금액을 갱신한다(사용자 조작 없음)</td></tr><tr><td><span class="chip">DUPLICATE_EVENT</span></td><td>네트워크 지연으로 키오스크가 같은 결제 이벤트를 재전송했다. 또는 포스와 키오스크가 같은 주문을 동시에 보고했다</td><td>eventId로 판정해 200 + duplicated:true 로 응답한다. 이력은 한 건만 남고 할인은 두 번 적용되지 않는다. 재시도는 1s·3s·9s 지수 백오프 3회</td></tr><tr><td><span class="chip">IMPORT_ROW_REJECTED</span></td><td>엑셀 행의 휴대폰번호 자리수가 맞지 않거나 성명이 비었거나 같은 번호가 두 행에 있다</td><td>해당 행만 건너뛰고 나머지는 반영한다(전량 실패로 만들지 않는다). dryRun 결과에 행 번호와 사유를 돌려주어 담당자가 원본 시트를 고친 뒤 확정 반영하게 한다</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
 </main>
 <script src="assets/js/site.js"></script>
 <script>DEMO.chrome("failures"); DEMO.footer();</script>

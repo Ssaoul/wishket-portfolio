@@ -3,18 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>홈 · 기사밥상 회원인증 브릿지 (제안용 데모)</title>
-<meta name="description" content="기사밥상 회원인증 브릿지 홈 — 제안용 데모 · 합성 데이터.">
+<title>개요 · 기사한상 멤버패스 (제안용 데모)</title>
+<meta name="description" content="기사한상 멤버패스 개요 — 제안용 데모 · 합성 데이터.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="assets/css/site.css">
 </head>
 <body>
 <main>
 <section class="hero"><div class="hero-txt">
-<p class="pill">Kiosk Membership Discount Bridge · Plugin ↔ Member API</p>
-<h1>키오스크 플러그인과 회원 서버 사이의 요청/응답 계약을 실제 페이로드로 고정하고, 통신 끊김·중복 결제·명단 갱신 실패까지 처리 경로를 그려 둔 연동 설계 데모입니다.</h1>
-<p>할인은 화면이 아니라 계약에서 어긋납니다. 인증은 됐는데 응답이 늦어 정상가로 결제되거나, 손님이 [인증] 버튼을 두 번 눌러 할인이 두 번 적용되거나, 주 1회 올리는 엑셀 명단에 중복 번호·공백이 섞여 어제 되던 기사님이 오늘 미인증으로 뜨는 식입니다. 그래서 이 데모는 성공 화면이 아니라 타임아웃·중복·명단 오류가 났을 때 키오스크가 무엇을 띄우고 서버가 무엇을 남기는지를 먼저 보여줍니다.</p>
-</div></section><section class="wrap"><div class="stats"><div class="stat"><b>6종</b><span>확정 엔드포인트</span></div><div class="stat"><b>5단계</b><span>결제 전·중·후 상태</span></div><div class="stat"><b>6종</b><span>정의된 실패 코드</span></div><div class="stat"><b>400ms</b><span>인증 응답 목표(초과 시 정상가 폴백)</span></div></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section><section class="wrap"><div class="sec-head"><h2>연동 구성</h2><p>무엇과 무엇이 어떤 순서로 오가는가</p></div><div class="timeline"><div class="tl"><b>1. POST /v1/auth/verify</b><span>QR 또는 휴대폰번호로 회원 여부 확인 → 인증세션 발급(유효 180초)</span></div><div class="tl"><b>2. POST /v1/auth/verify</b><span>휴대폰번호 대안 인증(동일 계약·credential 형식만 다름)</span></div><div class="tl"><b>3. POST /v1/price/quote</b><span>장바구니에 인증세션을 붙여 회원가·정상가 확정(결제 전)</span></div><div class="tl"><b>4. POST /v1/settlement/commit</b><span>토스 결제 승인 결과를 인증세션·견적과 묶어 확정 기록(결제 후)</span></div></div><p class="note">키오스크 플러그인은 매장 단위로 발급한 단말 키로 서명하고, 서버는 등록된 deviceId 목록에 있는 단말의 요청만 받습니다(개인 회원 정보는 단말에 저장하지 않고, 응답도 마스킹된 값만 내려갑니다). 중복 방지는 두 단계입니다 — 인증 요청은 requestId로, 결제 확정은 '단말ID:견적ID' 조합의 idempotencyKey로 묶어, 같은 키가 다시 들어오면 새로 처리하지 않고 최초 결과를 그대로 돌려줍니다(duplicated:true). 재시도는 인증·견적 조회처럼 상태를 바꾸지 않는 호출만 자동으로(최대 2회, 200ms·600ms 간격) 수행하고, 결제 확정은 자동 재시도 대신 관리자 큐에 남겨 사람이 판단하도록 했습니다.</p></section>
+<p class="pill">MemberPass for Toss Place Kiosk · Driver Membership Discount Gateway</p>
+<h1>키오스크가 결제 직전에 '이 손님이 기사 회원인가'를 묻고, 그 답 하나로 할인가와 정상가를 갈라내는 연동 계약을 통째로 보여주는 데모</h1>
+<p>어려운 건 할인 계산이 아니라 경계입니다. QR 스캔은 되는데 응답이 늦고, 손님이 [뒤로]를 눌러 같은 주문을 두 번 인증하고, 주 1회 올린 엑셀에 지난주 탈퇴 기사가 남아 있습니다. 대형 키오스크와 포스가 같은 주문을 서로 다른 순간에 조회할 수도 있습니다. 그래서 요청·응답 형식과 실패 코드, 재시도 규칙을 먼저 못 박고 화면을 그 위에 얹었습니다.</p>
+</div></section><section class="wrap"><div class="stats"><div class="stat"><b>6종</b><span>공개 엔드포인트</span></div><div class="stat"><b>7행</b><span>엑셀↔내부 필드 매핑</span></div><div class="stat"><b>6종</b><span>정의된 실패 코드</span></div><div class="stat"><b>2경로</b><span>QR·휴대폰번호 인증</span></div></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section><section class="wrap"><div class="sec-head"><h2>연동 구성</h2><p>무엇과 무엇이 어떤 순서로 오가는가</p></div><div class="timeline"><div class="tl"><b>1. POST /v1/auth/sessions</b><span>키오스크가 QR 또는 휴대폰번호로 회원 인증을 요청하고 인증세션을 발급받는다</span></div><div class="tl"><b>2. GET /v1/auth/sessions/{sessionId}</b><span>결제 단계에서 인증세션이 아직 유효한지 재확인한다(화면 이탈·타임아웃 대비)</span></div><div class="tl"><b>3. POST /v1/pricing/quote</b><span>장바구니와 인증세션을 받아 회원가·정상가를 확정해 돌려준다</span></div><div class="tl"><b>4. POST /v1/payments/events</b><span>결제 전·중·후 상태를 순서 보장 없이 받아 주문 이력에 적재한다(멱등)</span></div></div><p class="note">키오스크 단말은 발급받은 단말 토큰으로만 API를 호출하고, 회원 조회·QR 발급 같은 관리 API는 매장 관리자 권한과 분리해 단말 토큰으로는 아예 접근할 수 없게 둡니다. 중복 방지는 두 축입니다 — 인증·견적·결제이벤트를 orderKey 하나로 묶어 같은 주문에 할인이 두 번 붙지 않게 하고, 결제 이벤트는 eventId를 멱등 키로 받아 재전송이 와도 이력을 한 건으로 접습니다. 인증 요청 자체도 requestId를 받아 손님이 [뒤로]를 눌러 같은 QR을 다시 스캔하면 새 세션을 만들지 않고 기존 세션을 그대로 돌려줍니다.</p></section>
 </main>
 <script src="assets/js/site.js"></script>
 <script>DEMO.chrome("index"); DEMO.footer();</script>
