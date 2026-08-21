@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>홈 · 옵스큐라 하드닝랩 (제안용 데모)</title>
+<meta name="description" content="옵스큐라 하드닝랩 홈 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="hero"><div class="hero-txt">
+<p class="pill">OBSCURA · Binary Hardening &amp; Anti-Reversing Audit</p>
+<h1>현재 난독화 툴 체인(Hikari·OLLVM)의 방어 강도를 모의 리버싱으로 진단하고, 상용 수준까지의 개선 전후를 근거로 보여주는 데모</h1>
+<p>난독화는 '적용했다'가 아니라 '분석 비용을 얼마나 올렸는가'로 판정됩니다. Hikari·OLLVM은 제어흐름은 흐트러뜨리지만 문자열·심볼·상수는 그대로 노출되기 쉽고, 컴파일러 패스 특유의 패턴은 오히려 자동 복원의 단서가 됩니다. 이 데모는 어디까지 뚫리는지를 IDA/Ghidra 재현으로 수치화합니다.</p>
+</div></section><section class="wrap"><div class="stats"><div class="stat"><b>6종</b><span>진단된 취약 항목</span></div><div class="stat"><b>3개</b><span>모의 리버싱 대상 모듈</span></div><div class="stat"><b>4단계</b><span>목표 난독화 등급(현재 2단계)</span></div><div class="stat"><b>2주</b><span>진단·자문 소요(협의)</span></div></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section><section class="wrap"><div class="sec-head"><h2>진단 요약</h2><p>고치기 전에 현재를 수치로 세운다</p></div><table class="tbl"><thead><tr><th>항목</th><th>심각도</th><th>근거</th></tr></thead><tbody><tr><td>문자열·상수 평문 노출 (암호화 미적용)</td><td><span class="chip">높음</span></td><td>합성 모듈 libcore.dll 기준 Ghidra 문자열 검색으로 라이선스 키 검증 메시지·API 엔드포인트 등 문자열 137개 중 118개(86%)가 평문 노출. 검증 분기 진입점을 5분 내 특정.</td></tr><tr><td>OLLVM 제어흐름 평탄화 패턴이 시그니처로 역탐지</td><td><span class="chip">높음</span></td><td>디스패처 switch·상태변수 구조가 OLLVM fla 패스 특유 형태로 남아, 공개된 deflattening 스크립트로 함수 42개 중 31개(74%) 자동 원복. 원복 후 로직 가독성 회복.</td></tr><tr><td>심볼·디버그 정보 잔존</td><td><span class="chip">중간</span></td><td>릴리스 바이너리에 export 심볼 24개와 RTTI/예외 언와인드 정보 잔존. 함수명 CheckLicense·DecryptPayload 등이 그대로 노출돼 분석 시작점 제공.</td></tr><tr><td>안티디버깅·안티탬퍼 부재</td><td><span class="chip">높음</span></td><td>x64dbg 어태치 시 탐지·차단 로직 0건. 브레이크포인트로 검증 분기를 우회(1바이트 패치)해 always-pass 변조 성공, 재실행에도 무결성 검사 없음.</td></tr><tr><td>라이선스 검증 로직 단일 지점 집중</td><td><span class="chip">중간</span></td><td>검증 결과가 단일 bool 반환값 1곳에 수렴 — 해당 분기(cmp/jz) 한 곳만 뒤집으면 전체 우회. 모의 크랙 재현에 12분 소요.</td></tr></tbody></table></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("index"); DEMO.footer();</script>
+
+</body>
+</html>

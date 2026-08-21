@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title> · 옵스큐라 하드닝랩 (제안용 데모)</title>
+<meta name="description" content="옵스큐라 하드닝랩  — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>발견 항목</h2><p>무엇이 병목인지와 그 근거</p></div><div class="field"><b>문자열·상수 평문 노출 (암호화 미적용) <span class="chip">높음</span></b><p>근거 — 합성 모듈 libcore.dll 기준 Ghidra 문자열 검색으로 라이선스 키 검증 메시지·API 엔드포인트 등 문자열 137개 중 118개(86%)가 평문 노출. 검증 분기 진입점을 5분 내 특정.</p><p>조치 — 문자열 화이트박스 암호화 + 지연 복호화(사용 직전 복호, 사용 후 즉시 소거). 상수는 opaque predicate 기반 산술 분해.</p></div><div class="field"><b>OLLVM 제어흐름 평탄화 패턴이 시그니처로 역탐지 <span class="chip">높음</span></b><p>근거 — 디스패처 switch·상태변수 구조가 OLLVM fla 패스 특유 형태로 남아, 공개된 deflattening 스크립트로 함수 42개 중 31개(74%) 자동 원복. 원복 후 로직 가독성 회복.</p><p>조치 — 단일 패스 의존 탈피 — 이종 난독화(가상화 VM + 커스텀 디스패처) 혼합, 패턴 다양화로 자동 복원기 무력화.</p></div><div class="field"><b>심볼·디버그 정보 잔존 <span class="chip">중간</span></b><p>근거 — 릴리스 바이너리에 export 심볼 24개와 RTTI/예외 언와인드 정보 잔존. 함수명 CheckLicense·DecryptPayload 등이 그대로 노출돼 분석 시작점 제공.</p><p>조치 — 심볼 스트립·export 최소화, RTTI 제거, 함수명 해싱. 진입점 이름으로 유추 불가하게.</p></div><div class="field"><b>안티디버깅·안티탬퍼 부재 <span class="chip">높음</span></b><p>근거 — x64dbg 어태치 시 탐지·차단 로직 0건. 브레이크포인트로 검증 분기를 우회(1바이트 패치)해 always-pass 변조 성공, 재실행에도 무결성 검사 없음.</p><p>조치 — 다중 안티디버깅(PEB·타이밍·하드웨어 BP 검사)과 코드 섹션 체크섬 기반 자기 무결성 검증 삽입, 탐지 시 지연·오작동 유도.</p></div><div class="field"><b>라이선스 검증 로직 단일 지점 집중 <span class="chip">중간</span></b><p>근거 — 검증 결과가 단일 bool 반환값 1곳에 수렴 — 해당 분기(cmp/jz) 한 곳만 뒤집으면 전체 우회. 모의 크랙 재현에 12분 소요.</p><p>조치 — 검증 결과를 다지점에 분산·중복 검사, 실패를 즉시 노출하지 않고 후속 기능에 지연 반영(지연 트리거).</p></div><div class="field"><b>패킹·리소스 보호 미적용으로 정적 추출 용이 <span class="chip">낮음</span></b><p>근거 — 실행 파일 언패킹 불필요(패커 없음), 리소스 섹션에서 설정·구성 데이터 평문 덤프 가능. 엔트로피 분석상 암호화 구간 식별 안 됨.</p><p>조치 — 런타임 언패킹 + 리소스 암호화 계층 추가. 단, 상용 AV 오탐 리스크 검토 병행.</p></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("findings"); DEMO.footer();</script>
+
+</body>
+</html>
