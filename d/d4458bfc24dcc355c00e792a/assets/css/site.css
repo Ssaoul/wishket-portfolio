@@ -38,7 +38,11 @@ h1,h2,h3{letter-spacing:-.03em;line-height:1.2;margin:0}
 .hero.flow .hero-txt{position:static;inset:auto;padding:64px var(--gut);min-height:0}
 .hero.flow .hero-txt{position:relative;z-index:2}
 /* h1 이 배경 그라디언트에 묻혀 회색으로 보였다 — 흰색을 명시하고 그림자로 대비를 준다. */
-.hero.flow .hero-txt h1{max-width:22ch;color:#fff;text-shadow:0 2px 18px rgba(0,0,0,.45)}
+/* 유형별 시안의 헤드라인은 브로슈어 슬로건보다 길다(설명형). 52px 로 그리면 4~5줄이 되어
+   화면을 잡아먹고 모바일에서는 더 심하다 → 한 단계 낮춘 크기로. */
+.hero.flow .hero-txt h1{max-width:24ch;color:#fff;text-shadow:0 2px 18px rgba(0,0,0,.45);font-size:clamp(24px,3.2vw,36px);line-height:1.28;margin:10px 0 12px}
+.hero.flow .hero-txt p{font-size:clamp(14px,1.5vw,16px);line-height:1.7}
+@media (max-width:560px){ .hero.flow .hero-txt{padding:40px var(--gut)} }
 .hero.flow .hero-txt .eyebrow,.hero.flow .hero-txt p{color:#fff}
 .hero.flow .hero-txt p{max-width:56ch}
 .hero-img{aspect-ratio:16/7;background:var(--paper-3) center/cover no-repeat;min-height:380px;position:relative}
