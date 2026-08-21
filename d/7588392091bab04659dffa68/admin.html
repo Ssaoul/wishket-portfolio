@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>관리자 · 서클게이트 (제안용 데모)</title>
+<meta name="description" content="서클게이트 관리자 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>관리자 처리 큐</h2><p>들어온 요청이 어디까지 처리됐는가</p></div><table class="tbl"><thead><tr><th>접수번호</th><th>신청자</th><th>요청</th><th>상태</th></tr></thead><tbody><tr><td>REQ-2608-0142</td><td>닉네임 '푸른창가' (가입 2026.08.19)</td><td>자격증빙 PDF 1건 제출 — 발급일자 확인 필요</td><td><span class="chip">심사중 (접수 2일 경과)</span></td></tr><tr><td>REQ-2608-0139</td><td>닉네임 '레몬소다'</td><td>자격증빙 이미지 제출 — 이름·발급기관이 잘려 판독 불가</td><td><span class="chip">반려 (사유: 재촬영 후 재제출 요청)</span></td></tr><tr><td>REQ-2608-0135</td><td>닉네임 '밤산책'</td><td>반려 후 재제출 (2회차)</td><td><span class="chip">승인 완료 · 이용 권한 부여</span></td></tr><tr><td>RPT-2608-031</td><td>신고자 3명 (익명)</td><td>자유게시판 게시글 신고 — 사유: 광고성 반복 게시</td><td><span class="chip">처리 완료 · 게시글 비공개 + 작성자 경고 1회</span></td></tr><tr><td>RPT-2608-034</td><td>신고자 1명 (익명)</td><td>댓글 신고 — 사유: 비방</td><td><span class="chip">보류 (판단 애매 · 운영자 2인 교차 확인 대기)</span></td></tr><tr><td>GRP-2608-007</td><td>닉네임 '새벽여섯시'</td><td>소모임 개설 요청 — 평일 새벽 스터디, 주 2회 희망</td><td><span class="chip">검토 중 (운영 인력 배정 확인 필요)</span></td></tr><tr><td>GRP-2608-005</td><td>닉네임 '한겨울'</td><td>소모임 개설 요청 — 기존 소모임과 주제 중복</td><td><span class="chip">반려 (사유: 기존 모임 참여 안내)</span></td></tr><tr><td>APL-2608-0217</td><td>닉네임 '초록우산'</td><td>MT-2608-011 참가 신청 — 신청 시점에 정원 초과</td><td><span class="chip">신청 실패 · 대기 등록 (취소 발생 시 순번 1번)</span></td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("admin"); DEMO.footer();</script>
+<script>
+(function(){
+  var D=DEMO.D;
+  var DB={ item:D.items.map(function(x){return Object.assign({},x);}), case:D.cases.map(function(x){return {id:x.id,name:x.title,cat:x.type,desc:x.desc,img:x.img,pub:1};}) };
+  var CATS={ item:D.cats.slice(), case:D.caseCats.slice() };
+  var tab='item', editing=null, seq=100;
+  var tbody=document.getElementById('tbody'), thead=document.getElementById('thead'), modal=document.getElementById('modal');
+  function render(){
+    var rows=DB[tab];
+    document.getElementById('paneTitle').textContent = tab==='item'? D.labels.catalog+' 관리' : D.labels.gallery+' 관리';
+    document.getElementById('cnt').textContent = rows.length+'건';
+    thead.innerHTML='<tr><th>이미지</th><th>이름</th><th>분류</th><th>공개</th><th style="text-align:right">관리</th></tr>';
+    tbody.innerHTML=rows.map(function(r){
+      return '<tr><td><img class="thumb-sm" src="'+r.img+'" alt=""></td>'
+      +'<td><b>'+DEMO.esc(r.name)+'</b><br><span style="font-size:12px;color:var(--ink-3)">'+DEMO.esc(String(r.desc||'').slice(0,30))+'</span></td>'
+      +'<td>'+DEMO.esc(r.cat)+'</td>'
+      +'<td><span class="pill '+(r.pub?'on':'off')+'" data-toggle="'+r.id+'" style="cursor:pointer">'+(r.pub?'공개':'비공개')+'</span></td>'
+      +'<td style="text-align:right;white-space:nowrap"><button class="ibtn" data-edit="'+r.id+'">수정</button> <button class="ibtn danger" data-del="'+r.id+'">삭제</button></td></tr>';
+    }).join('');
+  }
+  document.querySelectorAll('.admin-side a[data-tab]').forEach(function(a){
+    a.addEventListener('click', function(e){ e.preventDefault();
+      document.querySelectorAll('.admin-side a[data-tab]').forEach(function(x){x.classList.remove('on');});
+      a.classList.add('on'); tab=a.dataset.tab; render();
+    });
+  });
+  tbody.addEventListener('click', function(e){
+    var ed=e.target.closest('[data-edit]'), dl=e.target.closest('[data-del]'), tg=e.target.closest('[data-toggle]');
+    if(ed){ openModal(DB[tab].filter(function(r){return r.id===ed.dataset.edit;})[0]); }
+    if(dl){ DB[tab]=DB[tab].filter(function(r){return r.id!==dl.dataset.del;}); render(); DEMO.toast('삭제되었습니다'); }
+    if(tg){ var r=DB[tab].filter(function(x){return x.id===tg.dataset.toggle;})[0]; r.pub=r.pub?0:1; render(); DEMO.toast(r.pub?'공개로 전환':'비공개로 전환'); }
+  });
+  function fillCats(){
+    document.getElementById('m-cat').innerHTML=CATS[tab].map(function(c){return '<option>'+DEMO.esc(c)+'</option>';}).join('');
+  }
+  function openModal(row){
+    editing=row||null; fillCats();
+    document.getElementById('mTitle').textContent=row?'수정':'새로 등록';
+    document.getElementById('m-name').value=row?row.name:'';
+    document.getElementById('m-cat').value=row?row.cat:CATS[tab][0];
+    document.getElementById('m-desc').value=row?row.desc:'';
+    document.getElementById('m-pub').value=row?String(row.pub):'1';
+    modal.classList.add('on');
+  }
+  document.getElementById('addBtn').onclick=function(){ openModal(null); };
+  document.getElementById('mCancel').onclick=function(){ modal.classList.remove('on'); };
+  document.getElementById('mSave').onclick=function(){
+    var name=document.getElementById('m-name').value.trim();
+    if(!name){ DEMO.toast('이름을 입력하세요'); return; }
+    var d={ name:name, cat:document.getElementById('m-cat').value, desc:document.getElementById('m-desc').value.trim(), pub:+document.getElementById('m-pub').value };
+    if(editing){ Object.assign(editing,d); DEMO.toast('수정되었습니다'); }
+    else {
+      var pool=DB[tab].length?DB[tab]:[{img:'assets/img/item-0.svg'}];
+      DB[tab].unshift(Object.assign({ id:tab.toUpperCase()+(++seq), img:pool[0].img }, d));
+      DEMO.toast('등록되었습니다');
+    }
+    modal.classList.remove('on'); render();
+  };
+  modal.addEventListener('click', function(e){ if(e.target.id==='modal') modal.classList.remove('on'); });
+  render();
+})();
+</script>
+</body>
+</html>
