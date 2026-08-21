@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title> · 옵스큐라 하드닝랩 (제안용 데모)</title>
-<meta name="description" content="옵스큐라 하드닝랩  — 제안용 데모 · 합성 데이터.">
+<title>실행 계획 · 쉴드포지 (제안용 데모)</title>
+<meta name="description" content="쉴드포지 실행 계획 — 제안용 데모 · 합성 데이터.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="assets/css/site.css">
 </head>
 <body>
 <main>
-<section class="wrap"><div class="sec-head"><h2>실행 계획</h2><p>되돌릴 수 없는 작업은 따로 표시한다</p></div><table class="tbl"><thead><tr><th>단계</th><th>기간</th><th>작업</th><th>산출물</th></tr></thead><tbody><tr><td>1단계 · 착수·범위 확정</td><td>1~2일</td><td>NDA 체결, 현재 툴 체인(Hikari·OLLVM·Claude 파이프라인) 구성 인터뷰, 진단 범위·목표 등급 합의</td><td>진단 범위서, 목표 난독화 등급 정의(현재 2 → 목표 4)</td></tr><tr><td>2단계 · 현황 진단</td><td>2~4일</td><td>제공 실행 파일 대상 정적·동적 모의 리버싱, 문자열/심볼/제어흐름/안티디버깅 항목별 강도 측정</td><td>진단 리포트(항목별 심각도·복원 시간·재현 근거), 개선 전 지표 baseline</td></tr><tr><td>3단계 · 방법론·툴 체인 자문</td><td>3~4일</td><td>상용 사례 대비 갭 분석, 이종 난독화·VM·안티탬퍼·무결성 계층 설계와 툴 체인(대안 포함) 제안</td><td>개선 아키텍처 자문서(화상 회의 + 화면 공유), 우선순위별 로드맵</td></tr><tr><td>4단계 · 검증·최종 자문</td><td>2~3일</td><td>개선안 일부 적용본에 대한 재-모의 리버싱으로 개선 전후 비교, 잔여 리스크·AV 오탐 검토</td><td>개선 후 지표 비교표, 최종 자문 회의 및 후속 권고</td></tr><tr><td>5단계(선택) · 심층 코드 리뷰</td><td>협의</td><td>소스 레벨 보안 취약점 리뷰 및 난독화 파이프라인 통합 가이드</td><td>코드 레벨 개선 가이드(협의 시 문서화)</td></tr></tbody></table><p class="note">난독화 강화(가상화·안티탬퍼·무결성 검증 삽입)와 심볼 스트립은 배포 바이너리를 직접 변형하므로 되돌리기 어렵습니다. 그래서 모든 개선은 원본 빌드 산출물과 심볼(PDB)을 별도 보관한 사본에만 적용하고, 단계별 태그로 이전 빌드로 즉시 롤백할 수 있게 합니다. 안티디버깅·패킹은 상용 백신 오탐과 정상 실행 저해를 유발할 수 있어, 적용 전 스테이징에서 오탐·성능 회귀를 검증한 뒤에만 배포본에 반영합니다.</p><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+<section class="wrap"><div class="sec-head"><h2>실행 계획</h2><p>되돌릴 수 없는 작업은 따로 표시한다</p></div><table class="tbl"><thead><tr><th>단계</th><th>기간</th><th>작업</th><th>산출물</th></tr></thead><tbody><tr><td>1. 착수·NDA</td><td>착수 즉시 (0.5일)</td><td>보안 서약서 작성, 대상 실행 파일·툴 체인 정보 수령, 진단 범위·목표 수준 합의</td><td>NDA, 진단 범위 확정서, 강도 목표 기준선</td></tr><tr><td>2. 1차 진단</td><td>1~2일</td><td>화이트박스 없이 배포 바이너리 대상 정적/동적 분석, 함수별 강도·평문 노출·자동 복원 재현</td><td>함수별 취약 지점 리스트, 근거 수치가 포함된 1차 진단 리포트(화상 공유)</td></tr><tr><td>3. 심층 분석·방법론 자문 (필요시)</td><td>2~4일</td><td>핵심 함수 심층 리버싱, 상용 사례 비교, 적합 툴 체인·보호 등급 설계 제안</td><td>개선 방법론서, 함수 등급화 표, 권장 툴 체인·아키텍처 자문</td></tr><tr><td>4. 검증·이관</td><td>1일</td><td>개선안 적용 방향 리뷰, 회귀 측정 스코어카드 세팅 가이드, 내부 개발자 인수인계</td><td>최종 자문 회의 자료, 강도 측정 체계 가이드, 후속 조치 체크리스트</td></tr></tbody></table><p class="note">코드 분석·리버싱 자체는 읽기 전용이므로 원본 바이너리·소스를 변조하지 않으며, 모든 분석은 전달받은 사본으로만 수행합니다. 되돌릴 수 없는 유일한 행위는 코드·실행 파일 열람이므로 NDA 체결 전에는 어떤 자료도 수령하지 않고, 분석 종료 시 전달 자료·중간 산출물을 합의된 절차로 파기합니다. 개선안(가상화·안티 디버깅 삽입)은 제안·자문 단계까지만 진행하며 실제 빌드 적용은 내부 개발자가 별도 브랜치에서 수행하도록 남겨, 원본 빌드로 언제든 롤백할 수 있게 합니다.</p><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
 </main>
 <script src="assets/js/site.js"></script>
 <script>DEMO.chrome("plan"); DEMO.footer();</script>

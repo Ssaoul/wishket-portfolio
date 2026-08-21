@@ -3,18 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>홈 · 옵스큐라 하드닝랩 (제안용 데모)</title>
-<meta name="description" content="옵스큐라 하드닝랩 홈 — 제안용 데모 · 합성 데이터.">
+<title>개요 · 쉴드포지 (제안용 데모)</title>
+<meta name="description" content="쉴드포지 개요 — 제안용 데모 · 합성 데이터.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="assets/css/site.css">
 </head>
 <body>
 <main>
-<section class="hero"><div class="hero-txt">
-<p class="pill">OBSCURA · Binary Hardening &amp; Anti-Reversing Audit</p>
-<h1>현재 난독화 툴 체인(Hikari·OLLVM)의 방어 강도를 모의 리버싱으로 진단하고, 상용 수준까지의 개선 전후를 근거로 보여주는 데모</h1>
-<p>난독화는 '적용했다'가 아니라 '분석 비용을 얼마나 올렸는가'로 판정됩니다. Hikari·OLLVM은 제어흐름은 흐트러뜨리지만 문자열·심볼·상수는 그대로 노출되기 쉽고, 컴파일러 패스 특유의 패턴은 오히려 자동 복원의 단서가 됩니다. 이 데모는 어디까지 뚫리는지를 IDA/Ghidra 재현으로 수치화합니다.</p>
-</div></section><section class="wrap"><div class="stats"><div class="stat"><b>6종</b><span>진단된 취약 항목</span></div><div class="stat"><b>3개</b><span>모의 리버싱 대상 모듈</span></div><div class="stat"><b>4단계</b><span>목표 난독화 등급(현재 2단계)</span></div><div class="stat"><b>2주</b><span>진단·자문 소요(협의)</span></div></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section><section class="wrap"><div class="sec-head"><h2>진단 요약</h2><p>고치기 전에 현재를 수치로 세운다</p></div><table class="tbl"><thead><tr><th>항목</th><th>심각도</th><th>근거</th></tr></thead><tbody><tr><td>문자열·상수 평문 노출 (암호화 미적용)</td><td><span class="chip">높음</span></td><td>합성 모듈 libcore.dll 기준 Ghidra 문자열 검색으로 라이선스 키 검증 메시지·API 엔드포인트 등 문자열 137개 중 118개(86%)가 평문 노출. 검증 분기 진입점을 5분 내 특정.</td></tr><tr><td>OLLVM 제어흐름 평탄화 패턴이 시그니처로 역탐지</td><td><span class="chip">높음</span></td><td>디스패처 switch·상태변수 구조가 OLLVM fla 패스 특유 형태로 남아, 공개된 deflattening 스크립트로 함수 42개 중 31개(74%) 자동 원복. 원복 후 로직 가독성 회복.</td></tr><tr><td>심볼·디버그 정보 잔존</td><td><span class="chip">중간</span></td><td>릴리스 바이너리에 export 심볼 24개와 RTTI/예외 언와인드 정보 잔존. 함수명 CheckLicense·DecryptPayload 등이 그대로 노출돼 분석 시작점 제공.</td></tr><tr><td>안티디버깅·안티탬퍼 부재</td><td><span class="chip">높음</span></td><td>x64dbg 어태치 시 탐지·차단 로직 0건. 브레이크포인트로 검증 분기를 우회(1바이트 패치)해 always-pass 변조 성공, 재실행에도 무결성 검사 없음.</td></tr><tr><td>라이선스 검증 로직 단일 지점 집중</td><td><span class="chip">중간</span></td><td>검증 결과가 단일 bool 반환값 1곳에 수렴 — 해당 분기(cmp/jz) 한 곳만 뒤집으면 전체 우회. 모의 크랙 재현에 12분 소요.</td></tr></tbody></table></section>
+<section class="hero flow" style="background-image:url('assets/img/hero.svg')">
+<div class="hero-txt">
+<p class="eyebrow">ShieldForge — Binary Hardening Diagnostics</p>
+<h1>배포 예정 실행 파일의 난독화 강도를 함수 단위로 진단하고, 상용 수준 대비 격차와 개선 전후를 수치로 보여줍니다</h1>
+<p>Hikari·OLLVM·Claude 기반 난독화가 적용돼 있어도 '어느 함수가 실제로 얼마나 버티는지'는 측정된 적이 없습니다. 컨트롤 플로우 평탄화 패턴은 자동 복원 도구에 알려져 있고, 문자열·심볼이 평문으로 남으면 난독화 강도와 무관하게 로직이 그대로 읽힙니다. 이 데모는 실제 배포 바이너리를 가정해 취약 지점을 함수별로 진단합니다.</p>
+</div></section><section class="wrap"><div class="stats"><div class="stat"><div class="n">7종</div><div class="l">진단 항목</div></div><div class="stat"><div class="n">4단계</div><div class="l">실행 단계</div></div><div class="stat"><div class="n">함수 단위</div><div class="l">강도 측정 입도</div></div><div class="stat"><div class="n">NDA 후 착수</div><div class="l">코드 열람 조건</div></div></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section><section class="wrap"><div class="sec-head"><h2>진단 요약</h2><p>고치기 전에 현재를 수치로 세운다</p></div><table class="tbl"><thead><tr><th>항목</th><th>심각도</th><th>근거</th></tr></thead><tbody><tr><td>OLLVM 컨트롤 플로우 평탄화 패턴이 공개 복원 스크립트에 노출</td><td><span class="chip">높음</span></td><td>핵심 라이선스 검증 함수 FN-0142 등 12개 함수의 디스패처 구조가 알려진 시그니처와 일치. 오픈소스 deflattening 스크립트로 8개 함수 자동 복원 성공(약 6분 소요)</td></tr><tr><td>문자열이 평문으로 남아 로직이 그대로 노출</td><td><span class="chip">높음</span></td><td>바이너리 내 문자열 추출 시 라이선스 오류 메시지·내부 API 경로·정규식 패턴 등 214개 중 187개가 평문. 검증 분기를 grep 수준으로 역추적 가능</td></tr><tr><td>심볼·함수명 정보가 스트립되지 않음</td><td><span class="chip">높음</span></td><td>export 테이블·디버그 잔여 정보에서 checkLicense, validateToken 등 의미 있는 함수명 41개 확인. 분석 진입점이 그대로 표시됨</td></tr><tr><td>안티 디버깅·무결성 검사 부재</td><td><span class="chip">중간</span></td><td>디버거 어태치·바이너리 패치에 대한 방어 로직 미검출. 검증 분기의 조건부 점프 1바이트 패치로 우회 재현</td></tr><tr><td>난독화 적용 범위가 균일해 우선순위가 없음</td><td><span class="chip">중간</span></td><td>전 함수 일괄 적용으로 빌드 크기 2.4배·시작 지연 증가. 반면 정작 민감한 결제·라이선스 함수 3개는 인라인화로 보호 수준이 오히려 낮음</td></tr></tbody></table></section>
 </main>
 <script src="assets/js/site.js"></script>
 <script>DEMO.chrome("index"); DEMO.footer();</script>

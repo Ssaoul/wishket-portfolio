@@ -2,10 +2,10 @@
    색상 규칙: 검증된 팔레트 4색(brand·brand-2·accent·dark)만 사용한다.
    무채색(paper/ink/line)은 전부 palette 의 paper·dark 에서 파생시켜 새 색상이 생기지 않게 한다. */
 :root{
-  --paper:#faf8f5; --paper-2:#f0eeeb; --paper-3:#e1dfdd;
-  --ink:#1b2723; --ink-2:#646f6b; --ink-3:#959c9a; --ink-4:#bdc1c0;
-  --line:rgba(34,49,44,.14); --line-2:rgba(34,49,44,.07);
-  --brand:#2f6f5e; --brand-2:#4a8a78; --accent:#c06a4a; --dark:#22312c;
+  --paper:#f8fafb; --paper-2:#eef0f1; --paper-3:#dfe1e2;
+  --ink:#151f29; --ink-2:#5f6870; --ink-3:#91979d; --ink-4:#babec2;
+  --line:rgba(26,39,51,.14); --line-2:rgba(26,39,51,.07);
+  --brand:#2b4257; --brand-2:#456278; --accent:#d98d3a; --dark:#1a2733;
   --sans:'Pretendard Variable','Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI','Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif;
   --serif:'Nanum Myeongjo','Noto Serif KR',Georgia,serif;
   --wrap:1200px; --gut:clamp(18px,5vw,56px); --ease:cubic-bezier(.22,.61,.36,1); --hdr:66px;
@@ -28,6 +28,19 @@ h1,h2,h3{letter-spacing:-.03em;line-height:1.2;margin:0}
 .hdr .cta{background:var(--brand);color:#fff;padding:8px 15px;border-radius:9px;font-size:13.5px;font-weight:700;border:0}
 .hdr .cta:hover{background:var(--brand-2)}
 .hero{position:relative}
+/* 유형별 시안용 히어로.
+   기본 .hero-txt 는 position:absolute 라 배경 이미지 높이(16/7)에 갇힌다. 유형별 시안은
+   헤드라인·설명이 길어서 위아래로 넘쳐 잘렸다(2026-08-21: 6건 전부 그렇게 나갔다).
+   → .flow 변형은 텍스트를 정상 흐름에 두고, 이미지는 배경으로 깔아 내용만큼 늘어난다. */
+.hero.flow{padding:0;background:var(--dark) center/cover no-repeat}
+.hero.flow::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(20,18,14,.78),rgba(20,18,14,.45))}
+.hero.flow .hero-img{display:none}
+.hero.flow .hero-txt{position:static;inset:auto;padding:64px var(--gut);min-height:0}
+.hero.flow .hero-txt{position:relative;z-index:2}
+/* h1 이 배경 그라디언트에 묻혀 회색으로 보였다 — 흰색을 명시하고 그림자로 대비를 준다. */
+.hero.flow .hero-txt h1{max-width:22ch;color:#fff;text-shadow:0 2px 18px rgba(0,0,0,.45)}
+.hero.flow .hero-txt .eyebrow,.hero.flow .hero-txt p{color:#fff}
+.hero.flow .hero-txt p{max-width:56ch}
 .hero-img{aspect-ratio:16/7;background:var(--paper-3) center/cover no-repeat;min-height:380px;position:relative}
 .hero-img::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(20,18,14,.6),rgba(20,18,14,.12))}
 .hero-txt{position:absolute;inset:0;z-index:2;max-width:var(--wrap);margin:0 auto;padding:0 var(--gut);display:flex;flex-direction:column;justify-content:center;color:#fff}
@@ -126,6 +139,9 @@ section{padding:clamp(56px,9vw,110px) 0}
 .foot .fine{margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,255,.12);color:var(--ink-4);font-size:12px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:center}
 .split-img{aspect-ratio:5/4;border-radius:16px;background:var(--paper-3) center/cover}
+/* pre.note 는 요청/응답 JSON 을 담는다. 안 접으면 가로 스크롤이 나고 오른쪽이 잘린다
+   (2026-08-21 실측: endpoints 페이지에서 마지막 줄이 화면 밖으로 나갔다). */
+pre.note{white-space:pre-wrap;word-break:break-all;overflow-wrap:anywhere;font-size:12px;line-height:1.7}
 .note{background:color-mix(in srgb,var(--accent) 10%,#fff);border:1px solid color-mix(in srgb,var(--accent) 35%,#fff);border-radius:12px;padding:14px 16px;font-size:13px;color:var(--ink-2);line-height:1.6}
 .note b{color:var(--ink)}
 .center{text-align:center} .mt{margin-top:22px}
