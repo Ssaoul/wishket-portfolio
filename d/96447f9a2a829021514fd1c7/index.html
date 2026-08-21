@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>홈 · 옵스큐라 가드 (제안용 데모)</title>
+<meta name="description" content="옵스큐라 가드 홈 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="hero"><div class="hero-txt">
+<p class="pill">Obscura Guard — Binary Hardening Assessment</p>
+<h1>배포 예정 실행 파일의 난독화 강도를 심볼·구간 단위로 진단하고 상용 수준까지의 격차를 개선 전후로 보여줍니다</h1>
+<p>Hikari·OLLVM 을 적용했다고 '충분한 난독화'가 되는 것은 아닙니다. 문자열 상수·라이선스 검증 루틴·핵심 알고리즘 함수가 여전히 심볼 이름과 제어 흐름 그대로 노출되면, IDA·Ghidra 로 30분이면 진입점이 잡힙니다. 어디가 뚫리는지 구간별로 짚고, 목표 수준을 수치로 합의하는 것이 먼저입니다.</p>
+</div></section><section class="wrap"><div class="stats"><div class="stat"><b>7개 구간</b><span>진단 대상 보호구간(SYM)</span></div><div class="stat"><b>4단계</b><span>난독화 강도 레벨(L0~L3)</span></div><div class="stat"><b>3종</b><span>적용 툴체인(Hikari·OLLVM·커스텀)</span></div><div class="stat"><b>5일</b><span>1차 진단 리포트 기간</span></div></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section><section class="wrap"><div class="sec-head"><h2>진단 요약</h2><p>고치기 전에 현재를 수치로 세운다</p></div><table class="tbl"><thead><tr><th>항목</th><th>심각도</th><th>근거</th></tr></thead><tbody><tr><td>라이선스 검증 함수가 심볼 이름 그대로 노출</td><td><span class="chip">높음</span></td><td>SYM-0117(checkLicenseKey)가 스트립되지 않아 심볼 테이블에서 즉시 검색 가능. 상호참조(xref) 4곳으로 우회 분기 위치가 그대로 드러남</td></tr><tr><td>핵심 알고리즘에 제어흐름 평탄화 미적용</td><td><span class="chip">높음</span></td><td>SYM-0204(core_transform) 구간이 Hikari 문자열 암호화만 적용됨. CFG 복잡도 지표 12로, 동일 규모 상용 바이너리 평균 210 대비 6% 수준</td></tr><tr><td>평문 문자열 상수 잔존</td><td><span class="chip">중간</span></td><td>바이너리 내 평문 문자열 38건 검출 — API 엔드포인트 경로·에러 메시지·디버그 태그 포함. 기능 진입점 추정 단서로 직결</td></tr><tr><td>안티디버깅·무결성 검사 부재</td><td><span class="chip">중간</span></td><td>ptrace/디버거 탐지 루틴 0건, 코드 섹션 체크섬 검증 없음. 동적 분석(x64dbg attach) 시 아무 저항 없이 브레이크포인트 부착됨</td></tr><tr><td>컴파일러 최적화가 난독화를 부분 상쇄</td><td><span class="chip">낮음</span></td><td>-O2 최적화가 OLLVM bogus branch 일부를 죽은 코드로 판정해 제거 — SYM-0331 구간에서 삽입 분기 9개 중 3개 소실 확인</td></tr></tbody></table></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("index"); DEMO.footer();</script>
+
+</body>
+</html>

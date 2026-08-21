@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title> · 옵스큐라 가드 (제안용 데모)</title>
+<meta name="description" content="옵스큐라 가드  — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>발견 항목</h2><p>무엇이 병목인지와 그 근거</p></div><div class="field"><b>라이선스 검증 함수가 심볼 이름 그대로 노출 <span class="chip">높음</span></b><p>근거 — SYM-0117(checkLicenseKey)가 스트립되지 않아 심볼 테이블에서 즉시 검색 가능. 상호참조(xref) 4곳으로 우회 분기 위치가 그대로 드러남</p><p>조치 — 심볼 제거(strip) + OLLVM control flow flattening 적용, 검증 결과를 단일 불리언이 아닌 다중 지연 검사로 분산</p></div><div class="field"><b>핵심 알고리즘에 제어흐름 평탄화 미적용 <span class="chip">높음</span></b><p>근거 — SYM-0204(core_transform) 구간이 Hikari 문자열 암호화만 적용됨. CFG 복잡도 지표 12로, 동일 규모 상용 바이너리 평균 210 대비 6% 수준</p><p>조치 — OLLVM flattening + bogus control flow 조합 적용, 목표 CFG 복잡도 180 이상</p></div><div class="field"><b>평문 문자열 상수 잔존 <span class="chip">중간</span></b><p>근거 — 바이너리 내 평문 문자열 38건 검출 — API 엔드포인트 경로·에러 메시지·디버그 태그 포함. 기능 진입점 추정 단서로 직결</p><p>조치 — Hikari string encryption 전체 구간 확대 적용, 디버그 태그는 릴리즈 빌드에서 제거</p></div><div class="field"><b>안티디버깅·무결성 검사 부재 <span class="chip">중간</span></b><p>근거 — ptrace/디버거 탐지 루틴 0건, 코드 섹션 체크섬 검증 없음. 동적 분석(x64dbg attach) 시 아무 저항 없이 브레이크포인트 부착됨</p><p>조치 — 자기 무결성 검사(self-checksum) + 다중 지점 안티디버깅 삽입, 탐지 시 즉시 종료가 아닌 지연·기능 저하로 반응</p></div><div class="field"><b>컴파일러 최적화가 난독화를 부분 상쇄 <span class="chip">낮음</span></b><p>근거 — -O2 최적화가 OLLVM bogus branch 일부를 죽은 코드로 판정해 제거 — SYM-0331 구간에서 삽입 분기 9개 중 3개 소실 확인</p><p>조치 — 난독화 패스와 최적화 패스 순서 조정, opaque predicate 로 제거 방지 처리</p></div><div class="field"><b>동일 빌드 반복 시 결정론적 패턴 <span class="chip">낮음</span></b><p>근거 — 두 빌드 산출물의 난독화 패턴이 동일 — 시드 고정으로 diff 시 변화 함수만 정확히 특정됨. 버전 간 비교 공격에 취약</p><p>조치 — 빌드별 난독화 시드 무작위화, 함수 배치·더미 코드 랜덤화로 diff 저항성 확보</p></div><div class="field"><b>툴체인 목표 수준 미합의 <span class="chip">중간</span></b><p>근거 — 현재 '난독화 적용' 여부만 있고 정량 목표(CFG 복잡도·문자열 은닉률·분석 소요시간)가 없음. 완료 판정 기준 부재</p><p>조치 — L0~L3 강도 레벨 정의서와 구간별 목표 레벨 매핑표를 착수 시 합의, 재현 가능한 측정 스크립트 제공</p></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("findings"); DEMO.footer();</script>
+
+</body>
+</html>
