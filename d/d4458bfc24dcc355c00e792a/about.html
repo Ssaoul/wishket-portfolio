@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>소개 · 스톤포지 머시너리 코리아 (제안용 데모)</title>
+<meta name="description" content="스톤포지 머시너리 코리아 소개 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>이 시안이 다루는 범위</h2></div><p>본사 영문 사이트의 페이지 구조·레이아웃·시각 요소를 그대로 재현하는 것을 기준으로 삼고, 신규 기능은 넣지 않았습니다. 대신 번역·이관에서 실제로 문제가 되는 지점 — 국문 길이 증가로 인한 레이아웃 붕괴, 본사 서버에 걸린 이미지와 카탈로그 PDF, 해외 전용 위젯 — 을 페이지별 상태값으로 드러내 검수 가능하게 만들었습니다. 워드프레스 이관 후에는 담당자가 텍스트·이미지·스펙표 값·다운로드 링크 4개 영역을 직접 고칠 수 있고, GNB 구조와 템플릿은 잠가 원본 디자인이 유지되도록 구성했습니다. 화면에 보이는 제품명·번호·수치는 전부 제안용 합성 데이터이며 실제 실적이 아닙니다.</p><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("about"); DEMO.footer();</script>
+<script>
+(function(){
+  var f=document.getElementById('form'); if(!f) return;
+  f.addEventListener('submit', function(e){
+    e.preventDefault(); var ok=true;
+    [['nm','f-nm'],['ph','f-ph'],['ms','f-ms']].forEach(function(p){
+      var bad=!document.getElementById(p[0]).value.trim();
+      document.getElementById(p[1]).classList.toggle('bad', bad); if(bad) ok=false;
+    });
+    if(!ok){ DEMO.toast('필수 항목을 확인해 주세요'); return; }
+    DEMO.toast('✓ 문의가 접수되었습니다 (데모 — 실제 전송 안 함)'); f.reset();
+  });
+  if(location.hash==='#contact'){ setTimeout(function(){ var el=document.getElementById('contact'); if(el) el.scrollIntoView(); },80); }
+})();
+</script>
+</body>
+</html>
