@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>관리자 · 기사한상 (제안용 데모)</title>
+<meta name="description" content="기사한상 관리자 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>관리자 처리 큐</h2><p>들어온 요청이 어디까지 처리됐는가</p></div><table class="tbl"><thead><tr><th>접수번호</th><th>신청자</th><th>요청</th><th>상태</th></tr></thead><tbody><tr><td>AUTH-260821-0117</td><td>김O수 (기사)</td><td>QR 인증 → 기사백반 정식 1 · 회원가 적용</td><td><span class="chip">정상 결제</span></td></tr><tr><td>AUTH-260821-0118</td><td>미확인</td><td>휴대폰 뒷4자리 3회 불일치 → 정상가 전환</td><td><span class="chip">인증 실패</span></td></tr><tr><td>AUTH-260821-0121</td><td>박O철 (기사)</td><td>QR 훼손으로 스캔 불가 → 번호 인증으로 우회</td><td><span class="chip">대체 인증 성공</span></td></tr><tr><td>AUTH-260821-0126</td><td>이O민</td><td>명단 미등록 번호로 회원가 요청</td><td><span class="chip">등록 요청 검토</span></td></tr><tr><td>AUTH-260821-0130</td><td>정O호 (기사)</td><td>같은 QR 2분 내 재사용(중복 스캔)</td><td><span class="chip">중복 차단</span></td></tr><tr><td>BATCH-260819-03</td><td>매장 관리자</td><td>회원 명단 엑셀 업로드 142행 (중복 3 · 번호 형식 오류 2)</td><td><span class="chip">검증 후 137행 반영</span></td></tr><tr><td>AUTH-260820-0092</td><td>최O영 (기사)</td><td>탈퇴 처리된 회원 QR 스캔</td><td><span class="chip">권한 만료</span></td></tr><tr><td>AUTH-260820-0088</td><td>한O규 (기사)</td><td>결제 중 단말 통신 끊김 → 주문 재개 후 회원가 유지</td><td><span class="chip">복구 완료</span></td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("admin"); DEMO.footer();</script>
+<script>
+(function(){
+  var D=DEMO.D;
+  var DB={ item:D.items.map(function(x){return Object.assign({},x);}), case:D.cases.map(function(x){return {id:x.id,name:x.title,cat:x.type,desc:x.desc,img:x.img,pub:1};}) };
+  var CATS={ item:D.cats.slice(), case:D.caseCats.slice() };
+  var tab='item', editing=null, seq=100;
+  var tbody=document.getElementById('tbody'), thead=document.getElementById('thead'), modal=document.getElementById('modal');
+  function render(){
+    var rows=DB[tab];
+    document.getElementById('paneTitle').textContent = tab==='item'? D.labels.catalog+' 관리' : D.labels.gallery+' 관리';
+    document.getElementById('cnt').textContent = rows.length+'건';
+    thead.innerHTML='<tr><th>이미지</th><th>이름</th><th>분류</th><th>공개</th><th style="text-align:right">관리</th></tr>';
+    tbody.innerHTML=rows.map(function(r){
+      return '<tr><td><img class="thumb-sm" src="'+r.img+'" alt=""></td>'
+      +'<td><b>'+DEMO.esc(r.name)+'</b><br><span style="font-size:12px;color:var(--ink-3)">'+DEMO.esc(String(r.desc||'').slice(0,30))+'</span></td>'
+      +'<td>'+DEMO.esc(r.cat)+'</td>'
+      +'<td><span class="pill '+(r.pub?'on':'off')+'" data-toggle="'+r.id+'" style="cursor:pointer">'+(r.pub?'공개':'비공개')+'</span></td>'
+      +'<td style="text-align:right;white-space:nowrap"><button class="ibtn" data-edit="'+r.id+'">수정</button> <button class="ibtn danger" data-del="'+r.id+'">삭제</button></td></tr>';
+    }).join('');
+  }
+  document.querySelectorAll('.admin-side a[data-tab]').forEach(function(a){
+    a.addEventListener('click', function(e){ e.preventDefault();
+      document.querySelectorAll('.admin-side a[data-tab]').forEach(function(x){x.classList.remove('on');});
+      a.classList.add('on'); tab=a.dataset.tab; render();
+    });
+  });
+  tbody.addEventListener('click', function(e){
+    var ed=e.target.closest('[data-edit]'), dl=e.target.closest('[data-del]'), tg=e.target.closest('[data-toggle]');
+    if(ed){ openModal(DB[tab].filter(function(r){return r.id===ed.dataset.edit;})[0]); }
+    if(dl){ DB[tab]=DB[tab].filter(function(r){return r.id!==dl.dataset.del;}); render(); DEMO.toast('삭제되었습니다'); }
+    if(tg){ var r=DB[tab].filter(function(x){return x.id===tg.dataset.toggle;})[0]; r.pub=r.pub?0:1; render(); DEMO.toast(r.pub?'공개로 전환':'비공개로 전환'); }
+  });
+  function fillCats(){
+    document.getElementById('m-cat').innerHTML=CATS[tab].map(function(c){return '<option>'+DEMO.esc(c)+'</option>';}).join('');
+  }
+  function openModal(row){
+    editing=row||null; fillCats();
+    document.getElementById('mTitle').textContent=row?'수정':'새로 등록';
+    document.getElementById('m-name').value=row?row.name:'';
+    document.getElementById('m-cat').value=row?row.cat:CATS[tab][0];
+    document.getElementById('m-desc').value=row?row.desc:'';
+    document.getElementById('m-pub').value=row?String(row.pub):'1';
+    modal.classList.add('on');
+  }
+  document.getElementById('addBtn').onclick=function(){ openModal(null); };
+  document.getElementById('mCancel').onclick=function(){ modal.classList.remove('on'); };
+  document.getElementById('mSave').onclick=function(){
+    var name=document.getElementById('m-name').value.trim();
+    if(!name){ DEMO.toast('이름을 입력하세요'); return; }
+    var d={ name:name, cat:document.getElementById('m-cat').value, desc:document.getElementById('m-desc').value.trim(), pub:+document.getElementById('m-pub').value };
+    if(editing){ Object.assign(editing,d); DEMO.toast('수정되었습니다'); }
+    else {
+      var pool=DB[tab].length?DB[tab]:[{img:'assets/img/item-0.svg'}];
+      DB[tab].unshift(Object.assign({ id:tab.toUpperCase()+(++seq), img:pool[0].img }, d));
+      DEMO.toast('등록되었습니다');
+    }
+    modal.classList.remove('on'); render();
+  };
+  modal.addEventListener('click', function(e){ if(e.target.id==='modal') modal.classList.remove('on'); });
+  render();
+})();
+</script>
+</body>
+</html>

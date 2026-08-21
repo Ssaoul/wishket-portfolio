@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>개요 · 기사밥상 멤버패스 (제안용 데모)</title>
-<meta name="description" content="기사밥상 멤버패스 개요 — 제안용 데모 · 합성 데이터.">
+<title>개요 · 기사한상 (제안용 데모)</title>
+<meta name="description" content="기사한상 개요 — 제안용 데모 · 합성 데이터.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="assets/css/site.css">
 </head>
@@ -12,10 +12,10 @@
 <main>
 <section class="hero flow" style="background-image:url('assets/img/hero.svg')">
 <div class="hero-txt">
-<p class="eyebrow">MemberPass Kiosk Discount Bridge — Synthetic Demo</p>
-<h1>무인 키오스크에서 회원을 인증하고, 회원가·정상가를 결제 전에 자동으로 갈라주는 연동 계약을 실제 요청·응답으로 보여줍니다.</h1>
-<p>어려운 지점은 인증이 아니라 '결제 직전 한 번, 정확히 한 번'입니다. 키오스크가 응답을 못 받고 재시도하거나 손님이 [인증] 버튼을 두 번 눌러도 할인이 두 번 적용되면 안 되고, 서버가 늦거나 죽어도 결제 자체는 정상가로 끝까지 진행돼야 합니다. 그래서 이 데모는 성공 경로보다 실패·중복·재시도 경로를 더 많이 담았습니다.</p>
-</div></section><section class="wrap"><div class="stats"><div class="stat"><div class="n">6종</div><div class="l">공개 엔드포인트</div></div><div class="stat"><div class="n">5종</div><div class="l">정의된 실패 코드</div></div><div class="stat"><div class="n">400ms</div><div class="l">인증 응답 타임아웃(초과 시 정상가 진행)</div></div><div class="stat"><div class="n">주 1회</div><div class="l">회원 명단 배치 반영 주기</div></div></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section><section class="wrap"><div class="sec-head"><h2>연동 구성</h2><p>무엇과 무엇이 어떤 순서로 오가는가</p></div><div class="timeline"><div class="tl"><div class="y">POST /v1/members/verify</div><div class="d">QR 또는 휴대폰 뒷자리로 회원 여부 확인. 할인율만 돌려주고 결제는 건드리지 않는다.</div></div><div class="tl"><div class="y">POST /v1/members/verify-by-phone</div><div class="d">QR 스캔 실패·미소지 시 대안 경로. 휴대폰 전체번호를 단말에 남기지 않도록 해시로 조회.</div></div><div class="tl"><div class="y">POST /v1/pricing/quote</div><div class="d">장바구니에 회원 인증 결과를 적용해 정상가·회원가를 확정. 인증 없으면 정상가로 응답.</div></div><div class="tl"><div class="y">POST /v1/transactions/commit</div><div class="d">결제 완료 사실을 기록. requestId 로 멱등 — 같은 값이 다시 오면 새로 쓰지 않고 원본을 되돌려준다.</div></div></div><p class="note">단말은 매장·기기 단위로 발급한 키로 서버에 인증하고, 회원 조회 권한만 갖습니다 — 명단 수정·삭제는 운영자 화면에서만 가능하고 단말 키로는 호출 자체가 막힙니다. 중복 방지는 단말이 만든 requestId 를 멱등 키로 삼아, 같은 값이 다시 오면 새 처리를 하지 않고 최초 결과를 그대로 돌려주는 방식입니다(24시간 보관). 그래서 손님이 버튼을 여러 번 누르거나 네트워크 재시도가 겹쳐도 할인은 한 번만 적용되고, 거래 기록도 한 줄만 남습니다.</p></section>
+<p class="eyebrow">Driver Meal Membership Discount Kiosk</p>
+<h1>찍으면 회원가, 안 찍으면 정상가</h1>
+<p>택시 기사 회원에겐 할인가, 일반 손님에겐 정상가. 무인 키오스크 앞에서 줄 세우지 않고 3초 안에 갈리게 했습니다. 인증 실패·명단 미등록·중복 사용까지 화면에서 처리됩니다.</p>
+</div></section><section class="wrap"><div class="stats"><div class="stat"><div class="n">2가지</div><div class="l">인증 방식(QR·휴대폰 뒷4자리)</div></div><div class="stat"><div class="n">3초</div><div class="l">인증 목표 응답</div></div><div class="stat"><div class="n">주 1회</div><div class="l">회원 명단 일괄 반영</div></div><div class="stat"><div class="n">2종</div><div class="l">대응 단말(대형·소형)</div></div></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section><section class="wrap"><div class="sec-head"><h2>이용 흐름</h2><p>사용자가 하는 일이 끊기지 않는다</p></div><div class="timeline"><div class="tl"><div class="y">1. 회원 확인</div><div class="d">화면에서 '기사 회원' 또는 '일반 손님'을 고른다. 일반 손님은 바로 메뉴로 넘어간다.</div></div><div class="tl"><div class="y">2. 인증</div><div class="d">발급받은 QR을 스캐너에 대거나, QR이 없으면 휴대폰 뒷4자리를 누른다.</div></div><div class="tl"><div class="y">3. 결과 확인</div><div class="d">'회원 확인됨 · 김OO 님' 또는 '명단에 없습니다'가 즉시 뜬다. 실패해도 주문은 계속할 수 있다.</div></div><div class="tl"><div class="y">4. 메뉴 선택</div><div class="d">인증되면 회원가가 표시된 메뉴판이, 아니면 정상가 메뉴판이 뜬다. 할인 불가 품목은 같은 값으로 표시된다.</div></div><div class="tl"><div class="y">5. 결제</div><div class="d">적용 단가와 할인액을 마지막으로 보여주고 결제 단말로 넘긴다. 영수증에 회원 적용 여부가 찍힌다.</div></div></div></section>
 </main>
 <script src="assets/js/site.js"></script>
 <script>DEMO.chrome("index"); DEMO.footer();</script>
