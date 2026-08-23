@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>산출물 · 콜브릿지 (제안용 데모)</title>
+<meta name="description" content="콜브릿지 산출물 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>산출물</h2><p>무엇이 최종적으로 나오는가</p></div><table class="tbl"><thead><tr><th>산출물</th><th>형식</th><th>설명</th></tr></thead><tbody><tr><td>서비스콜 접수 대장</td><td><span class="chip">CSV</span></td><td>기간별 콜 목록 — 내부 콜번호, 접수·종료 일시, 장비명, 시리얼, 담당자, 포털 티켓번호, 현재 상태. 기존 엑셀 관리 항목을 그대로 담아 이관 시 대조할 수 있게 했다.</td></tr><tr><td>파싱 실패 건 워크리스트</td><td><span class="chip">CSV</span></td><td>실패 사유별로 묶인 미처리 메일 목록. 원문 링크와 추출에 성공한 필드까지 함께 실어, 관리자 페이지에서 빈 칸만 채워 재전송할 수 있다.</td></tr><tr><td>연동 에러 로그</td><td><span class="chip">JSON</span></td><td>전송 실패건의 요청·응답 본문, HTTP 상태, 재시도 횟수, 최종 처리 결과. 포털 담당자에게 그대로 전달할 수 있는 형태다.</td></tr><tr><td>계약 장비 대조 리포트</td><td><span class="chip">XLSX</span></td><td>콜이 들어왔으나 계약 DB 에 없거나 기간이 지난 장비 목록. 장비 마스터를 정리할 때 쓰는 것을 전제로 만들었다.</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("output"); DEMO.footer();</script>
+
+</body>
+</html>

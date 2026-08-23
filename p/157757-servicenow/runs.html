@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>실행 이력 · 콜브릿지 (제안용 데모)</title>
+<meta name="description" content="콜브릿지 실행 이력 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>실행 이력</h2><p>성공만이 아니라 실패가 보여야 한다</p></div><table class="tbl"><thead><tr><th>실행</th><th>시각</th><th>상태</th><th>처리</th><th>소요</th></tr></thead><tbody><tr><td>RUN-20260824-0900</td><td>08-24 09:00</td><td><span class="chip">성공</span></td><td>14건 / 14</td><td>41초</td></tr><tr><td>RUN-20260824-0800</td><td>08-24 08:00</td><td><span class="chip">부분실패</span></td><td>11건 / 13 (파싱 2)</td><td>1분 06초</td></tr><tr><td>RUN-20260823-1800</td><td>08-23 18:00</td><td><span class="chip">부분실패</span></td><td>19건 / 21 (계약만료 1, 전송 1)</td><td>1분 22초</td></tr><tr><td>RUN-20260823-1500</td><td>08-23 15:00</td><td><span class="chip">성공</span></td><td>8건 / 8</td><td>27초</td></tr><tr><td>RUN-20260823-1200</td><td>08-23 12:00</td><td><span class="chip">실패</span></td><td>0건 / 17 (포털 502)</td><td>3분 10초</td></tr><tr><td>RUN-20260823-0900</td><td>08-23 09:00</td><td><span class="chip">성공</span></td><td>22건 / 22</td><td>1분 04초</td></tr><tr><td>RUN-20260822-1800</td><td>08-22 18:00</td><td><span class="chip">부분실패</span></td><td>15건 / 16 (시리얼 미등록 1)</td><td>58초</td></tr><tr><td>RUN-20260822-1200</td><td>08-22 12:00</td><td><span class="chip">성공</span></td><td>9건 / 9</td><td>33초</td></tr><tr><td>RUN-20260822-0900</td><td>08-22 09:00</td><td><span class="chip">부분실패</span></td><td>17건 / 19 (파싱 1, 전송 1)</td><td>1분 19초</td></tr><tr><td>RUN-20260821-1800</td><td>08-21 18:00</td><td><span class="chip">성공</span></td><td>12건 / 12</td><td>44초</td></tr></tbody></table><p class="note">실패한 건은 버리지 않고 사유별 큐로 격리한다 — 파싱 실패(양식 미매칭·필드 누락), 검증 실패(시리얼 미등록·계약 만료), 전송 실패(포털 응답 오류)를 각각 분리해 원문과 부분 추출 결과를 함께 보관한다. 전송 실패는 지수 백오프로 3회까지 자동 재시도하고, 그래도 실패하면 자동 재시도를 멈추고 관리자 목록에 올린다. 자동으로 풀 수 없는 건은 관리자 페이지에서 빈 필드만 채워 수동 등록·재전송할 수 있으며, 이때 원본 메일과 수정 이력이 함께 남아 나중에 누가 무엇을 고쳤는지 추적된다.</p><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("runs"); DEMO.footer();</script>
+
+</body>
+</html>
