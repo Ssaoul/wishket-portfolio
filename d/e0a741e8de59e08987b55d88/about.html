@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>소개 · 큐브뎁스 (제안용 데모)</title>
+<meta name="description" content="큐브뎁스 소개 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>스킨 한 장이 아니라, 두 달 뒤에도 굴러가는 체계</h2></div><p>이 시안은 블로그 디자인을 '기획 → 정보구조 → 템플릿 → 운영 규칙' 순으로 쌓았습니다. 3D 비전은 설명이 어려운 분야라, 글마다 구조가 달라지면 독자는 두 번째 글에서 이탈합니다. 그래서 포스트 유형을 4종으로 묶고 각 유형이 반드시 갖춰야 할 요소를 슬롯으로 고정했습니다. 담당자는 정해진 자리에 내용만 채우면 되고, 색·타이포·여백은 스킨에 잠겨 있어 손대지 않아도 톤이 유지됩니다. 화면의 모든 수치와 사례는 제안용 합성 데이터입니다.</p><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("about"); DEMO.footer();</script>
+<script>
+(function(){
+  var f=document.getElementById('form'); if(!f) return;
+  f.addEventListener('submit', function(e){
+    e.preventDefault(); var ok=true;
+    [['nm','f-nm'],['ph','f-ph'],['ms','f-ms']].forEach(function(p){
+      var bad=!document.getElementById(p[0]).value.trim();
+      document.getElementById(p[1]).classList.toggle('bad', bad); if(bad) ok=false;
+    });
+    if(!ok){ DEMO.toast('필수 항목을 확인해 주세요'); return; }
+    DEMO.toast('✓ 문의가 접수되었습니다 (데모 — 실제 전송 안 함)'); f.reset();
+  });
+  if(location.hash==='#contact'){ setTimeout(function(){ var el=document.getElementById('contact'); if(el) el.scrollIntoView(); },80); }
+})();
+</script>
+</body>
+</html>

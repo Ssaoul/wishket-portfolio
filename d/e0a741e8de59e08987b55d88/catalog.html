@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>전체 항목 · 큐브뎁스 (제안용 데모)</title>
+<meta name="description" content="큐브뎁스 전체 항목 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>전체 항목</h2></div><div class="filters"><span class="chip">기술 원리</span><span class="chip">산업 적용사례</span><span class="chip">제품·사양</span><span class="chip">현장·사람</span><span class="chip">운영 공지</span></div><table class="tbl"><thead><tr><th>이름</th><th>분류</th><th>설명</th></tr></thead><tbody><tr><td>구조광과 ToF, 3D 측정 방식 비교</td><td><span class="chip">기술 원리</span></td><td>도식 3컷 + 비교표 1개가 고정 슬롯. 담당자는 표의 값과 캡션만 교체한다. 용어는 사내 표기 사전(포인트 클라우드·정합·측정편차)을 따른다.</td></tr><tr><td>포인트 클라우드 정합이 틀어지는 3가지 이유</td><td><span class="chip">기술 원리</span></td><td>실패 원인을 먼저 쓰고 대응을 붙이는 역순 구성. 기술 포스트 중 체류시간이 가장 긴 유형이라 상단 요약 박스를 넣었다.</td></tr><tr><td>이차전지 탭 정렬 검사 적용 기록</td><td><span class="chip">산업 적용사례</span></td><td>적용 라인 · 측정 대상 · 개선 항목 3단 고정. 발주처 고객사는 '이차전지 조립 A사'처럼 업종+알파벳 익명 표기 규칙을 적용한다.</td></tr><tr><td>물류 파렛트 적재 부피 측정 도입 기록</td><td><span class="chip">산업 적용사례</span></td><td>현장 사진 2장이 없을 때를 대비해 도면 기반 일러스트 대체안을 함께 설계. 자료가 최소일 때도 발행이 멈추지 않게 한다.</td></tr><tr><td>3D 스캔 센서 사양표(측정거리·정밀도·시야각)</td><td><span class="chip">제품·사양</span></td><td>사양표 모듈은 모바일에서 가로 스크롤 표로 전환. 단위 표기는 mm·μm·° 로 고정하고 소수점 자리수까지 가이드에 명시.</td></tr><tr><td>설치 환경 체크리스트: 조명·진동·반사면</td><td><span class="chip">제품·사양</span></td><td>영업 담당자가 상담 때 링크로 던지는 용도. 체크박스 이미지 대신 텍스트 리스트로 만들어 복사·인용이 가능하게 했다.</td></tr><tr><td>비전 엔지니어의 하루 — 현장 셋업 기록</td><td><span class="chip">현장·사람</span></td><td>기술 포스트 사이의 완급 조절용. 인물 사진은 뒷모습·손 위주로 촬영 가이드를 제시해 초상 동의 부담을 줄인다.</td></tr><tr><td>블로그 리뉴얼 안내 및 지난 글 정리 공지</td><td><span class="chip">운영 공지</span></td><td>오픈 시 최상단 고정. 이관하지 않은 지난 글의 처리 방침(비공개 전환)과 문의 경로를 한 화면에 담는다.</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("catalog"); DEMO.footer();</script>
+<script>
+(function(){
+  var cur='전체', D=DEMO.D;
+  var grid=document.getElementById('grid'), fl=document.getElementById('filters');
+  function draw(){
+    var v=D.items.filter(function(x){return cur==='전체'||x.cat===cur;});
+    grid.innerHTML=v.map(function(x){
+      return '<article class="prod"><div class="pimg" style="background-image:url(\''+x.img+'\')"></div>'
+      +'<div class="pbody"><span class="chip">'+DEMO.esc(x.cat)+'</span>'
+      +'<h3 style="margin-top:10px">'+DEMO.esc(x.name)+'</h3>'
+      +'<div class="desc">'+DEMO.esc(x.desc)+'</div>'
+      +'<div class="meta"><span>'+DEMO.esc(x.meta)+'</span><b>자세히 →</b></div></div></article>';
+    }).join('');
+  }
+  fl.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>
