@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>개요 · 무브타입 랩 (제안용 데모)</title>
+<meta name="description" content="무브타입 랩 개요 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="hero flow" style="background-image:url('assets/img/hero.svg')">
+<div class="hero-txt">
+<p class="eyebrow">Sports Wellness Persona Test Engine</p>
+<h1>응답 30문항, 유형 하나로</h1>
+<p>3~5분 응답을 8개 라이프스타일 유형으로 나누는 건 문항 설계보다 분류가 흔들릴 때가 문제입니다. LLM이 유형 밖 답을 내거나 응답이 중간에 끊기면 결과카드가 비어 나갑니다.</p>
+</div></section><section class="wrap"><div class="stats"><div class="stat"><div class="n">28문항</div><div class="l">성향 문항 세트</div></div><div class="stat"><div class="n">8유형</div><div class="l">라이프스타일 분류</div></div><div class="stat"><div class="n">5단계</div><div class="l">응답→결과카드 파이프라인</div></div><div class="stat"><div class="n">3회</div><div class="l">분류 실패 시 재시도 상한</div></div></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section><section class="wrap"><div class="sec-head"><h2>처리 단계</h2><p>입력에서 산출물까지 어디를 지나는가</p></div><div class="timeline"><div class="tl"><div class="y">응답 수집</div><div class="d">개인정보 수집·이용 동의 확인 후 28문항 선택형 응답을 세션 단위로 저장한다. 중도 이탈 시 마지막 문항 번호까지 보존한다.</div></div><div class="tl"><div class="y">응답 검증</div><div class="d">필수 문항 누락·중복 제출·동의 미체크를 걸러낸다. 결측이 3문항 이하면 보정 규칙으로 통과, 초과하면 분류로 넘기지 않는다.</div></div><div class="tl"><div class="y">지표 산출</div><div class="d">응답을 활동강도·규칙성·사교성·회복선호 4개 축 점수로 환산한다. LLM 호출 전 결정적 계산으로 처리해 같은 응답은 항상 같은 축 점수를 낸다.</div></div><div class="tl"><div class="y">유형 분류</div><div class="d">축 점수와 응답 요약을 외부 LLM API에 보내 8개 유형 중 하나로 분류하고 근거 문장을 받는다. 정의된 유형 코드 밖 응답은 무효 처리한다.</div></div><div class="tl"><div class="y">결과카드 생성</div><div class="d">유형명·성향 지표 막대·추천 스포츠·추천 콘텐츠 문구를 세로형(1080×1920) 카드 이미지로 렌더한다. 공유 링크와 함께 발급한다.</div></div><div class="tl"><div class="y">원본 적재</div><div class="d">문항별 원본 응답·축 점수·유형·카드 URL을 DB에 적재하고 관리자 화면의 CSV 내보내기 대상에 포함한다.</div></div></div></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("index"); DEMO.footer();</script>
+
+</body>
+</html>

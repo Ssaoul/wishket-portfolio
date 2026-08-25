@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>실행 이력 · 무브타입 랩 (제안용 데모)</title>
+<meta name="description" content="무브타입 랩 실행 이력 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>실행 이력</h2><p>성공만이 아니라 실패가 보여야 한다</p></div><table class="tbl"><thead><tr><th>실행</th><th>시각</th><th>상태</th><th>처리</th><th>소요</th></tr></thead><tbody><tr><td>RUN-20260825-0910</td><td>08-25 09:10</td><td><span class="chip">성공</span></td><td>응답세션 142건</td><td>3분 12초</td></tr><tr><td>RUN-20260825-1010</td><td>08-25 10:10</td><td><span class="chip">성공</span></td><td>응답세션 118건</td><td>2분 47초</td></tr><tr><td>RUN-20260825-1110</td><td>08-25 11:10</td><td><span class="chip">부분실패</span></td><td>성공 96 / 보류 7</td><td>4분 05초</td></tr><tr><td>RUN-20260825-1210</td><td>08-25 12:10</td><td><span class="chip">성공</span></td><td>응답세션 203건</td><td>4분 31초</td></tr><tr><td>RUN-20260825-1310</td><td>08-25 13:10</td><td><span class="chip">실패</span></td><td>처리 0 / 대기 176</td><td>0분 48초</td></tr><tr><td>RUN-20260825-1325</td><td>08-25 13:25</td><td><span class="chip">성공</span></td><td>재처리 176건</td><td>4분 58초</td></tr><tr><td>RUN-20260825-1410</td><td>08-25 14:10</td><td><span class="chip">부분실패</span></td><td>성공 131 / 보류 4</td><td>3분 39초</td></tr><tr><td>RUN-20260825-1510</td><td>08-25 15:10</td><td><span class="chip">성공</span></td><td>응답세션 87건</td><td>2분 09초</td></tr><tr><td>RUN-20260825-1610</td><td>08-25 16:10</td><td><span class="chip">부분실패</span></td><td>성공 154 / 보류 12</td><td>5분 22초</td></tr><tr><td>RUN-20260825-1710</td><td>08-25 17:10</td><td><span class="chip">성공</span></td><td>응답세션 165건</td><td>3분 54초</td></tr></tbody></table><p class="note">실패한 응답세션은 폐기하지 않고 사유별 큐로 분리한다 — 필수 문항 결측은 '불완전응답', LLM이 정의 밖 유형을 반환하면 '재분류', API 오류·타임아웃은 '재시도' 큐로 들어간다. 재시도 큐는 지수 백오프로 최대 3회 자동 재처리하고, 3회를 넘기면 관리자 화면에 보류 목록으로 노출한다. 보류 건에는 결과카드를 발급하지 않고 사용자에게 '결과 준비 중' 안내를 띄우며, 원본 응답은 처리상태와 사유를 붙여 CSV에 그대로 남긴다.</p><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("runs"); DEMO.footer();</script>
+
+</body>
+</html>

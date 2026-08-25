@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>단계별 로그 · 무브타입 랩 (제안용 데모)</title>
+<meta name="description" content="무브타입 랩 단계별 로그 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>단계별 로그</h2><p>실패한 건이 어디서 왜 멈췄는지</p></div><table class="tbl"><thead><tr><th>단계</th><th>시각</th><th>수준</th><th>메시지</th></tr></thead><tbody><tr><td>응답 수집</td><td>16:10:02</td><td><span class="chip">info</span></td><td>수집 대상 응답세션 166건 (동의 완료 166 / 중도 이탈 21은 제외)</td></tr><tr><td>응답 검증</td><td>16:10:14</td><td><span class="chip">warn</span></td><td>SES-8841 문항 Q17·Q22 결측 — 보정 규칙 적용 후 통과 (허용 3문항 이내)</td></tr><tr><td>응답 검증</td><td>16:10:15</td><td><span class="chip">error</span></td><td>SES-8846 필수 문항 9개 결측 — 분류 미진행, 불완전응답 큐로 이동</td></tr><tr><td>지표 산출</td><td>16:10:31</td><td><span class="chip">info</span></td><td>4개 축 점수 환산 완료 — 활동강도/규칙성/사교성/회복선호</td></tr><tr><td>유형 분류</td><td>16:11:08</td><td><span class="chip">info</span></td><td>LLM 분류 배치 1/4 전송 (40건) — 응답 평균 1.9초</td></tr><tr><td>유형 분류</td><td>16:12:20</td><td><span class="chip">warn</span></td><td>LLM 응답 지연 8.2초 — 배치 2/4 재시도 1회 후 정상 수신</td></tr><tr><td>유형 분류</td><td>16:13:04</td><td><span class="chip">error</span></td><td>SES-8902 외 4건 정의 밖 유형 코드 반환('활동형') — 무효 처리, 재분류 큐 적재</td></tr><tr><td>유형 분류</td><td>16:13:41</td><td><span class="chip">error</span></td><td>LLM API 429 (rate limit) — 배치 4/4 중단, 지수 백오프 대기 60초</td></tr><tr><td>유형 분류</td><td>16:14:52</td><td><span class="chip">info</span></td><td>배치 4/4 재개 — 34건 분류 완료, 누적 154/166</td></tr><tr><td>결과카드 생성</td><td>16:15:10</td><td><span class="chip">warn</span></td><td>SES-8877 추천 콘텐츠 문구 길이 초과(62자) — 48자로 축약해 카드 렌더</td></tr><tr><td>결과카드 생성</td><td>16:15:29</td><td><span class="chip">info</span></td><td>세로형 카드 154장 생성 (1080×1920, 평균 214KB) · 공유 링크 발급 완료</td></tr><tr><td>원본 적재</td><td>16:15:44</td><td><span class="chip">info</span></td><td>원본 응답·축 점수·유형 154행 적재 / 보류 12건은 상태값 'held' 로 함께 저장</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("trace"); DEMO.footer();</script>
+
+</body>
+</html>
