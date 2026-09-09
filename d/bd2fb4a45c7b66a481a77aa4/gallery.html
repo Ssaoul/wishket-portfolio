@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>사례 · 이사한칸 (제안용 데모)</title>
+<meta name="description" content="이사한칸 사례 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>사례</h2></div><div class="gallery"><div class="case" style="background-image:url('assets/img/case-0.svg')"><span class="badge">온라인 견적 확정</span><div class="cap"><div class="t">EST-260908-014 · 원룸 소형이사</div><div class="s">입력 4단계를 이탈 없이 통과해 예상 금액이 화면에서 바로 나온 경우. 접수 완료 화면에서 담당자 연락 시각을 안내.</div></div></div><div class="case" style="background-image:url('assets/img/case-1.svg')"><span class="badge">방문 견적 전환</span><div class="cap"><div class="t">EST-260908-021 · 포장이사 종합</div><div class="s">짐량이 자동 산출 범위를 넘어 온라인 금액을 내지 않고 방문 일정 잡기로 넘긴 경우. 금액 대신 '확인 후 안내'로 표기.</div></div></div><div class="case" style="background-image:url('assets/img/case-2.svg')"><span class="badge">입력 오류 반려</span><div class="cap"><div class="t">EST-260909-003 · 사무실 이전</div><div class="s">이사 예정일이 과거 날짜로 들어와 3단계에서 막힌 경우. 오류 문구를 필드 바로 아래에 두고 앞 단계 입력은 유지.</div></div></div><div class="case" style="background-image:url('assets/img/case-3.svg')"><span class="badge">서비스 불가 안내</span><div class="cap"><div class="t">EST-260909-007 · 단기 보관이사</div><div class="s">보관 창고가 없는 지역이라 접수를 받지 않고 인접 가능 지역과 대안 유형을 안내한 경우.</div></div></div><div class="case" style="background-image:url('assets/img/case-4.svg')"><span class="badge">고객 취소</span><div class="cap"><div class="t">EST-260909-011 · 원룸 합짐이사</div><div class="s">접수 후 일정 변경으로 고객이 취소한 경우. 취소 사유를 관리자에서 분류해 이탈 지점 파악에 사용.</div></div></div><div class="case" style="background-image:url('assets/img/case-5.svg')"><span class="badge">중복 접수 병합</span><div class="cap"><div class="t">EST-260909-015 · 가정이사</div><div class="s">같은 연락처로 두 번 들어온 신청을 하나로 묶은 경우. 중복 판정 기준과 병합 이력을 상세에 남김.</div></div></div></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("gallery"); DEMO.footer();</script>
+<script>
+(function(){
+  var cur='전체', view=[], idx=0, D=DEMO.D;
+  var grid=document.getElementById('grid'), fl=document.getElementById('filters'), lb=document.getElementById('lb');
+  function draw(){
+    view=D.cases.filter(function(x){return cur==='전체'||x.type===cur;});
+    grid.innerHTML=view.map(function(x,i){
+      return '<div class="case" data-i="'+i+'" style="background-image:url(\''+x.img+'\')"><span class="badge">'+DEMO.esc(x.type)+'</span>'
+      +'<div class="cap"><div class="t">'+DEMO.esc(x.title)+'</div><div class="s">'+DEMO.esc(x.sub)+'</div></div></div>';
+    }).join('');
+  }
+  function open(i){
+    idx=i; var x=view[i]; if(!x) return;
+    document.getElementById('lbimg').src=x.img;
+    document.getElementById('lbcap').innerHTML='<b>'+DEMO.esc(x.title)+'</b> · '+DEMO.esc(x.type)+'<br><span style="opacity:.85">'+DEMO.esc(x.desc)+'</span>';
+    lb.classList.add('on');
+  }
+  fl.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+  grid.addEventListener('click', function(e){ var el=e.target.closest('.case'); if(el) open(+el.dataset.i); });
+  document.getElementById('lbx').onclick=function(){ lb.classList.remove('on'); };
+  lb.addEventListener('click', function(e){ if(e.target.id==='lb') lb.classList.remove('on'); });
+  document.getElementById('lbp').onclick=function(){ open((idx-1+view.length)%view.length); };
+  document.getElementById('lbn').onclick=function(){ open((idx+1)%view.length); };
+  document.addEventListener('keydown', function(e){
+    if(!lb.classList.contains('on')) return;
+    if(e.key==='Escape') lb.classList.remove('on');
+    if(e.key==='ArrowLeft') document.getElementById('lbp').click();
+    if(e.key==='ArrowRight') document.getElementById('lbn').click();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>전체 항목 · 이사한칸 (제안용 데모)</title>
+<meta name="description" content="이사한칸 전체 항목 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>전체 항목</h2></div><div class="filters"><span class="chip">가정이사</span><span class="chip">원룸이사</span><span class="chip">사무실이사</span><span class="chip">보관이사</span><span class="chip">생활서비스(확장)</span></div><table class="tbl"><thead><tr><th>이름</th><th>분류</th><th>설명</th></tr></thead><tbody><tr><td>포장이사 종합</td><td><span class="chip">가정이사</span></td><td>짐 포장부터 배치까지 전 과정 대행. 방문 견적 기준, 가격 기준표는 관리자에서 문안 수정 가능.</td></tr><tr><td>반포장이사</td><td><span class="chip">가정이사</span></td><td>파손 위험 품목만 업체가 포장. 고객 준비 항목 체크리스트를 상세 화면 하단에 노출.</td></tr><tr><td>원룸 소형이사</td><td><span class="chip">원룸이사</span></td><td>1톤 차량 기준 단독 배차. 온라인 견적만으로 접수 가능한 유일한 유형으로 표시.</td></tr><tr><td>원룸 합짐이사</td><td><span class="chip">원룸이사</span></td><td>동일 방면 물량을 묶어 배차. 일정이 지정 불가할 수 있다는 안내를 신청 단계에서 먼저 고지.</td></tr><tr><td>사무실 이전</td><td><span class="chip">사무실이사</span></td><td>주말·야간 작업 및 집기 재배치 포함. 층수·엘리베이터 유무를 필수 입력으로 받음.</td></tr><tr><td>단기 보관이사</td><td><span class="chip">보관이사</span></td><td>입주일까지 창고 보관 후 재배송. 보관 일수에 따라 견적이 달라져 자동 산출 대상에서 제외.</td></tr><tr><td>입주청소 연계</td><td><span class="chip">생활서비스(확장)</span></td><td>확장 예정 서비스 자리. 동일 카드 컴포넌트로 붙이는 예시라 '준비 중' 배지로만 표시.</td></tr><tr><td>인터넷·가전 렌탈 상담</td><td><span class="chip">생활서비스(확장)</span></td><td>이사 확정 고객에게 후속 안내하는 흐름 예시. 신청 완료 화면에서 선택 동의로 연결.</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("catalog"); DEMO.footer();</script>
+<script>
+(function(){
+  var cur='전체', D=DEMO.D;
+  var grid=document.getElementById('grid'), fl=document.getElementById('filters');
+  function draw(){
+    var v=D.items.filter(function(x){return cur==='전체'||x.cat===cur;});
+    grid.innerHTML=v.map(function(x){
+      return '<article class="prod"><div class="pimg" style="background-image:url(\''+x.img+'\')"></div>'
+      +'<div class="pbody"><span class="chip">'+DEMO.esc(x.cat)+'</span>'
+      +'<h3 style="margin-top:10px">'+DEMO.esc(x.name)+'</h3>'
+      +'<div class="desc">'+DEMO.esc(x.desc)+'</div>'
+      +'<div class="meta"><span>'+DEMO.esc(x.meta)+'</span><b>자세히 →</b></div></div></article>';
+    }).join('');
+  }
+  fl.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>

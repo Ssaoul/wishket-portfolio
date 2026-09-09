@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>소개 · 이사한칸 (제안용 데모)</title>
+<meta name="description" content="이사한칸 소개 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>화면을 고치기 전에 흐름을 고칩니다</h2></div><p>이사 서비스는 방문한 고객이 금액을 알 수 없어 망설이다 떠나는 일이 잦습니다. 그래서 이 시안은 메인에서 신뢰 요소를 먼저 보여주고, 견적 입력을 짧은 4단계로 나눠 어디서 멈췄는지 확인할 수 있게 했습니다. 이사 유형은 하나의 서비스 카드 형태로 정의해, 나중에 입주청소나 인터넷 가입이 추가돼도 같은 컴포넌트와 메뉴 구조 안에서 늘어나도록 설계했습니다. 화면에 보이는 모든 신청 건과 문구는 제안용으로 만든 합성 데이터입니다.</p><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("about"); DEMO.footer();</script>
+<script>
+(function(){
+  var f=document.getElementById('form'); if(!f) return;
+  f.addEventListener('submit', function(e){
+    e.preventDefault(); var ok=true;
+    [['nm','f-nm'],['ph','f-ph'],['ms','f-ms']].forEach(function(p){
+      var bad=!document.getElementById(p[0]).value.trim();
+      document.getElementById(p[1]).classList.toggle('bad', bad); if(bad) ok=false;
+    });
+    if(!ok){ DEMO.toast('필수 항목을 확인해 주세요'); return; }
+    DEMO.toast('✓ 문의가 접수되었습니다 (데모 — 실제 전송 안 함)'); f.reset();
+  });
+  if(location.hash==='#contact'){ setTimeout(function(){ var el=document.getElementById('contact'); if(el) el.scrollIntoView(); },80); }
+})();
+</script>
+</body>
+</html>
