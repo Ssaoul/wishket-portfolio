@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>개요 · 펫뉴트리 케어 (제안용 데모)</title>
+<meta name="description" content="펫뉴트리 케어 개요 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="hero flow" style="background-image:url('assets/img/hero.svg')">
+<div class="hero-txt">
+<p class="eyebrow">Annual Maintenance &amp; Structured Data Console</p>
+<h1>밀린 요청부터 다시 흐르게</h1>
+<p>7차에 걸쳐 정리된 요청이 어디서 멈췄는지, 접수·일정·반영이 티켓 번호로 남습니다. 그누보드·PHP 원본을 그대로 이어받아 국문·영문 두 언어를 한 화면에서 관리합니다.</p>
+</div></section><section class="wrap"><div class="stats"><div class="stat"><div class="n">7차 · 34건</div><div class="l">인계받은 미반영 요청</div></div><div class="stat"><div class="n">2개 언어</div><div class="l">국문·영문 동시 관리</div></div><div class="stat"><div class="n">24시간</div><div class="l">요청 접수 회신 기준</div></div><div class="stat"><div class="n">월 1회</div><div class="l">작업 내역·유입 리포트</div></div></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section><section class="wrap"><div class="sec-head"><h2>진단 요약</h2><p>고치기 전에 현재를 수치로 세운다</p></div><table class="tbl"><thead><tr><th>항목</th><th>심각도</th><th>근거</th></tr></thead><tbody><tr><td>영문 페이지에 국문 메타 설명이 그대로 복제</td><td><span class="chip">높음</span></td><td>영문 24개 URL 중 19개(79%)의 description 이 국문과 동일 문자열. hreflang 태그는 0건.</td></tr><tr><td>제품 구조화 데이터 부재 — AI 검색 인용 근거 없음</td><td><span class="chip">높음</span></td><td>제품 상세 8개 화면 전부 JSON-LD 미삽입. Product·Organization·BreadcrumbList 스키마 0건.</td></tr><tr><td>캐노니컬 미설정으로 동일 페이지가 4개 주소로 수집</td><td><span class="chip">중간</span></td><td>메인이 www 유무 × index.php 유무 조합 4개 주소로 응답. canonical 태그 미출력.</td></tr><tr><td>미반영 요청 문서가 PDF·PPT 7종으로 흩어져 중복·상충</td><td><span class="chip">중간</span></td><td>7개 문서에서 추출한 요청 34건 중 6건이 중복, 3건은 후속 차수에서 내용이 뒤집힘(예: 배너 문구 2차 확정 → 5차 재수정).</td></tr><tr><td>이미지 원본 무압축 업로드로 모바일 첫 화면 지연</td><td><span class="chip">중간</span></td><td>메인 배너 3장 합계 6.4MB(최대 2.9MB). 모바일 첫 화면 표시까지 5.8초 측정(3G Fast 기준).</td></tr></tbody></table></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("index"); DEMO.footer();</script>
+
+</body>
+</html>

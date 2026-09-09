@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>실행 계획 · 펫뉴트리 케어 (제안용 데모)</title>
+<meta name="description" content="펫뉴트리 케어 실행 계획 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>실행 계획</h2><p>되돌릴 수 없는 작업은 따로 표시한다</p></div><table class="tbl"><thead><tr><th>단계</th><th>기간</th><th>작업</th><th>산출물</th></tr></thead><tbody><tr><td>0. 인계 점검</td><td>계약 후 1주</td><td>소스 전량 백업, 스테이징 사본 구축, 호스팅·도메인 계정 확인, 요청 문서 7종을 티켓 34건으로 정리(상충 3건 담당자 확인 요청)</td><td>인계 점검서 · 티켓 목록 · 스테이징 주소</td></tr><tr><td>1. 미반영 건 반영</td><td>2~4주차</td><td>메인 배너 교체 및 신규 2종 추가, 브랜드 스토리 제품명 수정, 제품 상세 8개 화면 국문·영문 교체, 잔여 요청 일괄 처리</td><td>티켓별 반영 결과표 · 검수용 스테이징 링크</td></tr><tr><td>2. SEO 기반 정비</td><td>5~8주차</td><td>메타·오픈그래프·캐노니컬 템플릿 분리, JSON-LD 공통 함수 적용, hreflang·사이트맵·robots 정비, 이미지 변환 훅 추가</td><td>마크업 적용 내역 · 검색엔진 등록 확인서</td></tr><tr><td>3. 정기 운영</td><td>3개월차~12개월차</td><td>요청 접수 24시간 회신, 신규 제품·이벤트·공지 등록, 브라우저·링크 오류 점검, 크롤러 대응 개선 제안</td><td>월간 작업 내역서 · 검색 유입 리포트</td></tr><tr><td>4. 연간 마무리</td><td>12개월차</td><td>1년 작업 이력 정리, 반영된 전체 소스 인계, 다음 해 우선순위 제안</td><td>최종 소스 일괄 인계 · 연간 정리 보고서</td></tr></tbody></table><p class="note">되돌리기 어려운 작업은 주소 체계 301 리다이렉트, 기존 배너·상세 이미지 교체, 그누보드 공통 head 파일 수정 세 가지입니다. 셋 다 스테이징 사본에서 먼저 적용해 담당자 확인을 받은 뒤 운영에 반영하며, 반영 직전 소스와 DB를 전체 백업하고 교체되는 이미지 원본은 날짜 폴더에 보관합니다. 문제가 확인되면 백업 스냅샷으로 되돌리고 리다이렉트 규칙은 개별 해제할 수 있게 한 파일에 모아 관리합니다.</p><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("plan"); DEMO.footer();</script>
+
+</body>
+</html>
