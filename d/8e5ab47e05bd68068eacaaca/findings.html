@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>발견 항목 · 서치렌즈 (제안용 데모)</title>
+<meta name="description" content="서치렌즈 발견 항목 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>발견 항목</h2><p>무엇이 병목인지와 그 근거</p></div><div class="field"><b>상품 페이지 구조화 데이터 미설치 <span class="chip">높음</span></b><p>근거 — 상품 상세 118개 URL 중 Product·Offer 스키마 적용 0개. 조직 정보 스키마도 메인 1개 URL에만 존재</p><p>조치 — 고도몰 스킨 상품 상세 템플릿에 JSON-LD 블록 삽입, 상품 DB 필드와 바인딩해 전 상품 자동 출력</p></div><div class="field"><b>생성형 AI 크롤러 접근 차단 <span class="chip">높음</span></b><p>근거 — robots.txt 에 GPTBot·Google-Extended·PerplexityBot 관련 규칙 없음. 서버 로그 30일 표본에서 AI 크롤러 요청 412건 중 361건이 403 응답</p><p>조치 — AI 크롤러 정책을 명시적으로 결정(허용 범위·차단 경로 협의) 후 robots.txt 및 WAF 규칙 동시 수정</p></div><div class="field"><b>카테고리 URL 파라미터 중복 색인 <span class="chip">높음</span></b><p>근거 — 동일 상품군이 정렬·페이지 파라미터 조합으로 URL 9종 생성. 색인된 24개 중 canonical 지정 3개</p><p>조치 — 정규 URL 규칙 정의, 파라미터 URL에 canonical 및 색인 정책 적용</p></div><div class="field"><b>제품 정보가 이미지 안에만 존재 <span class="chip">중간</span></b><p>근거 — B2B 제품 27개 페이지의 규격·소재·인증 정보가 상세 이미지에 텍스트 없이 삽입. HTML 본문 평균 텍스트 214자</p><p>조치 — 규격표를 HTML 표로 전환(개발), 설명 문안 작성은 콘텐츠 영역으로 구분해 클라이언트와 분담</p></div><div class="field"><b>타이틀·메타 설명 템플릿 중복 <span class="chip">중간</span></b><p>근거 — 142개 URL 중 title 중복 61개, meta description 미작성 88개. 브랜드 사이트 3곳이 동일 문구 사용</p><p>조치 — 페이지 유형별 자동 생성 규칙 개발 + 주요 30개 페이지는 수동 작성</p></div><div class="field"><b>모바일 상세 페이지 렌더 지연 <span class="chip">중간</span></b><p>근거 — 모바일 LCP 표본 측정 4.8초, 상세 이미지 원본 평균 1.4MB 무압축 제공</p><p>조치 — 이미지 리사이즈·WebP 변환 파이프라인 적용, 지연 로딩 도입</p></div><div class="field"><b>내부 링크가 상세로 이어지지 않음 <span class="chip">낮음</span></b><p>근거 — 상품 상세 118개 중 내부 유입 링크 0~1개인 페이지 74개(고아 페이지 상태)</p><p>조치 — 연관 제품·카테고리 허브 모듈 추가로 링크 경로 확보</p></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("findings"); DEMO.footer();</script>
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>개요 · 서치렌즈 (제안용 데모)</title>
+<meta name="description" content="서치렌즈 개요 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="hero flow" style="background-image:url('assets/img/hero.svg')">
+<div class="hero-txt">
+<p class="eyebrow">Search &amp; Generative-AI Visibility Diagnostics</p>
+<h1>AI가 읽는 사이트로</h1>
+<p>고도몰 템플릿은 상품 페이지 구조가 검색엔진과 생성형 AI 양쪽에 모호하게 전달됩니다. 무엇이 왜 안 읽히는지 URL 단위로 진단하고, 개발 적용 후 전/후를 같은 기준으로 다시 측정합니다.</p>
+</div></section><section class="wrap"><div class="stats"><div class="stat"><div class="n">142개</div><div class="l">진단 URL</div></div><div class="stat"><div class="n">7개 영역</div><div class="l">진단 항목군</div></div><div class="stat"><div class="n">3종</div><div class="l">리포트(착수·완료·적용후)</div></div><div class="stat"><div class="n">2~3개월</div><div class="l">모니터링 기간 제안</div></div></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section><section class="wrap"><div class="sec-head"><h2>진단 요약</h2><p>고치기 전에 현재를 수치로 세운다</p></div><table class="tbl"><thead><tr><th>항목</th><th>심각도</th><th>근거</th></tr></thead><tbody><tr><td>상품 페이지 구조화 데이터 미설치</td><td><span class="chip">높음</span></td><td>상품 상세 118개 URL 중 Product·Offer 스키마 적용 0개. 조직 정보 스키마도 메인 1개 URL에만 존재</td></tr><tr><td>생성형 AI 크롤러 접근 차단</td><td><span class="chip">높음</span></td><td>robots.txt 에 GPTBot·Google-Extended·PerplexityBot 관련 규칙 없음. 서버 로그 30일 표본에서 AI 크롤러 요청 412건 중 361건이 403 응답</td></tr><tr><td>카테고리 URL 파라미터 중복 색인</td><td><span class="chip">높음</span></td><td>동일 상품군이 정렬·페이지 파라미터 조합으로 URL 9종 생성. 색인된 24개 중 canonical 지정 3개</td></tr><tr><td>제품 정보가 이미지 안에만 존재</td><td><span class="chip">중간</span></td><td>B2B 제품 27개 페이지의 규격·소재·인증 정보가 상세 이미지에 텍스트 없이 삽입. HTML 본문 평균 텍스트 214자</td></tr><tr><td>타이틀·메타 설명 템플릿 중복</td><td><span class="chip">중간</span></td><td>142개 URL 중 title 중복 61개, meta description 미작성 88개. 브랜드 사이트 3곳이 동일 문구 사용</td></tr></tbody></table></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("index"); DEMO.footer();</script>
+
+</body>
+</html>
