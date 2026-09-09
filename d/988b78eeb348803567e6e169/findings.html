@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>발견 항목 · 펫뉴트리 케어 (제안용 데모)</title>
+<meta name="description" content="펫뉴트리 케어 발견 항목 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>발견 항목</h2><p>무엇이 병목인지와 그 근거</p></div><div class="field"><b>영문 페이지에 hreflang·캐노니컬 미설정 <span class="chip">높음</span></b><p>근거 — 점검 대상 42개 URL 중 영문 28개 전부에 hreflang 없음, 캐노니컬은 국문 URL로 고정 출력(28/28)</p><p>조치 — 국문·영문 상호 hreflang 쌍 삽입, 캐노니컬을 현재 언어 URL로 동적 출력하도록 공통 헤드 파일 1곳 수정</p></div><div class="field"><b>제품 상세 8개 화면에 구조화 데이터 없음 <span class="chip">높음</span></b><p>근거 — 제품 상세 8개 화면 JSON-LD 0건. 검색 결과에 제품명·성분 정보가 텍스트로만 노출</p><p>조치 — Product·Organization·BreadcrumbList JSON-LD를 언어별로 분리 삽입. 효능 단정 표현은 넣지 않고 제품 사양 항목만 마크업</p></div><div class="field"><b>메타 설명이 전 페이지 동일 문구로 복제 <span class="chip">중간</span></b><p>근거 — 42개 URL 중 37개가 동일한 description 1줄을 공유. 영문 5개는 태그 자체가 비어 있음</p><p>조치 — 페이지 유형별 템플릿 변수화(제품명·카테고리 치환), 담당자가 관리자 화면에서 직접 수정 가능한 입력란 추가</p></div><div class="field"><b>이전 배너 이미지 경로 깨짐 및 대체 텍스트 누락 <span class="chip">중간</span></b><p>근거 — 메인·서브 배너 이미지 14개 중 3개가 404, alt 속성 누락 11개</p><p>조치 — 깨진 경로 3건 교체, 배너 등록 시 alt 입력을 필수값으로 변경</p></div><div class="field"><b>모바일 화면에서 제품 표 가로 넘침 <span class="chip">중간</span></b><p>근거 — 폭 390px 환경에서 제품 상세 8개 중 5개 화면의 성분표가 화면 밖으로 넘침</p><p>조치 — 표를 가로 스크롤 영역으로 감싸고 최소 폭 지정. 원본 마크업은 유지</p></div><div class="field"><b>robots.txt·사이트맵이 영문 경로를 제외 <span class="chip">중간</span></b><p>근거 — sitemap.xml에 국문 14개 URL만 등재, 영문 28개 URL 미등재. robots.txt 최종 수정 2024년</p><p>조치 — 언어별 사이트맵 분리 생성 후 인덱스 사이트맵으로 묶고, 검색엔진 도구에 재제출</p></div><div class="field"><b>요청 접수 이력이 남지 않아 지연 원인 추적 불가 <span class="chip">낮음</span></b><p>근거 — 인계 문서 7차분에서 접수일·회신일이 적힌 건 0건. 반영 여부는 담당자 기억에 의존</p><p>조치 — 수정요청번호 부여 규칙(REQ-연월-일련)과 상태 5단계를 정하고, 접수 회신을 24시간 내 문서로 남김</p></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("findings"); DEMO.footer();</script>
+
+</body>
+</html>
