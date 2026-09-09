@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>상세 · 리스킨 트래커 (제안용 데모)</title>
+<meta name="description" content="리스킨 트래커 상세 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>작업대상 파일 상세</h2><p>값과 함께 누가 언제 바꿨는지가 남는다</p></div><div class="grid2"><div><div class="info-row"><div class="ic">·</div><div><div class="k">파일 ID</div><div class="v">LMS-0089</div></div></div><div class="info-row"><div class="ic">·</div><div><div class="k">작업대상파일 경로</div><div class="v">/lms/enroll/apply_approve.php</div></div></div><div class="info-row"><div class="ic">·</div><div><div class="k">화면 구분</div><div class="v">수강신청 &gt; 신청 승인</div></div></div><div class="info-row"><div class="ic">·</div><div><div class="k">기존 스타일 방식</div><div class="v">인라인 style 속성 + 페이지 전용 CSS 1개(중복 클래스 7건)</div></div></div><div class="info-row"><div class="ic">·</div><div><div class="k">매핑한 템플릿 컴포넌트</div><div class="v">모달 · 알림 간편결제트 · 기본 버튼 세트</div></div></div><div class="info-row"><div class="ic">·</div><div><div class="k">기존 UI 구조 유지</div><div class="v">유지 — 좌측 신청자 목록, 우측 승인 패널 2단 구성 그대로</div></div></div><div class="info-row"><div class="ic">·</div><div><div class="k">연동 스크립트</div><div class="v">confirmApprove() · #btnApprove · #frmApprove</div></div></div><div class="info-row"><div class="ic">·</div><div><div class="k">검수 URL</div><div class="v">/lms/enroll/apply_approve.php?round=2026-03</div></div></div><div class="info-row"><div class="ic">·</div><div><div class="k">보류 사유</div><div class="v">템플릿 모달이 자체 id를 발급해 기존 #modalConfirm 셀렉터가 끊김 — 내부담당자 가이드 확인 대기</div></div></div><div class="info-row"><div class="ic">·</div><div><div class="k">최종 수정</div><div class="v">2026-09-18 14:22</div></div></div></div><div><div class="sec-head"><h2>변경 이력</h2><p>추가 전용 — 수정·삭제 불가</p></div><table class="tbl"><thead><tr><th>시각</th><th>수행자</th><th>내용</th></tr></thead><tbody><tr><td>2026-09-12 09:40</td><td>퍼블리셔 A</td><td>변환 대기 → 템플릿 반영중 (컴포넌트 매핑표 v1.2 적용)</td></tr><tr><td>2026-09-15 17:05</td><td>퍼블리셔 A</td><td>인라인 style 속성 34곳 제거, 템플릿 버튼 클래스로 치환</td></tr><tr><td>2026-09-16 11:12</td><td>퍼블리셔 A</td><td>템플릿 반영중 → 검수 대기</td></tr><tr><td>2026-09-17 10:33</td><td>내부담당자</td><td>검수 반려 — 승인 확인창이 뜨지 않음(기존 #modalConfirm 미동작)</td></tr><tr><td>2026-09-17 10:34</td><td>시스템</td><td>검수 대기 → 보류 (사유: 스크립트 셀렉터 불일치)</td></tr><tr><td>2026-09-18 14:22</td><td>퍼블리셔 A</td><td>셀렉터 대체안 2건 기록, 내부담당자 가이드 회신 대기로 보류 유지</td></tr></tbody></table></div></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("detail"); DEMO.footer();</script>
+
+</body>
+</html>

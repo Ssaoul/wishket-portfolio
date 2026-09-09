@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>목록 · 리스킨 트래커 (제안용 데모)</title>
+<meta name="description" content="리스킨 트래커 목록 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>작업대상 파일 목록</h2><p>다중 조건으로 좁혀 찾는다</p></div><div class="filters"><label>상태 <select><option>전체</option><option>변환 대기</option><option>템플릿 반영중</option><option>검수 대기</option><option>반영 완료</option><option>보류</option></select></label><label>화면 구분 <select><option>공통 레이아웃</option><option>과정 관리</option><option>수강신청</option><option>이수 현황</option><option>평가 · 설문</option><option>권한 관리</option></select></label><label>스크립트 의존 <select><option>의존 없음</option><option>인라인 스크립트</option><option>외부 JS 파일</option><option>ID 셀렉터 다수</option></select></label><label>담당 <select><option>전체</option><option>퍼블리셔 A</option><option>퍼블리셔 B</option><option>퍼블리셔 C</option><option>미배정</option></select></label></div><table class="tbl"><thead><tr><th>파일 ID</th><th>작업대상파일 경로</th><th>화면 구분</th><th>템플릿 컴포넌트</th><th>스크립트 의존</th><th>담당</th><th>상태</th></tr></thead><tbody><tr><td>LMS-0007</td><td>/lms/common/header.inc.php</td><td>공통 레이아웃</td><td>사이드바 · 상단바</td><td>gnb_toggle()</td><td>퍼블리셔 A</td><td><span class="chip">반영 완료</span></td></tr><tr><td>LMS-0042</td><td>/lms/course/course_list.php</td><td>과정 관리</td><td>데이터 테이블 · 필터바</td><td>courseSearch.js</td><td>퍼블리셔 A</td><td><span class="chip">반영 완료</span></td></tr><tr><td>LMS-0058</td><td>/lms/course/course_form.php</td><td>과정 관리</td><td>폼 · 탭 · 파일 업로더</td><td>#btnSave, #frmCourse</td><td>퍼블리셔 B</td><td><span class="chip">검수 대기</span></td></tr><tr><td>LMS-0071</td><td>/lms/enroll/apply_list.php</td><td>수강신청</td><td>데이터 테이블 · 배지</td><td>checkAll(#chkAll)</td><td>퍼블리셔 B</td><td><span class="chip">템플릿 반영중</span></td></tr><tr><td>LMS-0089</td><td>/lms/enroll/apply_approve.php</td><td>수강신청</td><td>모달 · 알림 간편결제트</td><td>confirmApprove()</td><td>퍼블리셔 A</td><td><span class="chip">보류</span></td></tr><tr><td>LMS-0103</td><td>/lms/report/complete_stat.php</td><td>이수 현황</td><td>카드 · 차트 영역</td><td>statChart.js (구 차트 라이브러리)</td><td>퍼블리셔 C</td><td><span class="chip">보류</span></td></tr><tr><td>LMS-0128</td><td>/lms/exam/quiz_result.php</td><td>평가</td><td>아코디언 · 진행바</td><td>#quizTab, scoreCalc()</td><td>퍼블리셔 C</td><td><span class="chip">검수 대기</span></td></tr><tr><td>LMS-0146</td><td>/lms/survey/survey_write.php</td><td>설문</td><td>폼 · 라디오 그룹</td><td>addQuestionRow()</td><td>퍼블리셔 B</td><td><span class="chip">템플릿 반영중</span></td></tr><tr><td>LMS-0181</td><td>/lms/cert/cert_print.php</td><td>수료증</td><td>인쇄 전용 레이아웃</td><td>window.print 트리거</td><td>퍼블리셔 A</td><td><span class="chip">변환 대기</span></td></tr><tr><td>LMS-0219</td><td>/lms/admin/user_auth.php</td><td>권한 관리</td><td>트리 · 체크박스 그리드</td><td>authTree.js (인라인 300줄)</td><td>미배정</td><td><span class="chip">변환 대기</span></td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("records"); DEMO.footer();</script>
+
+</body>
+</html>
