@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>소개 · 여백 (제안용 데모)</title>
+<meta name="description" content="여백 소개 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>읽히는 미디어와 팔리는 지면 사이</h2></div><p>여백은 여가와 라이프스타일을 다루는 콘텐츠 미디어입니다. 이 시안은 서비스형 화면을 매거진형 편집 구조로 바꿨을 때 독자의 읽는 흐름이 어떻게 달라지는지, 그리고 광고주가 처음 만나는 비즈니스 페이지가 어떤 정보 순서를 가져야 하는지를 보여주기 위해 만들었습니다. 화면의 모든 값은 제안용으로 지어낸 합성 데이터이며 실제 발행 기사나 성과가 아닙니다. 관리자에서 직접 고칠 수 있는 영역은 화면에 별도로 표시해, 납품 이후 비개발자가 손댈 수 있는 범위를 미리 합의할 수 있게 했습니다.</p><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("about"); DEMO.footer();</script>
+<script>
+(function(){
+  var f=document.getElementById('form'); if(!f) return;
+  f.addEventListener('submit', function(e){
+    e.preventDefault(); var ok=true;
+    [['nm','f-nm'],['ph','f-ph'],['ms','f-ms']].forEach(function(p){
+      var bad=!document.getElementById(p[0]).value.trim();
+      document.getElementById(p[1]).classList.toggle('bad', bad); if(bad) ok=false;
+    });
+    if(!ok){ DEMO.toast('필수 항목을 확인해 주세요'); return; }
+    DEMO.toast('✓ 문의가 접수되었습니다 (데모 — 실제 전송 안 함)'); f.reset();
+  });
+  if(location.hash==='#contact'){ setTimeout(function(){ var el=document.getElementById('contact'); if(el) el.scrollIntoView(); },80); }
+})();
+</script>
+</body>
+</html>
