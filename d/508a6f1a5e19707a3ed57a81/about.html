@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>소개 · 여백 (제안용 데모)</title>
+<meta name="description" content="여백 소개 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>서비스가 아니라 매거진으로 읽히게</h2></div><p>여백은 여가와 라이프스타일을 다루는 콘텐츠 미디어라는 설정의 가상 브랜드입니다. 이 시안은 매거진형 그리드와 아티클 상세의 읽기 리듬, 그리고 카테고리·태그로 이어지는 정보 구조를 먼저 확인하시라고 만들었습니다. 광고주가 열어볼 비즈니스 페이지와 제휴 문의 폼을 같은 톤 안에 넣고, 문의가 들어온 뒤 알림이 실패하는 경우까지 화면으로 다뤘습니다. 관리자 편집 범위는 배너·헤드라인·추천 아티클처럼 마케터가 자주 손대는 영역을 먼저 열어 두는 방향을 제안하며, 구체적인 필드는 기존 어드민 화면을 함께 보며 확정하고자 합니다.</p><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("about"); DEMO.footer();</script>
+<script>
+(function(){
+  var f=document.getElementById('form'); if(!f) return;
+  f.addEventListener('submit', function(e){
+    e.preventDefault(); var ok=true;
+    [['nm','f-nm'],['ph','f-ph'],['ms','f-ms']].forEach(function(p){
+      var bad=!document.getElementById(p[0]).value.trim();
+      document.getElementById(p[1]).classList.toggle('bad', bad); if(bad) ok=false;
+    });
+    if(!ok){ DEMO.toast('필수 항목을 확인해 주세요'); return; }
+    DEMO.toast('✓ 문의가 접수되었습니다 (데모 — 실제 전송 안 함)'); f.reset();
+  });
+  if(location.hash==='#contact'){ setTimeout(function(){ var el=document.getElementById('contact'); if(el) el.scrollIntoView(); },80); }
+})();
+</script>
+</body>
+</html>

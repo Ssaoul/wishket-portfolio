@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>사례 · 여백 (제안용 데모)</title>
+<meta name="description" content="여백 사례 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>사례</h2></div><div class="gallery"><div class="case" style="background-image:url('assets/img/case-0.svg')"><span class="badge">관리자 편집 · 성공</span><div class="cap"><div class="t">메인 히어로 배너 교체</div><div class="s">마케터가 이미지와 문구, 링크를 직접 교체. 개발자 개입 없이 반영, 되돌리기 이력 남음.</div></div></div><div class="case" style="background-image:url('assets/img/case-1.svg')"><span class="badge">인바운드 · 성공</span><div class="cap"><div class="t">제휴 문의 폼 접수</div><div class="s">광고주가 비즈니스 페이지에서 제출. 담당자 알림 채널로 접수 내용 전달, 접수번호 발급.</div></div></div><div class="case" style="background-image:url('assets/img/case-2.svg')"><span class="badge">인바운드 · 실패</span><div class="cap"><div class="t">제휴 문의 알림 미도착</div><div class="s">외부 알림 채널 응답 지연으로 전송 실패. 접수 데이터는 관리자에 보존되고 재발송 버튼 노출.</div></div></div><div class="case" style="background-image:url('assets/img/case-3.svg')"><span class="badge">SEO · 실패</span><div class="cap"><div class="t">구 URL 301 매핑 누락</div><div class="s">이관표에 없던 구 주소로 유입돼 404. 미매핑 목록을 관리자에서 확인하고 즉시 규칙 추가.</div></div></div><div class="case" style="background-image:url('assets/img/case-4.svg')"><span class="badge">SEO · 경고</span><div class="cap"><div class="t">구조화 데이터 검증 경고</div><div class="s">대표 이미지·발행일 누락 아티클에 경고 표시. 발행 전 체크로 막고 목록에서 일괄 보정.</div></div></div><div class="case" style="background-image:url('assets/img/case-5.svg')"><span class="badge">관리자 편집 · 경고</span><div class="cap"><div class="t">배너 이미지 규격 초과</div><div class="s">권장 용량을 넘긴 파일 업로드 시 자동 리사이즈 안내. 원본은 보관, 게시본만 최적화.</div></div></div></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("gallery"); DEMO.footer();</script>
+<script>
+(function(){
+  var cur='전체', view=[], idx=0, D=DEMO.D;
+  var grid=document.getElementById('grid'), fl=document.getElementById('filters'), lb=document.getElementById('lb');
+  function draw(){
+    view=D.cases.filter(function(x){return cur==='전체'||x.type===cur;});
+    grid.innerHTML=view.map(function(x,i){
+      return '<div class="case" data-i="'+i+'" style="background-image:url(\''+x.img+'\')"><span class="badge">'+DEMO.esc(x.type)+'</span>'
+      +'<div class="cap"><div class="t">'+DEMO.esc(x.title)+'</div><div class="s">'+DEMO.esc(x.sub)+'</div></div></div>';
+    }).join('');
+  }
+  function open(i){
+    idx=i; var x=view[i]; if(!x) return;
+    document.getElementById('lbimg').src=x.img;
+    document.getElementById('lbcap').innerHTML='<b>'+DEMO.esc(x.title)+'</b> · '+DEMO.esc(x.type)+'<br><span style="opacity:.85">'+DEMO.esc(x.desc)+'</span>';
+    lb.classList.add('on');
+  }
+  fl.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+  grid.addEventListener('click', function(e){ var el=e.target.closest('.case'); if(el) open(+el.dataset.i); });
+  document.getElementById('lbx').onclick=function(){ lb.classList.remove('on'); };
+  lb.addEventListener('click', function(e){ if(e.target.id==='lb') lb.classList.remove('on'); });
+  document.getElementById('lbp').onclick=function(){ open((idx-1+view.length)%view.length); };
+  document.getElementById('lbn').onclick=function(){ open((idx+1)%view.length); };
+  document.addEventListener('keydown', function(e){
+    if(!lb.classList.contains('on')) return;
+    if(e.key==='Escape') lb.classList.remove('on');
+    if(e.key==='ArrowLeft') document.getElementById('lbp').click();
+    if(e.key==='ArrowRight') document.getElementById('lbn').click();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>
