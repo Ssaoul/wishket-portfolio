@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>전체 항목 · 루미에르 보타닉 (제안용 데모)</title>
+<meta name="description" content="루미에르 보타닉 전체 항목 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>전체 항목</h2></div><div class="filters"><span class="chip">메인 비주얼</span><span class="chip">제품 소개</span><span class="chip">제품 정보</span><span class="chip">업로드 서식</span></div><table class="tbl"><thead><tr><th>이름</th><th>분류</th><th>설명</th></tr></thead><tbody><tr><td>메인 비주얼 — 리프레싱 세럼</td><td><span class="chip">메인 비주얼</span></td><td>발주사 제공 촬영컷 1장을 상단 전면에 두고 브랜드 카피 한 줄만 얹는 구성. 세로 1400px, 텍스트는 이미지 위 오버레이가 아니라 여백에 배치해 규격 변경 시 재작업을 줄입니다.</td></tr><tr><td>메인 비주얼 — 딥모이스처 크림</td><td><span class="chip">메인 비주얼</span></td><td>질감 클로즈업컷을 쓰는 대안 레이아웃. 같은 브랜드 톤을 쓰되 제품 성격이 달라 여백 비율과 서체 크기를 한 단계 조정한 버전입니다.</td></tr><tr><td>기획안 카피 → 섹션 매핑표</td><td><span class="chip">제품 소개</span></td><td>발주사 기획안의 문단 번호를 디자인 섹션 번호에 1:1로 붙인 표. '3번 문단이 어디로 갔나'를 담당자가 직접 확인할 수 있게 만든 장치입니다.</td></tr><tr><td>사용 전후 설명 블록</td><td><span class="chip">제품 소개</span></td><td>이미지 2컷 + 설명 텍스트 구성. 효능을 단정하는 표현 대신 사용 방법과 사용감 서술 위주로 잡아 화장품 표시·광고 기준을 넘지 않게 합니다.</td></tr><tr><td>전성분 표기 영역</td><td><span class="chip">제품 정보</span></td><td>전성분 전체를 작은 본문으로 넣되 행간·글자크기를 모바일 가독 기준으로 고정. 성분 문자열이 길어져도 레이아웃이 무너지지 않도록 자동 줄바꿈 영역으로 설계.</td></tr><tr><td>용량·사용법·주의사항 표</td><td><span class="chip">제품 정보</span></td><td>용량 50mL / 사용 순서 3단계 / 보관 주의 문구를 한 표에 묶은 블록. 2종이 같은 표 구조를 쓰므로 이후 제품이 늘어도 값만 갈아끼우면 됩니다.</td></tr><tr><td>업로드 분할 가이드</td><td><span class="chip">업로드 서식</span></td><td>긴 상세 이미지를 홈페이지 게시 규격에 맞춰 나눈 예시. 분할선이 글자나 얼굴을 가르지 않도록 자르는 위치를 표시해 둡니다. 실제 형식·해상도는 계약 후 협의.</td></tr><tr><td>웹 최적화 결과 비교</td><td><span class="chip">업로드 서식</span></td><td>원본 대비 압축본의 용량과 화면 차이를 나란히 둔 비교 블록. '가볍게 하면 흐려지지 않나'라는 질문에 숫자로 답하기 위한 자료입니다.</td></tr><tr><td>폰트·컬러 정리 시트</td><td><span class="chip">업로드 서식</span></td><td>사용 서체 2종과 컬러 코드, 라이선스 범위를 한 장으로 정리. 납품물에 포함되며 이후 담당자가 다른 페이지를 만들 때 그대로 씁니다.</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("catalog"); DEMO.footer();</script>
+<script>
+(function(){
+  var cur='전체', D=DEMO.D;
+  var grid=document.getElementById('grid'), fl=document.getElementById('filters');
+  function draw(){
+    var v=D.items.filter(function(x){return cur==='전체'||x.cat===cur;});
+    grid.innerHTML=v.map(function(x){
+      return '<article class="prod"><div class="pimg" style="background-image:url(\''+x.img+'\')"></div>'
+      +'<div class="pbody"><span class="chip">'+DEMO.esc(x.cat)+'</span>'
+      +'<h3 style="margin-top:10px">'+DEMO.esc(x.name)+'</h3>'
+      +'<div class="desc">'+DEMO.esc(x.desc)+'</div>'
+      +'<div class="meta"><span>'+DEMO.esc(x.meta)+'</span><b>자세히 →</b></div></div></article>';
+    }).join('');
+  }
+  fl.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>
