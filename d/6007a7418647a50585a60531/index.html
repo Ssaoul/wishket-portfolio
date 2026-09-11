@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>개요 · 이음운영보드 (제안용 데모)</title>
+<meta name="description" content="이음운영보드 개요 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="hero flow" style="background-image:url('assets/img/hero.svg')">
+<div class="hero-txt">
+<p class="eyebrow">Legacy PHP Diagnosis, Migration &amp; Managed Ops Console</p>
+<h1>평가 중단 없는 서버 이관</h1>
+<p>PHP 5.5·물리 단독 서버에서 도는 평가인증 시스템을, 자체평가 접수 일정 하나 밀리지 않게 옮기는 일입니다. 전담 IT 인력 없이 운영해 온 만큼, 백업이 실제로 복원되는지부터 확인했습니다.</p>
+</div></section><section class="wrap"><div class="stats"><div class="stat"><div class="n">18개</div><div class="l">루트 하위 폴더 (수천 개 파일)</div></div><div class="stat"><div class="n">12 + 100여</div><div class="l">피평가기관 / 위원 계정</div></div><div class="stat"><div class="n">5.5 → 8.2</div><div class="l">PHP 구동 버전 계획</div></div><div class="stat"><div class="n">30분</div><div class="l">장애 통지 목표 (SLA 협의안)</div></div></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section><section class="wrap"><div class="sec-head"><h2>진단 요약</h2><p>고치기 전에 현재를 수치로 세운다</p></div><table class="tbl"><thead><tr><th>항목</th><th>심각도</th><th>근거</th></tr></thead><tbody><tr><td>PHP 5.5 구동 — 공식 보안 지원 종료 상태</td><td><span class="chip">높음</span></td><td>현재 5.5.x 계열. 보안 패치가 끊긴 지 오래된 계열이라, 점검표의 웹 취약점 항목 23개 중 14개가 '버전 자체'에 걸려 개별 패치로 해소 불가.</td></tr><tr><td>백업 아카이브의 복원 가능 여부가 검증된 적 없음</td><td><span class="chip">높음</span></td><td>백업본 리허설 5건 중 3건 정상, 1건은 첨부 디렉터리 누락(자체평가보고서 PDF 일부 미포함), 1건은 DB 덤프 문자셋 불일치로 한글 깨짐. 합성 시나리오 기준.</td></tr><tr><td>DB 관리 도구(/MyAdmin)가 외부에서 열려 있을 가능성</td><td><span class="chip">높음</span></td><td>루트 하위에 DB 관리 경로가 소스로 포함. 접근 통제 점검 항목에서 IP 제한·별도 인증 흔적 미확인(열람 시 재확인 필요).</td></tr><tr><td>대용량 첨부 + 10Mbps 대역폭 — 접수 마감일 병목</td><td><span class="chip">중간</span></td><td>마감 당일 동시 업로드 8건 가정 시 회선이 포화. 120MB 자체평가보고서 1건 업로드가 평시 2분대 → 마감일 11분대로 늘어나는 구간 발생.</td></tr><tr><td>SSL 인증서 수동 갱신 — 만료 2026.12</td><td><span class="chip">중간</span></td><td>단일 도메인 인증서, 갱신 담당자 1인. 만료 D-7까지 알림 체계 없음. 만료 시 전 기관 담당자 로그인 화면에 경고가 떠 문의가 몰림.</td></tr></tbody></table></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("index"); DEMO.footer();</script>
+
+</body>
+</html>

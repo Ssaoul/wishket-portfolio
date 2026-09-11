@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>발견 항목 · 이음운영보드 (제안용 데모)</title>
+<meta name="description" content="이음운영보드 발견 항목 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>발견 항목</h2><p>무엇이 병목인지와 그 근거</p></div><div class="field"><b>PHP 5.5 구동 — 공식 보안 지원 종료 상태 <span class="chip">높음</span></b><p>근거 — 현재 5.5.x 계열. 보안 패치가 끊긴 지 오래된 계열이라, 점검표의 웹 취약점 항목 23개 중 14개가 '버전 자체'에 걸려 개별 패치로 해소 불가.</p><p>조치 — 스테이징에 8.2를 올려 호환성 진단 → mysql_* 등 제거 함수 사용처를 파일 단위로 치환. 일괄 업그레이드가 아니라 7.4 경유 2단계.</p></div><div class="field"><b>백업 아카이브의 복원 가능 여부가 검증된 적 없음 <span class="chip">높음</span></b><p>근거 — 백업본 리허설 5건 중 3건 정상, 1건은 첨부 디렉터리 누락(자체평가보고서 PDF 일부 미포함), 1건은 DB 덤프 문자셋 불일치로 한글 깨짐. 합성 시나리오 기준.</p><p>조치 — 이관 전 '복원 리허설'을 별도 단계로 고정. 파일 수·총용량·테이블 행수 3중 대조표를 만들어 열람 시 함께 확인.</p></div><div class="field"><b>DB 관리 도구(/MyAdmin)가 외부에서 열려 있을 가능성 <span class="chip">높음</span></b><p>근거 — 루트 하위에 DB 관리 경로가 소스로 포함. 접근 통제 점검 항목에서 IP 제한·별도 인증 흔적 미확인(열람 시 재확인 필요).</p><p>조치 — 관리 도구는 공개 경로에서 분리하고 접속을 관리자망·지정 IP로 제한. 필요 시 터널 경유 접속으로 전환.</p></div><div class="field"><b>대용량 첨부 + 10Mbps 대역폭 — 접수 마감일 병목 <span class="chip">중간</span></b><p>근거 — 마감 당일 동시 업로드 8건 가정 시 회선이 포화. 120MB 자체평가보고서 1건 업로드가 평시 2분대 → 마감일 11분대로 늘어나는 구간 발생.</p><p>조치 — 첨부 저장소를 분리하고 업로드 재시도·이어올리기를 적용. 대역폭은 이전 호스팅 환경 선정 시 산정 근거로 제시.</p></div><div class="field"><b>SSL 인증서 수동 갱신 — 만료 2026.12 <span class="chip">중간</span></b><p>근거 — 단일 도메인 인증서, 갱신 담당자 1인. 만료 D-7까지 알림 체계 없음. 만료 시 전 기관 담당자 로그인 화면에 경고가 떠 문의가 몰림.</p><p>조치 — 자동 갱신 + D-30/D-7 이중 알림. 도메인 등록대행사 콘솔 접근 권한을 담당 행정직과 공동 보관.</p></div><div class="field"><b>장애를 이용자 신고로만 인지 <span class="chip">중간</span></b><p>근거 — 모니터링 에이전트·외형 감시 미설치. 야간 다운 시 다음 날 오전 학교 담당자 전화로 파악되는 구조.</p><p>조치 — 1분 간격 외형 감시 + 로그인·파일 업로드 2개 경로 합성 점검. 이상 시 담당 창구로 문자·유선 순차 통지.</p></div><div class="field"><b>평가 시즌 외 기간의 변경 이력이 남지 않음 <span class="chip">낮음</span></b><p>근거 — 소스 형상관리 흔적 미확인. 누가 언제 무엇을 고쳤는지 복구할 근거가 파일 수정시각뿐.</p><p>조치 — 이관과 동시에 형상관리 도입, 월 1회 변경 요약을 비전문 담당자용 1쪽 보고로 제공.</p></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("findings"); DEMO.footer();</script>
+
+</body>
+</html>

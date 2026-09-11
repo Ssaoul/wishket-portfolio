@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>실행 계획 · 이음운영보드 (제안용 데모)</title>
+<meta name="description" content="이음운영보드 실행 계획 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>실행 계획</h2><p>되돌릴 수 없는 작업은 따로 표시한다</p></div><table class="tbl"><thead><tr><th>단계</th><th>기간</th><th>작업</th><th>산출물</th></tr></thead><tbody><tr><td>0. 방문 열람·실사</td><td>계약 전 1일</td><td>사이트 구조·백업 파일·서버 환경 직접 확인, 본 점검표의 가정값을 실측값으로 교체</td><td>현황 실사표 1부 + 항목별(서버 이전/유지보수/SSL) 견적서</td></tr><tr><td>1. 인수·복원 리허설</td><td>1~2주차</td><td>백업 아카이브·DB 덤프 인수, 스테이징 복원, 파일 수·용량·행수 3중 대조. 누락분은 구 환경에서 재수급</td><td>복원 대조표, 누락·불일치 목록(미해결 항목 포함)</td></tr><tr><td>2. 환경 대기업 고객사화</td><td>3~5주차</td><td>PHP 7.4 경유 8.2 호환성 수정, 관리 도구 접근 통제, 첨부 저장소 분리, 취약 항목 조치</td><td>변경 내역서, 조치 전후 점검 결과, 미조치 사유서</td></tr><tr><td>3. 전환(컷오버)</td><td>6주차 · 평가 일정 비수기 주말 새벽</td><td>최종 동기화 → DNS 전환 → SSL 적용 → 로그인·업로드·문서제출 경로 실사용 확인</td><td>전환 체크리스트(서명본), 전환 완료 보고 1쪽</td></tr><tr><td>4. 정기 운영</td><td>전환 후 연중</td><td>보안 패치, 외형 감시, 장애 대응, 평가 시즌 사전 점검, 월간 보고</td><td>월간 운영 보고(비전문 담당자용 1쪽) + 연간 점검 요약</td></tr></tbody></table><p class="note">되돌리기 어려운 작업은 세 가지입니다 — DNS 전환, 신규 DB로의 최종 동기화, 기존 렌탈 서버 반납. 전환 전 DNS TTL을 300초로 낮춰 두고 구 서버를 읽기 전용으로 30일간 살려 두므로, 문제가 보이면 5분 내 원복하고 그 사이 들어온 제출 건은 대조표로 수동 이관합니다. 구 서버 반납은 전환 후 30일 무사고와 담당자 확인 서명을 받은 뒤에만 진행하며, 반납 직전 전체 스냅샷을 별도 매체에 한 부 더 보관합니다.</p><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("plan"); DEMO.footer();</script>
+
+</body>
+</html>
