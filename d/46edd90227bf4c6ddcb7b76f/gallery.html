@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>사례 · 에듀보드 스토어 (제안용 데모)</title>
+<meta name="description" content="에듀보드 스토어 사례 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>사례</h2></div><div class="gallery"><div class="case" style="background-image:url('assets/img/case-0.svg')"><span class="badge">전자칠판</span><div class="cap"><div class="t">중학교 일반교실 24실 전자칠판 교체</div><div class="s">기존 프로젝터 철거 후 86인치 벽걸이 설치. 벽체 보강이 필요한 6실은 이동식 스탠드로 대체했고, 그 내용을 사례에 그대로 적었습니다.</div></div></div><div class="case" style="background-image:url('assets/img/case-1.svg')"><span class="badge">전자교탁 강대상</span><div class="cap"><div class="t">교회 예배당 강대상형 전자교탁 구축</div><div class="s">반주기·악보 프로그램 연동. 기존 음향 콘솔과 규격이 맞지 않아 인터페이스 추가 반영 — 초기 견적 대비 항목이 늘어난 사례.</div></div></div><div class="case" style="background-image:url('assets/img/case-2.svg')"><span class="badge">LED스크린/전광판</span><div class="cap"><div class="t">대학 강당 LED 미디어월</div><div class="s">모듈 조합형으로 무대 배경 전면 구성. 전력 증설 승인 대기로 일정이 3주 지연됐고 지연 사유를 사례에 표기.</div></div></div><div class="case" style="background-image:url('assets/img/case-3.svg')"><span class="badge">공간 인테리어 공사</span><div class="cap"><div class="t">초등학교 도서관 공간 재구조화</div><div class="s">가변형 가구·사물함 + 사이니지. 방학 기간에만 작업 가능해 공정을 2회로 분할.</div></div></div><div class="case" style="background-image:url('assets/img/case-4.svg')"><span class="badge">AV·음향/장비 설치공사</span><div class="cap"><div class="t">고등학교 방송실 AV 시스템 개선</div><div class="s">무선 마이크 간섭으로 채널 재설정 후 재검수. 한 번에 끝나지 않은 과정을 숨기지 않고 적은 사례.</div></div></div><div class="case" style="background-image:url('assets/img/case-5.svg')"><span class="badge">복합 구축</span><div class="cap"><div class="t">연수원 강의실 6실 렌탈 구축</div><div class="s">전자교탁·전자칠판·음향 일괄. 렌탈 만기 시 추가 비용 없는 소유 전환 조건으로 계약.</div></div></div></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("gallery"); DEMO.footer();</script>
+<script>
+(function(){
+  var cur='전체', view=[], idx=0, D=DEMO.D;
+  var grid=document.getElementById('grid'), fl=document.getElementById('filters'), lb=document.getElementById('lb');
+  function draw(){
+    view=D.cases.filter(function(x){return cur==='전체'||x.type===cur;});
+    grid.innerHTML=view.map(function(x,i){
+      return '<div class="case" data-i="'+i+'" style="background-image:url(\''+x.img+'\')"><span class="badge">'+DEMO.esc(x.type)+'</span>'
+      +'<div class="cap"><div class="t">'+DEMO.esc(x.title)+'</div><div class="s">'+DEMO.esc(x.sub)+'</div></div></div>';
+    }).join('');
+  }
+  function open(i){
+    idx=i; var x=view[i]; if(!x) return;
+    document.getElementById('lbimg').src=x.img;
+    document.getElementById('lbcap').innerHTML='<b>'+DEMO.esc(x.title)+'</b> · '+DEMO.esc(x.type)+'<br><span style="opacity:.85">'+DEMO.esc(x.desc)+'</span>';
+    lb.classList.add('on');
+  }
+  fl.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+  grid.addEventListener('click', function(e){ var el=e.target.closest('.case'); if(el) open(+el.dataset.i); });
+  document.getElementById('lbx').onclick=function(){ lb.classList.remove('on'); };
+  lb.addEventListener('click', function(e){ if(e.target.id==='lb') lb.classList.remove('on'); });
+  document.getElementById('lbp').onclick=function(){ open((idx-1+view.length)%view.length); };
+  document.getElementById('lbn').onclick=function(){ open((idx+1)%view.length); };
+  document.addEventListener('keydown', function(e){
+    if(!lb.classList.contains('on')) return;
+    if(e.key==='Escape') lb.classList.remove('on');
+    if(e.key==='ArrowLeft') document.getElementById('lbp').click();
+    if(e.key==='ArrowRight') document.getElementById('lbn').click();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>
