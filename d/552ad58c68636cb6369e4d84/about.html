@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>소개 · 태강정밀 (제안용 데모)</title>
+<meta name="description" content="태강정밀 소개 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>처음 만드는 홈페이지라, 물어볼 것부터 정리했습니다</h2></div><p>30년 넘게 도면대로 만들어 온 회사의 신뢰는 말보다 근거로 보입니다. 그래서 이 시안은 특허·인증·보유 장비를 각각 별도 데이터로 관리해, 번호와 유효기간이 있는 항목은 관리자 화면에서 직접 고치도록 만들었습니다. 어떤 자료를 준비해야 할지 모르겠다는 말씀이 있어, 필요한 자료를 화면마다 체크리스트로 붙여 두었습니다 — 사진 규격, 특허 등록번호, 인증서 스캔본, 장비 목록 순서입니다. 기존 철구조 OEM과 BLDC 신사업은 찾는 사람이 다르므로 상단 진입을 나누되, 회사소개는 하나로 묶어 30년의 제조 역량이 신사업의 근거로 읽히게 했습니다.</p><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("about"); DEMO.footer();</script>
+<script>
+(function(){
+  var f=document.getElementById('form'); if(!f) return;
+  f.addEventListener('submit', function(e){
+    e.preventDefault(); var ok=true;
+    [['nm','f-nm'],['ph','f-ph'],['ms','f-ms']].forEach(function(p){
+      var bad=!document.getElementById(p[0]).value.trim();
+      document.getElementById(p[1]).classList.toggle('bad', bad); if(bad) ok=false;
+    });
+    if(!ok){ DEMO.toast('필수 항목을 확인해 주세요'); return; }
+    DEMO.toast('✓ 문의가 접수되었습니다 (데모 — 실제 전송 안 함)'); f.reset();
+  });
+  if(location.hash==='#contact'){ setTimeout(function(){ var el=document.getElementById('contact'); if(el) el.scrollIntoView(); },80); }
+})();
+</script>
+</body>
+</html>
