@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>전체 항목 · 루미나 초등관 (제안용 데모)</title>
+<meta name="description" content="루미나 초등관 전체 항목 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>전체 항목</h2></div><div class="filters"><span class="chip">기획·정보구조</span><span class="chip">카피라이팅</span><span class="chip">상담 전환</span><span class="chip">측정·SEO</span></div><table class="tbl"><thead><tr><th>이름</th><th>분류</th><th>설명</th></tr></thead><tbody><tr><td>첫 화면 핵심 메시지 A/B</td><td><span class="chip">카피라이팅</span></td><td>'초등 6년, 흔들리지 않게' / '학년이 올라갈수록 더 단단해지는 공부' 두 안을 준비. 관리자 화면에서 문구 교체가 가능하도록 텍스트 블록으로 분리했습니다.</td></tr><tr><td>학부모 관심 순서 정보구조</td><td><span class="chip">기획·정보구조</span></td><td>차별점 → 프로그램 → 관리 시스템 → 신뢰 요소 순. 자료로 받은 항목 중 뒤로 미룰 것(연혁·수상 내역)을 접이식 섹션으로 내리는 안을 함께 표시.</td></tr><tr><td>학년별 교육 방향 표</td><td><span class="chip">기획·정보구조</span></td><td>1~2학년 습관, 3~4학년 독해·연산 기초, 5~6학년 중등 대비. 학년 칸만 눌러도 해당 프로그램 설명이 펼쳐지는 구조로 정보량을 줄였습니다.</td></tr><tr><td>강사진 소개 카드</td><td><span class="chip">기획·정보구조</span></td><td>원어민·한국인 강사 구성과 담당 학년을 카드로. 사진·소개 문구는 관리자에서 교체 가능하며, 사진 미등록 시 기본 실루엣으로 대체됩니다.</td></tr><tr><td>관리 시스템 3단 설명</td><td><span class="chip">기획·정보구조</span></td><td>평가·테스트 → 학부모 피드백 → 토요특강. '무엇을 얼마나 자주 알려주는가'를 주기 표기(주 1회·월 1회)로 통일했습니다.</td></tr><tr><td>상담 신청폼</td><td><span class="chip">상담 전환</span></td><td>학부모 성함 · 연락처 · 자녀 학년 · 관심 프로그램 · 상담 희망 시간대. 항목은 협의로 추가·삭제 가능하며 관리자에서 필수 여부를 켜고 끕니다.</td></tr><tr><td>플로팅 상담 바</td><td><span class="chip">상담 전환</span></td><td>모바일 하단 고정. 전화 연결·메신저 채널·상담폼 이동 3버튼. 스크롤 30% 지점부터 노출되어 첫 화면 가독성을 가리지 않습니다.</td></tr><tr><td>GA4 이벤트 · 포털 전환 매핑</td><td><span class="chip">측정·SEO</span></td><td>페이지뷰·상담버튼클릭·폼진입·폼제출·전화연결 5종. 각 이벤트를 포털 전환 스크립트 유형에 대응시킨 표를 관리자 문서 탭에 남깁니다.</td></tr><tr><td>기본 SEO 체크 항목</td><td><span class="chip">측정·SEO</span></td><td>Title·Meta Description·H1~H3 구조·이미지 Alt. 관리자에서 섹션별로 입력하며, 비어 있으면 저장 시 경고가 뜹니다.</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("catalog"); DEMO.footer();</script>
+<script>
+(function(){
+  var cur='전체', D=DEMO.D;
+  var grid=document.getElementById('grid'), fl=document.getElementById('filters');
+  function draw(){
+    var v=D.items.filter(function(x){return cur==='전체'||x.cat===cur;});
+    grid.innerHTML=v.map(function(x){
+      return '<article class="prod"><div class="pimg" style="background-image:url(\''+x.img+'\')"></div>'
+      +'<div class="pbody"><span class="chip">'+DEMO.esc(x.cat)+'</span>'
+      +'<h3 style="margin-top:10px">'+DEMO.esc(x.name)+'</h3>'
+      +'<div class="desc">'+DEMO.esc(x.desc)+'</div>'
+      +'<div class="meta"><span>'+DEMO.esc(x.meta)+'</span><b>자세히 →</b></div></div></article>';
+    }).join('');
+  }
+  fl.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>

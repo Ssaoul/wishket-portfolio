@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>소개 · 루미나 초등관 (제안용 데모)</title>
+<meta name="description" content="루미나 초등관 소개 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>예쁜 페이지가 아니라, 읽히는 순서를 만듭니다</h2></div><p>학부모가 랜딩을 끝까지 읽는 경우는 드뭅니다. 그래서 '무엇을 먼저 보여줄 것인가'가 디자인보다 앞섭니다. 이 시안은 제공받을 교육 자료를 그대로 나열하지 않고, 관심을 여는 한 문장 → 다른 곳과 다른 점 → 실제 프로그램 → 아이를 어떻게 관리하는지 → 상담 순으로 다시 배치한 결과입니다. 문구·사진·SEO 항목은 모두 관리자 화면에서 고칠 수 있게 나누어 두었고, 상담이 어디서 끊기는지 볼 수 있도록 측정 지점도 함께 표시했습니다.</p><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("about"); DEMO.footer();</script>
+<script>
+(function(){
+  var f=document.getElementById('form'); if(!f) return;
+  f.addEventListener('submit', function(e){
+    e.preventDefault(); var ok=true;
+    [['nm','f-nm'],['ph','f-ph'],['ms','f-ms']].forEach(function(p){
+      var bad=!document.getElementById(p[0]).value.trim();
+      document.getElementById(p[1]).classList.toggle('bad', bad); if(bad) ok=false;
+    });
+    if(!ok){ DEMO.toast('필수 항목을 확인해 주세요'); return; }
+    DEMO.toast('✓ 문의가 접수되었습니다 (데모 — 실제 전송 안 함)'); f.reset();
+  });
+  if(location.hash==='#contact'){ setTimeout(function(){ var el=document.getElementById('contact'); if(el) el.scrollIntoView(); },80); }
+})();
+</script>
+</body>
+</html>
