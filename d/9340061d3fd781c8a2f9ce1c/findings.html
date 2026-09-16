@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>발견 항목 · 기프티스 (제안용 데모)</title>
+<meta name="description" content="기프티스 발견 항목 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>발견 항목</h2><p>무엇이 병목인지와 그 근거</p></div><div class="field"><b>공개 웹 에디터 업로드 경로로 웹쉘 실행 가능 <span class="chip">높음</span></b><p>근거 — 팝업 등록 에디터의 업로드 엔드포인트가 확장자 블랙리스트만 검사. 합성 점검 케이스 18건 중 .php5/.phtml/대문자 .PHP/이중확장자 등 7건이 업로드 후 웹 경로에서 실행됨</p><p>조치 — 업로드 디렉터리를 웹 루트 밖으로 분리하고 화이트리스트+MIME+매직바이트 3중 검사. 저장 파일명은 UUID로 재생성, 해당 경로 전체 실행 권한 제거. 에디터는 업로드 기능을 분리한 자체 모듈로 교체</p></div><div class="field"><b>상품권 번호가 DB에 평문으로 보관됨 <span class="chip">높음</span></b><p>근거 — 재고 테이블 voucher_stock.pin 컬럼이 VARCHAR 평문. 합성 재고 1,200건 기준, DB 덤프 한 번이면 미사용 번호 940건이 그대로 노출되는 구조</p><p>조치 — 번호는 애플리케이션 키로 암호화해 저장하고 복호화 키는 DB와 분리된 위치에 보관. 조회는 승인 등급+주문 소유자 확인을 통과한 단건 요청만 허용하고, 목록·엑셀 내보내기 경로에서는 마스킹 값만 반환</p></div><div class="field"><b>관리자 로그인이 ID·비밀번호 단일 인증 <span class="chip">높음</span></b><p>근거 — 관리자 도메인이 쇼핑몰과 같은 서버·같은 포트에서 노출. 접근 IP 제한 없음, 로그인 실패 잠금 없음. 합성 로그에서 외부 IP의 연속 로그인 시도 340건이 차단 없이 기록됨</p><p>조치 — 관리자 도메인을 별도 서버로 분리하고 OTP 또는 알림톡 인증을 2차로 적용. 실패 5회 잠금, 관리자 세션은 짧은 만료+재인증. 민감 동작(재고 등록·번호 조회)은 인증 후에도 별도 확인 단계</p></div><div class="field"><b>결제 금액이 클라이언트 전달값 기준으로 승인됨 <span class="chip">높음</span></b><p>근거 — 결제 요청 폼의 hidden amount 값을 그대로 PG에 전달. 합성 테스트 주문 12건 중 금액을 변조한 9건이 서버 검증 없이 승인 단계까지 진행</p><p>조치 — 주문 생성 시 서버가 금액을 확정해 주문번호에 묶고, PG 승인 응답의 금액·주문번호를 서버 저장값과 대조해 불일치 시 즉시 취소. 카드·휴대폰결제는 합계 100만원 한도를 서버에서 재검증</p></div><div class="field"><b>기존 소스에 남은 침해 흔적을 확정할 수 없음 <span class="chip">높음</span></b><p>근거 — FTP로 받은 스냅샷에서 최근 수정 시각이 배포 이력과 어긋나는 파일 23건, 정체 불명 include 구문 4건 확인. 형상관리 이력이 없어 원본과 대조 불가</p><p>조치 — 기존 소스는 참조용(기능 명세)으로만 쓰고 실행 코드는 재작성 권장. 부득이 이관할 경우 정적 진단 통과분만 화이트리스트 방식으로 옮기고, 기존 서버는 신규 전환 후 격리 보관</p></div><div class="field"><b>SQL 질의에 문자열 결합이 남아 있음 <span class="chip">중간</span></b><p>근거 — 관리자 검색·주문조회 화면에서 파라미터 바인딩 없이 결합된 질의 11곳. 그중 3곳은 정렬 컬럼명을 입력값으로 그대로 받음</p><p>조치 — 전 구간 파라미터 바인딩으로 전환하고, 정렬·검색 컬럼은 서버 허용 목록으로 제한. DB 계정은 화면별 최소 권한으로 분리하고 DDL 권한 회수</p></div><div class="field"><b>검색엔진 메타 정보가 전혀 설정되어 있지 않음 <span class="chip">낮음</span></b><p>근거 — 메인과 상품 상세 5개 페이지 모두 title이 동일하고 description·canonical·구조화 데이터 없음. sitemap.xml·robots.txt 부재</p><p>조치 — 메인·상품별 title/description을 개별 지정하고 canonical·Open Graph·구조화 데이터 적용. sitemap 자동 생성과 robots.txt 추가, 관리자 도메인은 색인 제외</p></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("findings"); DEMO.footer();</script>
+
+</body>
+</html>
