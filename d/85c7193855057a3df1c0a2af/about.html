@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>소개 · 온서울의원 리뉴얼 시안 (제안용 데모)</title>
+<meta name="description" content="온서울의원 리뉴얼 시안 소개 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>이 시안이 보여주는 것</h2></div><p>기존 홈페이지를 그누보드(PHP) 기반으로 새로 짜는 경우를 가정해 만든 제안용 시안입니다. 병원명·원고·사례는 모두 지어낸 합성 데이터이며, 실제 진료 정보가 아닙니다. 보여드리려는 건 두 가지입니다 — 페이지를 만들 때 메타·H태그·구조화 데이터가 따로 떨어지지 않고 편집 화면에 붙어 있는 구조, 그리고 팝업·휴진 안내처럼 자주 바뀌는 내용을 개발자 없이 마케팅 담당자가 직접 고치는 범위입니다. 잘 된 화면만 담지 않고 메타 중복·alt 누락·색인 갱신 대기처럼 실제로 자주 생기는 상태도 같이 넣었습니다. 서버 유지/이전 여부는 정해지지 않은 범위라 이 시안에서는 다루지 않았습니다.</p><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("about"); DEMO.footer();</script>
+<script>
+(function(){
+  var f=document.getElementById('form'); if(!f) return;
+  f.addEventListener('submit', function(e){
+    e.preventDefault(); var ok=true;
+    [['nm','f-nm'],['ph','f-ph'],['ms','f-ms']].forEach(function(p){
+      var bad=!document.getElementById(p[0]).value.trim();
+      document.getElementById(p[1]).classList.toggle('bad', bad); if(bad) ok=false;
+    });
+    if(!ok){ DEMO.toast('필수 항목을 확인해 주세요'); return; }
+    DEMO.toast('✓ 문의가 접수되었습니다 (데모 — 실제 전송 안 함)'); f.reset();
+  });
+  if(location.hash==='#contact'){ setTimeout(function(){ var el=document.getElementById('contact'); if(el) el.scrollIntoView(); },80); }
+})();
+</script>
+</body>
+</html>

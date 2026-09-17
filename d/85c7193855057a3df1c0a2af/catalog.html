@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>전체 항목 · 온서울의원 리뉴얼 시안 (제안용 데모)</title>
+<meta name="description" content="온서울의원 리뉴얼 시안 전체 항목 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>전체 항목</h2></div><div class="filters"><span class="chip">병원 소개</span><span class="chip">진료 안내</span><span class="chip">공지·휴진</span><span class="chip">관리자 편집</span><span class="chip">SEO·GEO 설정</span></div><table class="tbl"><thead><tr><th>이름</th><th>분류</th><th>설명</th></tr></thead><tbody><tr><td>인사말·연혁</td><td><span class="chip">병원 소개</span></td><td>H1은 병원명+지역, 본문 첫 문단에 진료 분야와 위치를 한 번에 담아 AI 검색이 요약해 가기 쉬운 형태로 씁니다. 원고는 병원 제공분 그대로.</td></tr><tr><td>의료진 소개</td><td><span class="chip">병원 소개</span></td><td>1인 1페이지 구조. 이름·진료 분야·진료 요일을 Person 구조화 데이터로 함께 내보내 검색 결과에 항목이 따로 잡히게 합니다.</td></tr><tr><td>진료과목 상세</td><td><span class="chip">진료 안내</span></td><td>과목당 독립 URL(/clinic/내과). 과목명을 H1, 세부 증상을 H2로 고정해 '양천구 + 증상' 검색 질의에 대응합니다.</td></tr><tr><td>진료시간·휴진 안내</td><td><span class="chip">진료 안내</span></td><td>요일별 시간표를 표와 구조화 데이터 양쪽에 동시 반영. 관리자가 시간을 고치면 두 곳이 같이 바뀝니다.</td></tr><tr><td>공지사항 게시판</td><td><span class="chip">공지·휴진</span></td><td>그누보드 기본 게시판 기반. 상단 고정 체크 시 메인 화면 휴진 띠배너로 자동 노출됩니다.</td></tr><tr><td>팝업·메인 배너 관리</td><td><span class="chip">관리자 편집</span></td><td>이미지 업로드, 노출 기간(시작~종료), PC/모바일 구분, 오늘 하루 닫기 옵션. 기간이 지나면 자동으로 내려갑니다.</td></tr><tr><td>페이지별 메타 편집</td><td><span class="chip">SEO·GEO 설정</span></td><td>title·description·OG 이미지를 페이지 편집 화면 아래에서 바로 입력. 비어 있거나 다른 페이지와 겹치면 저장 전에 경고를 띄웁니다.</td></tr><tr><td>사이트맵·색인 요청</td><td><span class="chip">SEO·GEO 설정</span></td><td>sitemap.xml 자동 생성, robots.txt 편집, 검색 포털 등록 상태를 한 화면에서 확인. 마지막 제출 시각과 결과를 남깁니다.</td></tr><tr><td>오시는 길·주차 안내</td><td><span class="chip">병원 소개</span></td><td>지도, 대중교통 경로, 주차 가능 대수. 주소·전화 정보를 병원 구조화 데이터로 함께 내보냅니다.</td></tr><tr><td>AI 답변용 요약 블록</td><td><span class="chip">SEO·GEO 설정</span></td><td>페이지마다 3~5문장 요약과 자주 묻는 질문을 별도 필드로 관리. 생성형 AI가 인용하기 쉬운 형태로 본문 상단·FAQ 스키마에 함께 싣습니다.</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("catalog"); DEMO.footer();</script>
+<script>
+(function(){
+  var cur='전체', D=DEMO.D;
+  var grid=document.getElementById('grid'), fl=document.getElementById('filters');
+  function draw(){
+    var v=D.items.filter(function(x){return cur==='전체'||x.cat===cur;});
+    grid.innerHTML=v.map(function(x){
+      return '<article class="prod"><div class="pimg" style="background-image:url(\''+x.img+'\')"></div>'
+      +'<div class="pbody"><span class="chip">'+DEMO.esc(x.cat)+'</span>'
+      +'<h3 style="margin-top:10px">'+DEMO.esc(x.name)+'</h3>'
+      +'<div class="desc">'+DEMO.esc(x.desc)+'</div>'
+      +'<div class="meta"><span>'+DEMO.esc(x.meta)+'</span><b>자세히 →</b></div></div></article>';
+    }).join('');
+  }
+  fl.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>
