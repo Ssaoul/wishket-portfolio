@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>발견 항목 · 아카이브브릿지 (제안용 데모)</title>
+<meta name="description" content="아카이브브릿지 발견 항목 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>발견 항목</h2><p>무엇이 병목인지와 그 근거</p></div><div class="field"><b>PC·모바일 분리 구조로 콘텐츠가 이중 관리됨 <span class="chip">높음</span></b><p>근거 — 메뉴 34개 중 모바일 페이지가 존재하는 것은 11개. 나머지 23개는 모바일에서 PC 레이아웃이 그대로 노출되어 가로 스크롤 발생</p><p>조치 — 단일 반응형 템플릿으로 통합해 관리 지점을 1곳으로 줄임. 모바일 전용 경로(/m/)는 새 URL로 301 전환</p></div><div class="field"><b>첨부파일 경로만 있고 실물이 없는 레코드 <span class="chip">높음</span></b><p>근거 — attach 테이블 2,317행 중 47행이 서버 파일 미존재(주로 2016년 이전 자료집). 32행은 동일 파일을 중복 참조</p><p>조치 — 이관 전 전수 스캔으로 결손 목록을 먼저 확정해 담당자와 확인. 복구 불가분은 게시글은 살리고 첨부만 '원본 없음'으로 표기 — 조용히 누락시키지 않음</p></div><div class="field"><b>한글 첨부파일명 인코딩 혼재 <span class="chip">높음</span></b><p>근거 — 파일명 인코딩이 EUC-KR 1,489개 / UTF-8 828개로 섞임. 그대로 옮기면 다운로드 시 '2024_______.hwp' 형태로 깨짐</p><p>조치 — 원본 바이트 기준 인코딩 자동 판별 후 UTF-8 정규화(NFC). 판별 실패분은 목록으로 뽑아 수기 확인</p></div><div class="field"><b>게시글 본문에 구형 에디터 잔재 HTML <span class="chip">중간</span></b><p>근거 — 본문 1,842건 중 612건에 &lt;font&gt;·&lt;table width=760&gt; 등 고정폭 태그 포함. 모바일에서 표가 화면 밖으로 밀림</p><p>조치 — 본문 정제 규칙으로 고정폭 제거 후 반응형 표로 감싸기. 원문은 백업 컬럼에 보존해 언제든 대조 가능</p></div><div class="field"><b>게시글 번호가 테이블마다 독립 채번 <span class="chip">중간</span></b><p>근거 — 6개 게시판이 각각 1번부터 시작해 ID 충돌 1,100여 건. 기존 상세 URL(view.php?bbs=notice&amp;no=101)이 외부·검색엔진에 노출된 상태</p><p>조치 — 게시판+원본번호를 합친 매핑표를 만들어 새 글 ID와 1:1 보관. 구 URL은 매핑표 기반 301로 새 주소 연결</p></div><div class="field"><b>작성일시가 문자열 컬럼에 비정형 저장 <span class="chip">중간</span></b><p>근거 — regdate 컬럼이 varchar. '2019-03-04', '20190304', '19.03.04' 3가지 형식 혼재(비표준 형식 288건)</p><p>조치 — 형식별 파서로 일괄 변환하고, 변환 불가분은 목록화해 담당자 확인 후 확정. 조회수는 원본값 그대로 이전</p></div><div class="field"><b>영문 페이지가 국문과 따로 굳어 있음 <span class="chip">낮음</span></b><p>근거 — 영문 페이지 7개 중 5개의 최종 수정일이 2018년. 조직·연구사업 현황이 국문과 불일치</p><p>조치 — 영문은 발주 범위대로 소개·현황 중심으로 간략화. 국문 대비 어떤 항목이 빠졌는지 대조표를 운영 매뉴얼에 남김</p></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("findings"); DEMO.footer();</script>
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>개요 · 아카이브브릿지 (제안용 데모)</title>
+<meta name="description" content="아카이브브릿지 개요 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="hero flow" style="background-image:url('assets/img/hero.svg')">
+<div class="hero-txt">
+<p class="eyebrow">Legacy PHP to Responsive CMS Migration Console</p>
+<h1>10년치 글, 한 건도 안 잃고</h1>
+<p>구형 PHP 게시판은 글번호·작성일·조회수가 테이블마다 다른 형식으로 흩어져 있고, 첨부파일은 경로만 남고 실물이 없는 경우가 섞입니다. 옮기기 전에 먼저 세어 보고, 옮긴 뒤 다시 세어 대조합니다.</p>
+</div></section><section class="wrap"><div class="stats"><div class="stat"><div class="n">1,842건</div><div class="l">이관 대상 게시글(스캔 집계)</div></div><div class="stat"><div class="n">2,317개</div><div class="l">첨부파일(PDF·이미지·HWP)</div></div><div class="stat"><div class="n">6종</div><div class="l">구형 게시판 테이블</div></div><div class="stat"><div class="n">4단계</div><div class="l">대조 검증 게이트</div></div></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section><section class="wrap"><div class="sec-head"><h2>진단 요약</h2><p>고치기 전에 현재를 수치로 세운다</p></div><table class="tbl"><thead><tr><th>항목</th><th>심각도</th><th>근거</th></tr></thead><tbody><tr><td>PC·모바일 분리 구조로 콘텐츠가 이중 관리됨</td><td><span class="chip">높음</span></td><td>메뉴 34개 중 모바일 페이지가 존재하는 것은 11개. 나머지 23개는 모바일에서 PC 레이아웃이 그대로 노출되어 가로 스크롤 발생</td></tr><tr><td>첨부파일 경로만 있고 실물이 없는 레코드</td><td><span class="chip">높음</span></td><td>attach 테이블 2,317행 중 47행이 서버 파일 미존재(주로 2016년 이전 자료집). 32행은 동일 파일을 중복 참조</td></tr><tr><td>한글 첨부파일명 인코딩 혼재</td><td><span class="chip">높음</span></td><td>파일명 인코딩이 EUC-KR 1,489개 / UTF-8 828개로 섞임. 그대로 옮기면 다운로드 시 '2024_______.hwp' 형태로 깨짐</td></tr><tr><td>게시글 본문에 구형 에디터 잔재 HTML</td><td><span class="chip">중간</span></td><td>본문 1,842건 중 612건에 &lt;font&gt;·&lt;table width=760&gt; 등 고정폭 태그 포함. 모바일에서 표가 화면 밖으로 밀림</td></tr><tr><td>게시글 번호가 테이블마다 독립 채번</td><td><span class="chip">중간</span></td><td>6개 게시판이 각각 1번부터 시작해 ID 충돌 1,100여 건. 기존 상세 URL(view.php?bbs=notice&amp;no=101)이 외부·검색엔진에 노출된 상태</td></tr></tbody></table></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("index"); DEMO.footer();</script>
+
+</body>
+</html>

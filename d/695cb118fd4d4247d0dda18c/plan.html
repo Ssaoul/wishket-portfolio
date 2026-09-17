@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>실행 계획 · 아카이브브릿지 (제안용 데모)</title>
+<meta name="description" content="아카이브브릿지 실행 계획 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>실행 계획</h2><p>되돌릴 수 없는 작업은 따로 표시한다</p></div><table class="tbl"><thead><tr><th>단계</th><th>기간</th><th>작업</th><th>산출물</th></tr></thead><tbody><tr><td>1. 현황 스캔·대조 기준 확정</td><td>1주차</td><td>기존 MySQL 덤프와 첨부 디렉터리를 전수 스캔해 게시판별 건수·첨부 수·결손·인코딩 분포를 집계. 담당자와 이관 제외 범위(회원·댓글) 확정</td><td>이관 대상 목록표, 결손·예외 목록, 대조 기준 문서</td></tr><tr><td>2. 워드프레스 구축·반응형 적용</td><td>2~3주차</td><td>기존 호스팅에 워드프레스 설치, 반응형 템플릿에 국문 메뉴 구조 1:1 배치. 영문 페이지 간략 구성</td><td>스테이징 사이트, 메뉴 구조 대조표</td></tr><tr><td>3. 시험 이관·검증</td><td>3주차</td><td>스테이징에 전량 이관 후 건수·체크섬 대조, 본문 정제 결과 표본 검수, 구 URL 301 매핑 점검</td><td>이관 검증 리포트(일치/불일치 목록), 담당자 검수 요청 목록</td></tr><tr><td>4. 관리자 기능·매뉴얼</td><td>4주차</td><td>배너·팝업·공지·자료집 등록 화면 커스터마이징, 담당자 실습 세션 진행</td><td>관리자 운영 매뉴얼, 실습 체크리스트</td></tr><tr><td>5. 최종 이관·오픈·하자보수</td><td>4주차 말 이후</td><td>오픈 직전 델타 이관(기간 중 새 글) 후 재대조, 전환 및 모니터링. 이후 합의된 기간 동안 하자보수</td><td>최종 DB·파일 백업본, 전체 소스, 오픈 후 점검 기록</td></tr></tbody></table><p class="note">되돌릴 수 없는 작업은 기존 도메인의 서비스 전환과 기존 호스팅 계정 내 디렉터리 교체 두 가지뿐이며, 그 전 단계인 이관·검증은 전부 스테이징에서만 수행해 기존 사이트를 건드리지 않습니다. 전환 직전에 기존 소스 전체와 MySQL 덤프, 첨부 디렉터리를 원본 그대로 별도 보관하고, 기존 사이트는 삭제하지 않고 백업 경로에 그대로 남겨 둡니다. 오픈 후 문제가 확인되면 보관해 둔 원본을 되돌려 구 사이트로 복귀하는 것을 기본 롤백 경로로 하며, 되돌리는 데 필요한 절차와 소요 시간을 운영 매뉴얼에 적어 둡니다.</p><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("plan"); DEMO.footer();</script>
+
+</body>
+</html>
