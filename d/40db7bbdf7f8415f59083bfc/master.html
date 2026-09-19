@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>마스터 · 파트너레저 (제안용 데모)</title>
+<meta name="description" content="파트너레저 마스터 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>마스터 관리</h2><p>코드성 데이터는 개발자 없이 담당자가 바꾼다</p></div><table class="tbl"><thead><tr><th>마스터</th><th>설명</th><th>건수</th></tr></thead><tbody><tr><td>거래처</td><td>거래처명·코드·담당자·거래 시작일. 접수 건과 정산 내역이 모두 이 코드로 묶인다.</td><td>24개사</td></tr><tr><td>거래처 로그인 계정</td><td>관리자가 발급·정지. 계정 1개는 거래처 1곳의 데이터만 조회한다.</td><td>31개 (정지 3)</td></tr><tr><td>메뉴·상품 코드</td><td>인터넷 / 렌탈 / 휴대폰 3종 아래의 접수 상품 분류.</td><td>3종 · 하위 18개</td></tr><tr><td>접수 진행 상태</td><td>상태 값과 전이 규칙. 취소·철회 건은 정산 등록이 막힌다.</td><td>5단계</td></tr><tr><td>정산 내역</td><td>접수 건에 연결되는 정산 레코드. 연결 없는 정산은 등록 시 경고.</td><td>월 단위 마감</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("master"); DEMO.footer();</script>
+
+</body>
+</html>
