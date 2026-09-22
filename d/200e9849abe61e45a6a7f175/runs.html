@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>실행 이력 · 스코어브릿지 (제안용 데모)</title>
+<meta name="description" content="스코어브릿지 실행 이력 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>실행 이력</h2><p>성공만이 아니라 실패가 보여야 한다</p></div><table class="tbl"><thead><tr><th>실행</th><th>시각</th><th>상태</th><th>처리</th><th>소요</th></tr></thead><tbody><tr><td>RUN-20260922-0400-A</td><td>09/22 04:00</td><td><span class="chip">성공</span></td><td>312건 (신규 18 / 갱신 294)</td><td>4분 12초</td></tr><tr><td>RUN-20260922-0400-B</td><td>09/22 04:06</td><td><span class="chip">부분실패</span></td><td>1,148건 중 1,139 처리 / 9 격리</td><td>11분 38초</td></tr><tr><td>RUN-20260922-0400-C</td><td>09/22 04:20</td><td><span class="chip">성공</span></td><td>87건 증분 (페이지 5/5)</td><td>1분 47초</td></tr><tr><td>RUN-20260922-0430-D</td><td>09/22 04:30</td><td><span class="chip">부분실패</span></td><td>1,012건 중 1,007 처리 / 5 워터마킹 대기</td><td>9분 03초</td></tr><tr><td>RUN-20260921-0400-B</td><td>09/21 04:00</td><td><span class="chip">실패</span></td><td>0건 (FTP 접속 거부)</td><td>0분 31초</td></tr><tr><td>RUN-20260921-0412-B</td><td>09/21 04:12</td><td><span class="chip">성공</span></td><td>1,146건 (재시도 1회)</td><td>12분 05초</td></tr><tr><td>RUN-20260920-1500-FX</td><td>09/20 15:00</td><td><span class="chip">부분실패</span></td><td>환율 3종 중 2종 갱신 / GBP 실패</td><td>0분 22초</td></tr><tr><td>RUN-20260920-0400-A</td><td>09/20 04:00</td><td><span class="chip">성공</span></td><td>308건 (신규 4 / 갱신 304)</td><td>3분 55초</td></tr><tr><td>RUN-20260919-0400-C</td><td>09/19 04:00</td><td><span class="chip">부분실패</span></td><td>64건 처리 / 12건 등록 보류 (한도)</td><td>6분 41초</td></tr><tr><td>RUN-20260919-0400-D</td><td>09/19 04:30</td><td><span class="chip">성공</span></td><td>1,012건 정보 갱신</td><td>8분 27초</td></tr></tbody></table><p class="note">실패한 항목은 실행 전체를 되돌리지 않고 항목 단위로 격리 큐에 넣는다 — 9건이 깨져도 나머지 1,139건은 그날 정상 판매된다. 일시적 실패(FTP 접속 거부, API 한도 429, 워터마킹 타임아웃)는 간격을 늘려가며 최대 3회 자동 재시도하고, 3회 후에도 안 되면 담당자 알림으로 올린다. 판단이 필요한 실패(미정의 상품유형, 필수값 공백, 환율 조회 실패)는 재시도하지 않고 격리 상태로 남겨 두며, 원인을 고친 뒤 같은 파일을 재처리 큐에 넣으면 그 항목만 다시 돌린다.</p><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("runs"); DEMO.footer();</script>
+
+</body>
+</html>

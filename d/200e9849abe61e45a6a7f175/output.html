@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>산출물 · 스코어브릿지 (제안용 데모)</title>
+<meta name="description" content="스코어브릿지 산출물 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>산출물</h2><p>무엇이 최종적으로 나오는가</p></div><table class="tbl"><thead><tr><th>산출물</th><th>형식</th><th>설명</th></tr></thead><tbody><tr><td>카탈로그 등록 결과표</td><td><span class="chip">CSV</span></td><td>SKU·출판사·작곡가·편성·원화 판매가·등록 결과(신규/갱신/격리)를 한 줄씩. 담당자가 엑셀로 열어 격리 사유만 걸러 볼 수 있다.</td></tr><tr><td>격리 항목 리포트</td><td><span class="chip">CSV</span></td><td>정규화·등록에 실패한 항목과 원문 필드값, 실패 사유, 권장 조치. 사유를 고치면 이 파일 그대로 재처리 큐에 넣는다.</td></tr><tr><td>판매·다운로드 통합 현황</td><td><span class="chip">관리자 화면 + CSV</span></td><td>신규 4개 출판사의 판매 건수·다운로드 횟수·남은 횟수·만료 일시를 기존 관리자 지표와 같은 축으로 본다. 기존 DB 구조에 못 맞추는 항목은 별도 탭으로 분리.</td></tr><tr><td>개인화 다운로드 PDF (워터마킹)</td><td><span class="chip">PDF</span></td><td>구매자 식별 정보를 삽입한 악보 파일과 만료·횟수 제한이 걸린 서명 URL. 환불 시 링크가 즉시 무효화된다.</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("output"); DEMO.footer();</script>
+
+</body>
+</html>
