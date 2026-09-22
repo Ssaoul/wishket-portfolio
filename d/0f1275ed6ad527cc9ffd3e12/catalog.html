@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>전체 항목 · 메리디안 캐피털 리서치 (제안용 데모)</title>
+<meta name="description" content="메리디안 캐피털 리서치 전체 항목 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>전체 항목</h2></div><div class="filters"><span class="chip">메인 섹션</span><span class="chip">서브 페이지</span><span class="chip">오버레이·쿠키</span><span class="chip">관리자 교체 항목</span></div><table class="tbl"><thead><tr><th>이름</th><th>분류</th><th>설명</th></tr></thead><tbody><tr><td>히어로 — 팀 소개 한 문장</td><td><span class="chip">메인 섹션</span></td><td>EN 62자 / KO 38자 / 繁中 24자. 언어별 폰트 크기를 각각 두고 줄바꿈 지점을 고정했습니다. 번체중문은 자간을 넓혀 한 줄을 유지합니다.</td></tr><tr><td>투자 프로세스 4단계</td><td><span class="chip">메인 섹션</span></td><td>리서치 → 후보 선별 → 포트폴리오 구성 → 점검. PC는 가로 4열, 모바일은 세로 카드로 접힙니다. 제공된 색상 가이드의 강조색만 사용.</td></tr><tr><td>성과 차트 이미지 영역</td><td><span class="chip">메인 섹션</span></td><td>제공받은 차트 이미지를 그대로 삽입. 모바일에서는 가로 스크롤 대신 확대 보기 버튼으로 처리해 축소로 인한 가독성 저하를 피합니다.</td></tr><tr><td>PDF 보고서 다운로드</td><td><span class="chip">메인 섹션</span></td><td>관리자가 올린 최신 파일로 자동 연결. 파일 교체 시 링크 수정 불필요. 파일 미등록이면 버튼이 비활성 상태로 표시됩니다.</td></tr><tr><td>외부 프로필 링크</td><td><span class="chip">메인 섹션</span></td><td>비즈니스 인맥 플랫폼 프로필로 새 창 연결. rel=&quot;noopener nofollow&quot; 적용 — 검색엔진 차단 정책과 어긋나지 않게 처리.</td></tr><tr><td>성과 서브 페이지</td><td><span class="chip">서브 페이지</span></td><td>연도별 차트 이미지 3장과 주석. 주석 문안은 언어별로 길이 차가 커서 이미지 하단 고정이 아니라 별도 블록으로 분리했습니다.</td></tr><tr><td>전체 고지문 페이지</td><td><span class="chip">서브 페이지</span></td><td>제공된 고지 원문 전문. 긴 문단이라 모바일 행간을 1.8로 올리고, 조항 번호를 왼쪽 밖으로 빼 본문 폭을 유지합니다.</td></tr><tr><td>최초 방문 고지 오버레이</td><td><span class="chip">오버레이·쿠키</span></td><td>Enter / Exit 중 하나를 반드시 눌러야 닫힙니다. 바깥 클릭·Esc·뒤로가기 모두 막았고, Exit 선택 시 빈 안내 페이지로 이동합니다.</td></tr><tr><td>문의 양식</td><td><span class="chip">메인 섹션</span></td><td>이름·소속 기관·이메일·문의 내용 4개 항목. 스팸 방지 위젯 통과 후에만 전송 버튼이 활성화되고, 수신 메일 주소는 관리자에서 변경합니다.</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("catalog"); DEMO.footer();</script>
+<script>
+(function(){
+  var cur='전체', D=DEMO.D;
+  var grid=document.getElementById('grid'), fl=document.getElementById('filters');
+  function draw(){
+    var v=D.items.filter(function(x){return cur==='전체'||x.cat===cur;});
+    grid.innerHTML=v.map(function(x){
+      return '<article class="prod"><div class="pimg" style="background-image:url(\''+x.img+'\')"></div>'
+      +'<div class="pbody"><span class="chip">'+DEMO.esc(x.cat)+'</span>'
+      +'<h3 style="margin-top:10px">'+DEMO.esc(x.name)+'</h3>'
+      +'<div class="desc">'+DEMO.esc(x.desc)+'</div>'
+      +'<div class="meta"><span>'+DEMO.esc(x.meta)+'</span><b>자세히 →</b></div></div></article>';
+    }).join('');
+  }
+  fl.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>
