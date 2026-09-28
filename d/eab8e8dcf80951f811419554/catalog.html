@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>전체 항목 · 스튜디오 여백 (제안용 데모)</title>
+<meta name="description" content="스튜디오 여백 전체 항목 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>전체 항목</h2></div><div class="filters"><span class="chip">브랜드 아이덴티티</span><span class="chip">공간·전시</span><span class="chip">디지털 프로덕트</span><span class="chip">패키지·인쇄</span></div><table class="tbl"><thead><tr><th>이름</th><th>분류</th><th>설명</th></tr></thead><tbody><tr><td>WRK-2026-021 무해한 정원 · 브랜드 리뉴얼</td><td><span class="chip">브랜드 아이덴티티</span></td><td>로고타입·컬러 시스템·응용 서식 12종. 대표 이미지 4장, 본문 이미지 9장. 국문/영문 모두 발행됨.</td></tr><tr><td>WRK-2026-018 나루 라이브러리 사이니지</td><td><span class="chip">공간·전시</span></td><td>층별 안내 사인 체계와 픽토그램 28종. 영문 번역 대기 중이라 EN 사이트에서는 목록에서 숨김 처리.</td></tr><tr><td>WRK-2026-015 온도 기록계 앱 UI 개편</td><td><span class="chip">디지털 프로덕트</span></td><td>온보딩 5화면, 설정 구조 재정리. 썸네일이 세로 비율이라 카드 그리드에서 상단 크롭 경고가 떴던 건.</td></tr><tr><td>WRK-2026-012 해변 상점 패키지</td><td><span class="chip">패키지·인쇄</span></td><td>파우치·박스·라벨 3종 전개. 원본 이미지가 6.4MB여서 업로드 시 자동 리사이즈(1600px)로 저장됨.</td></tr><tr><td>WRK-2026-009 소리결 전시 그래픽</td><td><span class="chip">공간·전시</span></td><td>전시장 배너와 도록 레이아웃. 메타 설명이 비어 있어 SEO 점검 목록에 미완료로 남아 있음.</td></tr><tr><td>WRK-2026-006 담담 로스터리 아이덴티티</td><td><span class="chip">브랜드 아이덴티티</span></td><td>워드마크와 포장 적용안. 클라이언트 요청으로 비공개 상태이며 관리자 목록에만 노출.</td></tr><tr><td>WRK-2026-004 수납 가구 브랜드 사이트</td><td><span class="chip">디지털 프로덕트</span></td><td>제품 상세 템플릿과 문의 흐름 설계. 영문 페이지는 번역본 검수 후 발행 예정.</td></tr><tr><td>WRK-2025-047 계절 편지지 시리즈</td><td><span class="chip">패키지·인쇄</span></td><td>네 계절 커버 일러스트와 인쇄 사양서. 구 사이트에서 이관하며 태그가 비어 있어 분류 미지정.</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("catalog"); DEMO.footer();</script>
+<script>
+(function(){
+  var cur='전체', D=DEMO.D;
+  var grid=document.getElementById('grid'), fl=document.getElementById('filters');
+  function draw(){
+    var v=D.items.filter(function(x){return cur==='전체'||x.cat===cur;});
+    grid.innerHTML=v.map(function(x){
+      return '<article class="prod"><div class="pimg" style="background-image:url(\''+x.img+'\')"></div>'
+      +'<div class="pbody"><span class="chip">'+DEMO.esc(x.cat)+'</span>'
+      +'<h3 style="margin-top:10px">'+DEMO.esc(x.name)+'</h3>'
+      +'<div class="desc">'+DEMO.esc(x.desc)+'</div>'
+      +'<div class="meta"><span>'+DEMO.esc(x.meta)+'</span><b>자세히 →</b></div></div></article>';
+    }).join('');
+  }
+  fl.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>
