@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>전체 항목 · 다시봄 스쿨 (제안용 데모)</title>
+<meta name="description" content="다시봄 스쿨 전체 항목 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>전체 항목</h2></div><div class="filters"><span class="chip">뉴질랜드</span><span class="chip">몰타</span><span class="chip">관리자 편집</span><span class="chip">상담 연결</span></div><table class="tbl"><thead><tr><th>이름</th><th>분류</th><th>설명</th></tr></thead><tbody><tr><td>오클랜드 4주 어학연수 · 홈스테이형</td><td><span class="chip">뉴질랜드</span></td><td>상품코드 NZ-01. 오전 영어 수업과 오후 현지 문화 체험. 현지 가정 홈스테이, 공항 픽업 포함. 상세 페이지에 하루 일과표와 준비물을 정리했습니다.</td></tr><tr><td>퀸스타운 2주 자연·영어 프로그램</td><td><span class="chip">뉴질랜드</span></td><td>상품코드 NZ-02. 걷기 난이도를 '낮음/보통'으로 표시해 체력 걱정을 미리 덜어 줍니다. 오전 수업, 오후 호수 산책과 정원 탐방.</td></tr><tr><td>크라이스트처치 8주 장기 연수</td><td><span class="chip">뉴질랜드</span></td><td>상품코드 NZ-03. 레지던스 숙소에 개인 욕실을 갖췄습니다. 현재 '모집 마감' 상태라 목록에서는 흐리게 보이고, 상세 페이지에는 '다음 일정 상담' 버튼이 나옵니다.</td></tr><tr><td>몰타 발레타 3주 영어 + 지중해 문화</td><td><span class="chip">몰타</span></td><td>상품코드 MT-01. 50세 이상 전용 반으로 운영. 오전 수업 뒤 구시가지 해설 투어를 합니다. 출발 가능일을 달력 형태로 안내합니다.</td></tr><tr><td>몰타 슬리에마 2주 단기 체험</td><td><span class="chip">몰타</span></td><td>상품코드 MT-02. 해안 산책로 근처 호텔형 숙소. 처음 해외연수를 가는 분을 위한 입문 상품이며 비자 없이 다녀올 수 있는 기간으로 구성했습니다.</td></tr><tr><td>몰타 고조섬 6주 한 달 살기형</td><td><span class="chip">몰타</span></td><td>상품코드 MT-03. 주 3회 수업과 자유 일정을 섞은 체류형 상품. 대표 사진이 아직 등록되지 않아 관리자 화면에 '이미지 필요' 경고가 떠 있는 상태로 보여 줍니다.</td></tr><tr><td>상품 등록 3단계 편집기</td><td><span class="chip">관리자 편집</span></td><td>① 사진 올리기 ② 제목·기간·포함사항 입력 ③ 공개/비공개 선택. 코드 화면 없이 입력칸만 보이고, 저장 전 미리보기로 실제 상세 페이지 모습을 확인합니다.</td></tr><tr><td>오픈채팅 상담 링크 일괄 관리</td><td><span class="chip">상담 연결</span></td><td>설정 화면 한 곳에서 링크를 바꾸면 전 페이지 상담 버튼에 바로 반영됩니다. 상품별로 다른 상담방을 연결하는 개별 링크 지정도 지원합니다.</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("catalog"); DEMO.footer();</script>
+<script>
+(function(){
+  var cur='전체', D=DEMO.D;
+  var grid=document.getElementById('grid'), fl=document.getElementById('filters');
+  function draw(){
+    var v=D.items.filter(function(x){return cur==='전체'||x.cat===cur;});
+    grid.innerHTML=v.map(function(x){
+      return '<article class="prod"><div class="pimg" style="background-image:url(\''+x.img+'\')"></div>'
+      +'<div class="pbody"><span class="chip">'+DEMO.esc(x.cat)+'</span>'
+      +'<h3 style="margin-top:10px">'+DEMO.esc(x.name)+'</h3>'
+      +'<div class="desc">'+DEMO.esc(x.desc)+'</div>'
+      +'<div class="meta"><span>'+DEMO.esc(x.meta)+'</span><b>자세히 →</b></div></div></article>';
+    }).join('');
+  }
+  fl.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>
