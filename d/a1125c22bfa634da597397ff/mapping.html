@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>필드 매핑 · 말벗창 (제안용 데모)</title>
+<meta name="description" content="말벗창 필드 매핑 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>필드 매핑</h2><p>외부 스키마가 바뀌어도 여기만 고친다</p></div><table class="tbl"><thead><tr><th>외부 필드</th><th>내부 필드</th><th>변환 규칙</th></tr></thead><tbody><tr><td>AI API 요청 body.prompt</td><td>message.text</td><td>앞뒤 공백 제거, 1,000자 초과 시 전송 전 입력창에서 차단하고 글자수 안내</td></tr><tr><td>AI API 요청 body.context[]</td><td>history 최근 6턴</td><td>세션 내 최근 대화만 잘라 전달, 개인정보 패턴(전화·이메일)은 마스킹 후 전송</td></tr><tr><td>AI API 요청 header.X-Request-Id</td><td>clientMsgId</td><td>프론트가 생성한 질문 ID를 그대로 전달해 서버·AI 로그를 한 줄로 추적</td></tr><tr><td>AI API 응답 output.text</td><td>message.answer</td><td>HTML 태그 이스케이프 후 줄바꿈·목록만 허용된 마크다운으로 렌더</td></tr><tr><td>AI API 응답 output.sources[]</td><td>message.links</td><td>자사 도메인 경로만 허용, 외부 URL은 표시하지 않음</td></tr><tr><td>AI API 응답 finish_reason</td><td>message.status</td><td>stop→answered, length→answered(잘림 표시), filtered→blocked, 그 외→failed</td></tr><tr><td>AI API 응답 usage.total_tokens</td><td>log.tokens</td><td>화면에 노출하지 않고 서버 로그에만 기록 (호출량 점검용)</td></tr><tr><td>HTTP status</td><td>message.errorCode</td><td>408·504→CHAT_TIMEOUT, 429→CHAT_RATE_LIMIT, 5xx→CHAT_UPSTREAM, 401·403→CHAT_AUTH</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("mapping"); DEMO.footer();</script>
+
+</body>
+</html>

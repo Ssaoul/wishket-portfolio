@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>개요 · 말벗창 (제안용 데모)</title>
+<meta name="description" content="말벗창 개요 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="hero flow" style="background-image:url('assets/img/hero.svg')">
+<div class="hero-txt">
+<p class="eyebrow">Website Chat Widget × AI Answer API Bridge</p>
+<h1>한 질문엔 한 답변만</h1>
+<p>버튼 하나 띄우고 API만 붙이면 끝나 보이지만, 실제로는 응답이 늦을 때, 실패할 때, 사용자가 전송을 두 번 누를 때 문제가 생깁니다. 질문마다 ID를 붙여 답변이 중복되거나 빠지지 않게 하고, 실패해도 대화 창이 멈추지 않게 설계했습니다.</p>
+</div></section><section class="wrap"><div class="stats"><div class="stat"><div class="n">4개</div><div class="l">연동 엔드포인트</div></div><div class="stat"><div class="n">5종</div><div class="l">실패 유형별 처리 분기</div></div><div class="stat"><div class="n">최대 2회</div><div class="l">자동 재시도 (지수 백오프)</div></div><div class="stat"><div class="n">0건</div><div class="l">브라우저에 노출되는 API 키</div></div></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section><section class="wrap"><div class="sec-head"><h2>연동 구성</h2><p>무엇과 무엇이 어떤 순서로 오가는가</p></div><div class="timeline"><div class="tl"><div class="y">POST /api/chat/sessions</div><div class="d">챗봇 창을 처음 열 때 대화 세션 발급 (방문자 단위, 30분 유휴 시 만료)</div></div><div class="tl"><div class="y">POST /api/chat/messages</div><div class="d">질문 전송 → 서버가 AI API 중계 호출 후 답변 반환. Idempotency-Key 헤더 필수</div></div><div class="tl"><div class="y">GET /api/chat/messages/{clientMsgId}</div><div class="d">응답 지연·네트워크 끊김 뒤 같은 질문의 처리 상태 조회 (재전송 대신 폴링)</div></div><div class="tl"><div class="y">GET /api/chat/sessions/{sessionId}/history</div><div class="d">창을 닫았다 다시 열거나 페이지를 이동했을 때 대화 복원</div></div></div><p class="note">AI API 키는 브라우저에 두지 않고 서버 중계 엔드포인트에만 보관합니다. 프론트는 세션 토큰만 들고 다니고, 허용된 도메인(Origin)과 세션당 분당 호출 수 제한으로 남용을 막습니다. 모든 질문에는 프론트가 만든 clientMsgId를 Idempotency-Key로 붙여서, 연타나 네트워크 재전송이 생겨도 AI는 한 번만 호출되고 답변도 하나만 표시됩니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("index"); DEMO.footer();</script>
+
+</body>
+</html>

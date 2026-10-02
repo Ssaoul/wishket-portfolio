@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>엔드포인트 · 말벗창 (제안용 데모)</title>
+<meta name="description" content="말벗창 엔드포인트 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>엔드포인트</h2><p>요청과 응답의 계약을 먼저 못박는다</p></div><div class="field"><b>POST /api/chat/sessions</b><p>챗봇 창을 처음 열 때 대화 세션 발급 (방문자 단위, 30분 유휴 시 만료)</p><pre class="note">요청 {&quot;pageUrl&quot;:&quot;/courses/intro&quot;,&quot;locale&quot;:&quot;ko&quot;}
+응답 {&quot;sessionId&quot;:&quot;SES-20261002-7F3K&quot;,&quot;expiresAt&quot;:&quot;2026-10-02T19:40:00+09:00&quot;,&quot;greeting&quot;:&quot;궁금한 교재나 수업 내용을 입력해 주세요.&quot;}</pre></div><div class="field"><b>POST /api/chat/messages</b><p>질문 전송 → 서버가 AI API 중계 호출 후 답변 반환. Idempotency-Key 헤더 필수</p><pre class="note">요청 {&quot;sessionId&quot;:&quot;SES-20261002-7F3K&quot;,&quot;clientMsgId&quot;:&quot;Q-0007&quot;,&quot;text&quot;:&quot;초등 3학년 연산 교재는 몇 단계로 나뉘나요?&quot;}
+응답 {&quot;msgId&quot;:&quot;MSG-88214&quot;,&quot;clientMsgId&quot;:&quot;Q-0007&quot;,&quot;status&quot;:&quot;answered&quot;,&quot;answer&quot;:&quot;연산 교재는 단계별로 구성되어 있으며, 상세 구성은 교재 안내 페이지에서 확인하실 수 있습니다.&quot;,&quot;latencyMs&quot;:2140}</pre></div><div class="field"><b>GET /api/chat/messages/{clientMsgId}</b><p>응답 지연·네트워크 끊김 뒤 같은 질문의 처리 상태 조회 (재전송 대신 폴링)</p><pre class="note">요청 {&quot;sessionId&quot;:&quot;SES-20261002-7F3K&quot;,&quot;clientMsgId&quot;:&quot;Q-0007&quot;}
+응답 {&quot;clientMsgId&quot;:&quot;Q-0007&quot;,&quot;status&quot;:&quot;pending&quot;,&quot;retryAfterSec&quot;:3}</pre></div><div class="field"><b>GET /api/chat/sessions/{sessionId}/history</b><p>창을 닫았다 다시 열거나 페이지를 이동했을 때 대화 복원</p><pre class="note">요청 {&quot;sessionId&quot;:&quot;SES-20261002-7F3K&quot;,&quot;limit&quot;:20}
+응답 {&quot;items&quot;:[{&quot;role&quot;:&quot;user&quot;,&quot;text&quot;:&quot;초등 3학년 연산 교재는 몇 단계로 나뉘나요?&quot;},{&quot;role&quot;:&quot;bot&quot;,&quot;text&quot;:&quot;연산 교재는 단계별로 구성되어 있으며…&quot;}],&quot;truncated&quot;:false}</pre></div><div class="field"><b>POST /api/chat/messages/{msgId}/feedback</b><p>답변 아래 '도움 됐어요/아니에요' 수집 (운영 개선용, 선택)</p><pre class="note">요청 {&quot;sessionId&quot;:&quot;SES-20261002-7F3K&quot;,&quot;helpful&quot;:false,&quot;reason&quot;:&quot;원하는 교재가 아님&quot;}
+응답 {&quot;ok&quot;:true}</pre></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("endpoints"); DEMO.footer();</script>
+
+</body>
+</html>
