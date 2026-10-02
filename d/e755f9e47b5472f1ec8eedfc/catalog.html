@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>전체 항목 · 온들파크 (제안용 데모)</title>
+<meta name="description" content="온들파크 전체 항목 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>전체 항목</h2></div><div class="filters"><span class="chip">시스템 본체</span><span class="chip">설치 패키지</span><span class="chip">렌탈 플랜</span><span class="chip">부속·소모품</span></div><table class="tbl"><thead><tr><th>이름</th><th>분류</th><th>설명</th></tr></thead><tbody><tr><td>온들 S1 스탠다드</td><td><span class="chip">시스템 본체</span></td><td>프로젝터·스윙 센서·전용 매트 일체형 1레인 구성. 경로당·소형 실내 공간 기준 모델입니다.</td></tr><tr><td>온들 S2 듀얼레인</td><td><span class="chip">시스템 본체</span></td><td>2레인을 나란히 운영하는 구성. 동시 이용 인원이 많은 실내 체육시설과 매장용입니다.</td></tr><tr><td>고정형 설치 패키지</td><td><span class="chip">설치 패키지</span></td><td>현장 실측 후 천장고·벽면 거리를 확인하고 설치합니다. 실측 전에는 설치 가능 여부를 확정하지 않습니다.</td></tr><tr><td>이동식 체험 패키지</td><td><span class="chip">설치 패키지</span></td><td>지역 축제·기업 행사용 조립식 부스. 반입 동선과 전원 위치만 확인되면 단기로 설치합니다.</td></tr><tr><td>월 렌탈 플랜</td><td><span class="chip">렌탈 플랜</span></td><td>약정 기간을 정해 월 단위로 이용하는 방식. 정기 점검 주기와 약정 중도 해지 조건을 조건표로 안내합니다.</td></tr><tr><td>단기 행사 렌탈</td><td><span class="chip">렌탈 플랜</span></td><td>1일~2주 단위 대여. 행사 일정이 겹치면 대기 등록으로 접수됩니다.</td></tr><tr><td>일시 구매</td><td><span class="chip">렌탈 플랜</span></td><td>본체와 설치를 한 번에 구매하는 방식. 견적은 실측 결과에 따라 문의 회신으로 안내합니다.</td></tr><tr><td>파크골프 볼·클럽 세트</td><td><span class="chip">부속·소모품</span></td><td>실내 센서 인식에 맞춘 전용 볼과 클럽 세트. 추가 구매 문의로 접수됩니다.</td></tr><tr><td>교체용 스윙 매트</td><td><span class="chip">부속·소모품</span></td><td>사용량에 따라 교체하는 소모품. 기존 고객의 교체 요청도 같은 문의 폼에서 받습니다.</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("catalog"); DEMO.footer();</script>
+<script>
+(function(){
+  var cur='전체', D=DEMO.D;
+  var grid=document.getElementById('grid'), fl=document.getElementById('filters');
+  function draw(){
+    var v=D.items.filter(function(x){return cur==='전체'||x.cat===cur;});
+    grid.innerHTML=v.map(function(x){
+      return '<article class="prod"><div class="pimg" style="background-image:url(\''+x.img+'\')"></div>'
+      +'<div class="pbody"><span class="chip">'+DEMO.esc(x.cat)+'</span>'
+      +'<h3 style="margin-top:10px">'+DEMO.esc(x.name)+'</h3>'
+      +'<div class="desc">'+DEMO.esc(x.desc)+'</div>'
+      +'<div class="meta"><span>'+DEMO.esc(x.meta)+'</span><b>자세히 →</b></div></div></article>';
+    }).join('');
+  }
+  fl.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>
