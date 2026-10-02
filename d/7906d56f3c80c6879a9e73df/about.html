@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>소개 · 색결 (제안용 데모)</title>
+<meta name="description" content="색결 소개 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>시안은 그대로, 운영은 직접</h2></div><p>색결은 단어와 색을 이어 주는 콘텐츠·문화 사이트를 가정한 제안용 데모이며, 화면의 모든 항목과 이미지는 합성 데이터입니다. 이미 완성된 디자인 시안을 반응형으로 구현하고, 레이아웃은 고정한 채 사전 항목·분기 질문·갤러리·포스트 내용만 관리자 화면에서 바꾸는 구조를 보여 줍니다. 페이지와 글 수에는 제한이 없고, 예외 상황은 숨기지 않고 관리자에게 표시합니다. 소스코드와 DB는 발주사에 귀속되어 다른 개발사로 옮길 수 있는 것을 전제로 설계했습니다.</p><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("about"); DEMO.footer();</script>
+<script>
+(function(){
+  var f=document.getElementById('form'); if(!f) return;
+  f.addEventListener('submit', function(e){
+    e.preventDefault(); var ok=true;
+    [['nm','f-nm'],['ph','f-ph'],['ms','f-ms']].forEach(function(p){
+      var bad=!document.getElementById(p[0]).value.trim();
+      document.getElementById(p[1]).classList.toggle('bad', bad); if(bad) ok=false;
+    });
+    if(!ok){ DEMO.toast('필수 항목을 확인해 주세요'); return; }
+    DEMO.toast('✓ 문의가 접수되었습니다 (데모 — 실제 전송 안 함)'); f.reset();
+  });
+  if(location.hash==='#contact'){ setTimeout(function(){ var el=document.getElementById('contact'); if(el) el.scrollIntoView(); },80); }
+})();
+</script>
+</body>
+</html>

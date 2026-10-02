@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>사례 · 색결 (제안용 데모)</title>
+<meta name="description" content="색결 사례 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>사례</h2></div><div class="gallery"><div class="case" style="background-image:url('assets/img/case-0.svg')"><span class="badge">관리자 편집</span><div class="cap"><div class="t">기존 포스트 복사로 새 글 발행</div><div class="s">'계절의 색 · 봄' 포스트를 복사한 뒤 레이아웃은 그대로 두고 대표 이미지·영상·본문만 교체해 '계절의 색 · 여름'으로 발행했습니다. 카테고리와 태그는 복사 시점에 그대로 이어받습니다.</div></div></div><div class="case" style="background-image:url('assets/img/case-1.svg')"><span class="badge">예외 · 저장 차단</span><div class="cap"><div class="t">컬러 찾기 분기 규칙 누락</div><div class="s">1단계 선택지를 6개에서 7개로 늘렸지만 새 선택지 '바다'에 연결된 2단계 질문이 없습니다. 관리자 화면이 '연결되지 않은 선택지 1개'를 표시하고, 이 상태로는 공개 저장이 되지 않습니다.</div></div></div><div class="case" style="background-image:url('assets/img/case-2.svg')"><span class="badge">예외 · 사용자 화면</span><div class="cap"><div class="t">사전 검색 결과 없음</div><div class="s">'코발트'를 검색했지만 등록된 항목이 없습니다. 빈 화면 대신 철자가 비슷한 항목과 같은 분류의 항목을 보여 주고, 관리자에게는 '검색됐지만 결과가 없는 단어' 목록으로 쌓입니다.</div></div></div><div class="case" style="background-image:url('assets/img/case-3.svg')"><span class="badge">예외 · 운영 점검</span><div class="cap"><div class="t">연관 자료 외부 링크 응답 없음</div><div class="s">'이끼색' 항목의 연관 자료 링크 1건이 주간 점검에서 응답하지 않았습니다. 사용자 화면에서는 해당 카드를 숨기고, 관리자 목록에는 '확인 필요'로 표시됩니다.</div></div></div><div class="case" style="background-image:url('assets/img/case-4.svg')"><span class="badge">성능</span><div class="cap"><div class="t">갤러리 대용량 원본 업로드</div><div class="s">8MB 원본 이미지를 '가을' 카테고리에 올리면 웹용 크기로 자동 변환되고 원본은 따로 보관됩니다. 로딩이 빨라야 한다는 요구에 맞춰 목록에는 썸네일만 불러옵니다.</div></div></div><div class="case" style="background-image:url('assets/img/case-5.svg')"><span class="badge">소유권 이전</span><div class="cap"><div class="t">다른 개발사로 이전 리허설</div><div class="s">전체 소스, DB 스키마, 배포·운영 매뉴얼만으로 새 서버에 사이트를 다시 띄우는 절차를 점검하는 시나리오입니다. 특정 업체 계정에 묶인 설정이 남지 않도록 확인합니다.</div></div></div></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("gallery"); DEMO.footer();</script>
+<script>
+(function(){
+  var cur='전체', view=[], idx=0, D=DEMO.D;
+  var grid=document.getElementById('grid'), fl=document.getElementById('filters'), lb=document.getElementById('lb');
+  function draw(){
+    view=D.cases.filter(function(x){return cur==='전체'||x.type===cur;});
+    grid.innerHTML=view.map(function(x,i){
+      return '<div class="case" data-i="'+i+'" style="background-image:url(\''+x.img+'\')"><span class="badge">'+DEMO.esc(x.type)+'</span>'
+      +'<div class="cap"><div class="t">'+DEMO.esc(x.title)+'</div><div class="s">'+DEMO.esc(x.sub)+'</div></div></div>';
+    }).join('');
+  }
+  function open(i){
+    idx=i; var x=view[i]; if(!x) return;
+    document.getElementById('lbimg').src=x.img;
+    document.getElementById('lbcap').innerHTML='<b>'+DEMO.esc(x.title)+'</b> · '+DEMO.esc(x.type)+'<br><span style="opacity:.85">'+DEMO.esc(x.desc)+'</span>';
+    lb.classList.add('on');
+  }
+  fl.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+  grid.addEventListener('click', function(e){ var el=e.target.closest('.case'); if(el) open(+el.dataset.i); });
+  document.getElementById('lbx').onclick=function(){ lb.classList.remove('on'); };
+  lb.addEventListener('click', function(e){ if(e.target.id==='lb') lb.classList.remove('on'); });
+  document.getElementById('lbp').onclick=function(){ open((idx-1+view.length)%view.length); };
+  document.getElementById('lbn').onclick=function(){ open((idx+1)%view.length); };
+  document.addEventListener('keydown', function(e){
+    if(!lb.classList.contains('on')) return;
+    if(e.key==='Escape') lb.classList.remove('on');
+    if(e.key==='ArrowLeft') document.getElementById('lbp').click();
+    if(e.key==='ArrowRight') document.getElementById('lbn').click();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>
