@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>전체 항목 · 다시곁 (제안용 데모)</title>
+<meta name="description" content="다시곁 전체 항목 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>전체 항목</h2></div><div class="filters"><span class="chip">모집 중</span><span class="chip">심사 중</span><span class="chip">입양 완료</span><span class="chip">의료 케어 중</span></div><table class="tbl"><thead><tr><th>이름</th><th>분류</th><th>설명</th></tr></thead><tbody><tr><td>R-2026-0412 · 보리 (믹스견, 추정 3세, 수컷)</td><td><span class="chip">모집 중</span></td><td>야산 방치 현장에서 구조. 중성화 완료, 기초 접종 2차까지 진행. 사진 8장·영상 1건 등록, 영문 소개문 반영 완료. '산책 좋아함' '다른 개와 합사 가능' 필터 태그 적용.</td></tr><tr><td>R-2026-0398 · 콩떡 (코리안숏헤어, 추정 1세, 암컷)</td><td><span class="chip">심사 중</span></td><td>입양 신청서 접수 후 상태를 '심사 중'으로 전환. 상태 이력: 09.21 모집 중 → 10.02 심사 중 (변경자: 운영자B). 메인 랜딩 '새 가족을 찾는 아이들' 목록에서 자동으로 빠짐.</td></tr><tr><td>R-2026-0377 · 누룽지 (진도 믹스, 추정 5세, 수컷)</td><td><span class="chip">모집 중</span></td><td>예외 사례: 심사 중이던 입양 신청이 철회되어 '심사 중 → 모집 중'으로 되돌림. 되돌림 사유가 이력에 남고, 목록 재노출 시점이 함께 기록됨.</td></tr><tr><td>R-2026-0351 · 단비 (푸들 믹스, 추정 7세, 암컷)</td><td><span class="chip">의료 케어 중</span></td><td>슬개골 수술 후 회복 관찰 중이라 입양 공고는 비공개. 건강 기록 칸에는 수의사 소견 요약만 적고, 회복 예후를 단정하는 표현은 쓰지 않음.</td></tr><tr><td>R-2026-0344 · 호박 (믹스묘, 추정 4개월, 수컷)</td><td><span class="chip">모집 중</span></td><td>예외 사례: 영상 업로드 용량 초과로 등록 실패 → 관리자 화면에 '외부 영상 링크로 첨부' 안내 표시. 사진 6장은 정상 게시.</td></tr><tr><td>R-2026-0289 · 마루 (믹스견, 추정 2세, 수컷)</td><td><span class="chip">입양 완료</span></td><td>10.01 입양 완료로 전환. 개체 상세는 삭제하지 않고 '입양 완료' 배지와 함께 보관하고, 관련 활동 후기 게시물과 양방향으로 연결.</td></tr><tr><td>R-2026-0263 · 솜이 (터키시앙고라 믹스, 추정 6세, 암컷)</td><td><span class="chip">심사 중</span></td><td>예외 사례: 영문 번역문 미수신 상태. 영문 사이트에는 개체 카드만 노출하고 상세 소개란은 '번역 준비 중'으로 표시해 빈 화면을 막음.</td></tr><tr><td>R-2026-0215 · 감자 (믹스견, 추정 9세, 수컷)</td><td><span class="chip">입양 완료</span></td><td>노령견 임시보호를 거쳐 입양 완료. 상태 이력: 모집 중 → 심사 중 → 입양 완료 (3건). 임시보호 일지 게시물 4건이 개체 상세 하단에 자동으로 모임.</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("catalog"); DEMO.footer();</script>
+<script>
+(function(){
+  var cur='전체', D=DEMO.D;
+  var grid=document.getElementById('grid'), fl=document.getElementById('filters');
+  function draw(){
+    var v=D.items.filter(function(x){return cur==='전체'||x.cat===cur;});
+    grid.innerHTML=v.map(function(x){
+      return '<article class="prod"><div class="pimg" style="background-image:url(\''+x.img+'\')"></div>'
+      +'<div class="pbody"><span class="chip">'+DEMO.esc(x.cat)+'</span>'
+      +'<h3 style="margin-top:10px">'+DEMO.esc(x.name)+'</h3>'
+      +'<div class="desc">'+DEMO.esc(x.desc)+'</div>'
+      +'<div class="meta"><span>'+DEMO.esc(x.meta)+'</span><b>자세히 →</b></div></div></article>';
+    }).join('');
+  }
+  fl.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>
