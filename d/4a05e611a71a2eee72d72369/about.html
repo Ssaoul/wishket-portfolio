@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>소개 · 로컬핀 (제안용 데모)</title>
+<meta name="description" content="로컬핀 소개 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>지역 페이지를 늘려도 구조가 무너지지 않게</h2></div><p>지역 기반 서비스 사이트는 페이지 수가 늘수록 비슷한 페이지가 쌓이고, 제목이 겹치고, 빠뜨린 메타태그도 생기기 쉽습니다. 이 시안은 처음부터 시/구 계층 URL과 템플릿 에디터를 함께 설계해, 담당자가 지역을 추가하는 순간 사이트맵과 구조화 데이터가 따라오도록 했습니다. 게시 전 검수 단계에서 중복 H1이나 얇은 본문을 걸러내기 때문에, 내부 개발자 없이도 운영 품질을 유지할 수 있습니다. 화면의 지역·접수 데이터는 모두 제안용 합성 데이터입니다.</p><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("about"); DEMO.footer();</script>
+<script>
+(function(){
+  var f=document.getElementById('form'); if(!f) return;
+  f.addEventListener('submit', function(e){
+    e.preventDefault(); var ok=true;
+    [['nm','f-nm'],['ph','f-ph'],['ms','f-ms']].forEach(function(p){
+      var bad=!document.getElementById(p[0]).value.trim();
+      document.getElementById(p[1]).classList.toggle('bad', bad); if(bad) ok=false;
+    });
+    if(!ok){ DEMO.toast('필수 항목을 확인해 주세요'); return; }
+    DEMO.toast('✓ 문의가 접수되었습니다 (데모 — 실제 전송 안 함)'); f.reset();
+  });
+  if(location.hash==='#contact'){ setTimeout(function(){ var el=document.getElementById('contact'); if(el) el.scrollIntoView(); },80); }
+})();
+</script>
+</body>
+</html>

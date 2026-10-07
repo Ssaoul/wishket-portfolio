@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>전체 항목 · 로컬핀 (제안용 데모)</title>
+<meta name="description" content="로컬핀 전체 항목 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>전체 항목</h2></div><div class="filters"><span class="chip">서울</span><span class="chip">경기</span><span class="chip">부산</span><span class="chip">검수 필요</span></div><table class="tbl"><thead><tr><th>이름</th><th>분류</th><th>설명</th></tr></thead><tbody><tr><td>/seoul/gangnam — 강남구</td><td><span class="chip">서울</span></td><td>게시됨 · Title 32자 · H1 '강남구 방문 서비스 예약' · LocalBusiness Schema 삽입 · 사이트맵 포함</td></tr><tr><td>/seoul/mapo — 마포구</td><td><span class="chip">서울</span></td><td>게시됨 · 템플릿 v2 적용 · 서비스 가능 동 목록 12개 · 최근 수정 2026.10.05 마케팅 담당</td></tr><tr><td>/gyeonggi/seongnam/bundang — 분당구</td><td><span class="chip">경기</span></td><td>게시됨 · 상위 지역(성남시) 페이지와 내부 링크 연결 · 이미지 지연 로딩 적용</td></tr><tr><td>/gyeonggi/suwon — 수원시</td><td><span class="chip">경기</span></td><td>임시저장 · Description 미입력 → 게시 버튼 비활성, '메타 설명을 입력하세요' 경고 표시</td></tr><tr><td>/busan/haeundae — 해운대구</td><td><span class="chip">부산</span></td><td>게시됨 · 서비스 지역 범위 '해운대구 전역(일부 동 제외)' 문구 · FAQ Schema 3문항</td></tr><tr><td>/busan/suyeong — 수영구</td><td><span class="chip">부산</span></td><td>예약 게시 2026.10.10 09:00 · 게시 전까지 noindex, 사이트맵 제외</td></tr><tr><td>/seoul/songpa — 송파구</td><td><span class="chip">검수 필요</span></td><td>H1이 강남구 페이지와 동일 → 중복 H1 경고. 템플릿 복제 후 지역명을 치환하지 않음</td></tr><tr><td>/gyeonggi/yongin — 용인시</td><td><span class="chip">검수 필요</span></td><td>본문 180자로 얇은 콘텐츠 경고. 지역 고유 문단(교통·서비스 가능 동)을 채워야 게시 가능</td></tr><tr><td>/busan/busanjin — 부산진구</td><td><span class="chip">검수 필요</span></td><td>Title 71자로 검색 결과에서 잘릴 가능성 높음 · 미리보기에 말줄임 표시</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("catalog"); DEMO.footer();</script>
+<script>
+(function(){
+  var cur='전체', D=DEMO.D;
+  var grid=document.getElementById('grid'), fl=document.getElementById('filters');
+  function draw(){
+    var v=D.items.filter(function(x){return cur==='전체'||x.cat===cur;});
+    grid.innerHTML=v.map(function(x){
+      return '<article class="prod"><div class="pimg" style="background-image:url(\''+x.img+'\')"></div>'
+      +'<div class="pbody"><span class="chip">'+DEMO.esc(x.cat)+'</span>'
+      +'<h3 style="margin-top:10px">'+DEMO.esc(x.name)+'</h3>'
+      +'<div class="desc">'+DEMO.esc(x.desc)+'</div>'
+      +'<div class="meta"><span>'+DEMO.esc(x.meta)+'</span><b>자세히 →</b></div></div></article>';
+    }).join('');
+  }
+  fl.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>
