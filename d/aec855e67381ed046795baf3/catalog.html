@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>전체 항목 · 온기발자국 (제안용 데모)</title>
+<meta name="description" content="온기발자국 전체 항목 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>전체 항목</h2></div><div class="filters"><span class="chip">입양 가능</span><span class="chip">임시보호 중</span><span class="chip">입양 심사 중</span><span class="chip">치료 중</span><span class="chip">입양 완료</span></div><table class="tbl"><thead><tr><th>이름</th><th>분류</th><th>설명</th></tr></thead><tbody><tr><td>보리 · OG-2026-0142</td><td><span class="chip">입양 가능</span></td><td>믹스견 수컷, 추정 2세, 8.4kg. 야산 방치 현장에서 구조되었습니다. 기초 접종을 마쳤고 중성화 수술을 했습니다. 입양 신청 버튼이 보입니다.</td></tr><tr><td>콩떡 · OG-2026-0157</td><td><span class="chip">임시보호 중</span></td><td>코리안숏헤어 암컷, 추정 1세, 3.1kg. 2026.09.21에 '보호소'에서 '임시보호'로 바뀌었고 변경일은 자동으로 기록됩니다. 임보처의 주간 사진은 운영자가 끌어다 놓기로 올립니다.</td></tr><tr><td>단비 · OG-2026-0119</td><td><span class="chip">입양 심사 중</span></td><td>진도 믹스 암컷, 추정 4세, 15.2kg. 2026.10.02에 심사 중으로 바뀌면서 상세 페이지의 신청 버튼이 자동으로 숨겨졌습니다. 대신 '현재 심사가 진행 중입니다'라는 안내가 보입니다.</td></tr><tr><td>호두 · OG-2026-0163</td><td><span class="chip">치료 중</span></td><td>푸들 믹스 수컷, 추정 7세, 5.6kg. 학대 신고로 구조되었고 피부 질환을 치료하고 있습니다. 건강 기록은 수의사 소견만 요약해서 싣습니다. 치료가 끝날 때까지 목록에 '치료 중'으로 표시됩니다.</td></tr><tr><td>모카 · OG-2025-0388</td><td><span class="chip">입양 완료</span></td><td>믹스견 암컷, 추정 3세, 11.0kg. 2026.08.14에 입양되어 완료 배지가 붙었고, 입양 가족의 후기 1건이 연결되어 있습니다. 목록에서는 기본 필터로 제외됩니다.</td></tr><tr><td>까망 · OG-2026-0171</td><td><span class="chip">입양 가능</span></td><td>코리안숏헤어 수컷, 추정 6개월, 2.2kg. 운영자가 임시저장만 하고 아직 공개하지 않은 상태입니다. 관리자 화면에서만 보이고 공개 목록과 검색에는 나오지 않습니다.</td></tr><tr><td>누리 · OG-2026-0128</td><td><span class="chip">임시보호 중</span></td><td>리트리버 믹스 암컷, 추정 5세, 24.8kg. 이동봉사로 임보처까지 옮겼습니다. 구조 영상 1건을 외부 영상 링크로 붙였고, 사이트 서버에는 영상 파일을 올리지 않습니다.</td></tr><tr><td>솜이 · OG-2026-0150</td><td><span class="chip">치료 중</span></td><td>말티즈 암컷, 추정 9세, 3.4kg. 2026.09.30에 '입양 가능'에서 '치료 중'으로 되돌려졌고, 변경 이력 2건이 남아 있습니다. 이력에는 상태가 앞뒤로 바뀐 경우도 그대로 기록됩니다.</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("catalog"); DEMO.footer();</script>
+<script>
+(function(){
+  var cur='전체', D=DEMO.D;
+  var grid=document.getElementById('grid'), fl=document.getElementById('filters');
+  function draw(){
+    var v=D.items.filter(function(x){return cur==='전체'||x.cat===cur;});
+    grid.innerHTML=v.map(function(x){
+      return '<article class="prod"><div class="pimg" style="background-image:url(\''+x.img+'\')"></div>'
+      +'<div class="pbody"><span class="chip">'+DEMO.esc(x.cat)+'</span>'
+      +'<h3 style="margin-top:10px">'+DEMO.esc(x.name)+'</h3>'
+      +'<div class="desc">'+DEMO.esc(x.desc)+'</div>'
+      +'<div class="meta"><span>'+DEMO.esc(x.meta)+'</span><b>자세히 →</b></div></div></article>';
+    }).join('');
+  }
+  fl.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>사례 · 온기발자국 (제안용 데모)</title>
+<meta name="description" content="온기발자국 사례 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>사례</h2></div><div class="gallery"><div class="case" style="background-image:url('assets/img/case-0.svg')"><span class="badge">정상 처리</span><div class="cap"><div class="t">사진 12장 끌어놓기 업로드</div><div class="s">운영자가 휴대폰 원본 사진 12장을 한꺼번에 끌어다 놓은 경우입니다. 업로드할 때 목록용·상세용·원본 보관용 세 가지 크기로 나눠 저장하고, 공개 화면은 지연 로딩으로 필요한 크기만 불러옵니다.</div></div></div><div class="case" style="background-image:url('assets/img/case-1.svg')"><span class="badge">실패·예외</span><div class="cap"><div class="t">25MB 단일 이미지 업로드</div><div class="s">업로드 상한을 넘은 파일은 저장하지 않고 거절합니다. '사진 용량이 커서 올리지 못했습니다. 자동으로 줄여서 다시 올릴까요?'라는 안내를 쉬운 말로 보여주고, 코드나 FTP 화면은 나오지 않습니다.</div></div></div><div class="case" style="background-image:url('assets/img/case-2.svg')"><span class="badge">실패·예외</span><div class="cap"><div class="t">비공개 공지 주소 직접 접근</div><div class="s">숨김 처리한 공지의 주소를 알고 들어오는 경우입니다. 비로그인 요청은 서버가 페이지를 내려주지 않고 403 안내 화면으로 보냅니다. 링크를 감추는 대신 요청 단계에서 권한을 확인합니다.</div></div></div><div class="case" style="background-image:url('assets/img/case-3.svg')"><span class="badge">부하 대응</span><div class="cap"><div class="t">구조 소식 확산으로 방문 급증</div><div class="s">구조 영상이 공유되어 같은 소식 페이지에 접속이 몰리는 시나리오입니다. 정적 페이지와 이미지는 CDN 캐시에서 응답하고, 원 서버는 관리자 쓰기 요청만 받는 구조를 가정했습니다.</div></div></div><div class="case" style="background-image:url('assets/img/case-4.svg')"><span class="badge">실패·예외</span><div class="cap"><div class="t">기존 게시판 URL 301 매핑 누락 3건</div><div class="s">시험 이전 단계에서 기존 게시판 주소 중 매핑표에 없는 3건이 404로 확인된 경우입니다. 이전 내역서에 '미매핑'으로 표시하고, 운영진이 확인해 승인한 뒤에 전체 이전으로 넘어갑니다.</div></div></div><div class="case" style="background-image:url('assets/img/case-5.svg')"><span class="badge">실패·예외</span><div class="cap"><div class="t">봉사 신청 폼 스프레드시트 연동 실패</div><div class="s">연동 권한이 만료되어 스프레드시트에 기록하지 못한 경우입니다. 신청 내용은 사이트에 먼저 저장하고, 관리자 화면에 '연동 대기 1건'을 띄워 다시 보내기 버튼으로 처리합니다.</div></div></div></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("gallery"); DEMO.footer();</script>
+<script>
+(function(){
+  var cur='전체', view=[], idx=0, D=DEMO.D;
+  var grid=document.getElementById('grid'), fl=document.getElementById('filters'), lb=document.getElementById('lb');
+  function draw(){
+    view=D.cases.filter(function(x){return cur==='전체'||x.type===cur;});
+    grid.innerHTML=view.map(function(x,i){
+      return '<div class="case" data-i="'+i+'" style="background-image:url(\''+x.img+'\')"><span class="badge">'+DEMO.esc(x.type)+'</span>'
+      +'<div class="cap"><div class="t">'+DEMO.esc(x.title)+'</div><div class="s">'+DEMO.esc(x.sub)+'</div></div></div>';
+    }).join('');
+  }
+  function open(i){
+    idx=i; var x=view[i]; if(!x) return;
+    document.getElementById('lbimg').src=x.img;
+    document.getElementById('lbcap').innerHTML='<b>'+DEMO.esc(x.title)+'</b> · '+DEMO.esc(x.type)+'<br><span style="opacity:.85">'+DEMO.esc(x.desc)+'</span>';
+    lb.classList.add('on');
+  }
+  fl.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+  grid.addEventListener('click', function(e){ var el=e.target.closest('.case'); if(el) open(+el.dataset.i); });
+  document.getElementById('lbx').onclick=function(){ lb.classList.remove('on'); };
+  lb.addEventListener('click', function(e){ if(e.target.id==='lb') lb.classList.remove('on'); });
+  document.getElementById('lbp').onclick=function(){ open((idx-1+view.length)%view.length); };
+  document.getElementById('lbn').onclick=function(){ open((idx+1)%view.length); };
+  document.addEventListener('keydown', function(e){
+    if(!lb.classList.contains('on')) return;
+    if(e.key==='Escape') lb.classList.remove('on');
+    if(e.key==='ArrowLeft') document.getElementById('lbp').click();
+    if(e.key==='ArrowRight') document.getElementById('lbn').click();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>
