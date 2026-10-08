@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>전체 항목 · 다시봄 구조연대 (제안용 데모)</title>
+<meta name="description" content="다시봄 구조연대 전체 항목 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>전체 항목</h2></div><div class="filters"><span class="chip">입양 가능</span><span class="chip">임시보호 중</span><span class="chip">입양 심사 중</span><span class="chip">입양 완료</span><span class="chip">치료 중</span></div><table class="tbl"><thead><tr><th>이름</th><th>분류</th><th>설명</th></tr></thead><tbody><tr><td>RS-2026-0412 보리</td><td><span class="chip">입양 가능</span></td><td>믹스견 · 수컷(중성화) · 추정 3살 · 11.2kg. 국도변 방치 상태로 구조. 입양 상태 '입양 가능'으로 변경 2026.09.28, 상세 페이지에 [입양 신청] 버튼 노출.</td></tr><tr><td>RS-2026-0398 콩이</td><td><span class="chip">입양 심사 중</span></td><td>코리안숏헤어 · 암컷 · 추정 1살 · 3.4kg. 입양 신청 2건 접수 후 심사 진행 중. 상태 변경일 2026.10.03 자동 기록, 신청 버튼은 숨김 처리되고 '심사 중' 안내만 표시.</td></tr><tr><td>RS-2026-0377 단비</td><td><span class="chip">임시보호 중</span></td><td>진도 믹스 · 암컷 · 추정 5살 · 16.8kg. 임시보호처 이동(보호 상태 변경 2026.09.15). 임보 일지 사진 9장 중 2장이 업로드 용량 기준 초과 → 자동 축소 후 게시.</td></tr><tr><td>RS-2026-0351 호두</td><td><span class="chip">입양 완료</span></td><td>푸들 믹스 · 수컷 · 추정 7살 · 5.1kg. 입양 완료 2026.08.30, 상세 페이지에 완료 배지와 입양 후기 연결. 목록 기본 필터에서는 하단으로 정렬.</td></tr><tr><td>RS-2026-0429 무명(가칭 '새벽')</td><td><span class="chip">치료 중</span></td><td>믹스견 · 성별 확인 중 · 연령 미상 · 체중 측정 전. 학대 의심 현장에서 구조, 관계기관 확인 중이라 '비공개'로 등록. 링크를 알아도 서버에서 열람 차단.</td></tr><tr><td>RS-2026-0415 라떼</td><td><span class="chip">치료 중</span></td><td>코리안숏헤어 · 수컷 · 추정 2살 · 4.0kg. 피부 질환 치료 중, 수의사 소견 메모는 관리자 전용. 공개 페이지에는 '치료 진행 중' 문구만 노출.</td></tr><tr><td>RS-2026-0402 밤톨</td><td><span class="chip">입양 가능</span></td><td>믹스묘 · 암컷 · 추정 6개월 · 2.1kg. 운영자가 사진 6장과 짧은 영상 1개를 끌어놓아 작성 후 '임시저장' 상태. 검수자 확인 전이라 공개 목록에 미노출.</td></tr><tr><td>RS-2026-0366 감자</td><td><span class="chip">임시보호 중</span></td><td>시바 믹스 · 수컷 · 추정 4살 · 9.7kg. 입양 신청 철회로 '입양 심사 중'에서 '임시보호 중'으로 되돌림. 상태 이력에 두 차례 변경일이 모두 남아 있음.</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("catalog"); DEMO.footer();</script>
+<script>
+(function(){
+  var cur='전체', D=DEMO.D;
+  var grid=document.getElementById('grid'), fl=document.getElementById('filters');
+  function draw(){
+    var v=D.items.filter(function(x){return cur==='전체'||x.cat===cur;});
+    grid.innerHTML=v.map(function(x){
+      return '<article class="prod"><div class="pimg" style="background-image:url(\''+x.img+'\')"></div>'
+      +'<div class="pbody"><span class="chip">'+DEMO.esc(x.cat)+'</span>'
+      +'<h3 style="margin-top:10px">'+DEMO.esc(x.name)+'</h3>'
+      +'<div class="desc">'+DEMO.esc(x.desc)+'</div>'
+      +'<div class="meta"><span>'+DEMO.esc(x.meta)+'</span><b>자세히 →</b></div></div></article>';
+    }).join('');
+  }
+  fl.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>

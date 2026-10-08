@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>소개 · 다시봄 구조연대 (제안용 데모)</title>
+<meta name="description" content="다시봄 구조연대 소개 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>끝까지 책임지는 구조, 다시봄 구조연대</h2></div><p>다시봄 구조연대는 위기와 학대 상황에 놓인 동물을 구조해 치료와 임시보호를 거쳐 새 가족을 만날 때까지 함께하는 가상의 비영리 단체입니다. 봉사자와 재능기부자가 운영의 대부분을 맡고 있어, 누구나 매일 개체 소식을 쉽게 올릴 수 있는 도구가 필요합니다. 이 시안은 운영진이 코드 없이 사진을 올리고 상태를 바꾸면 홈페이지가 알아서 정리되는 구조를 보여드리기 위한 제안용 데모이며, 화면의 모든 개체와 수치는 합성 데이터입니다.</p><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("about"); DEMO.footer();</script>
+<script>
+(function(){
+  var f=document.getElementById('form'); if(!f) return;
+  f.addEventListener('submit', function(e){
+    e.preventDefault(); var ok=true;
+    [['nm','f-nm'],['ph','f-ph'],['ms','f-ms']].forEach(function(p){
+      var bad=!document.getElementById(p[0]).value.trim();
+      document.getElementById(p[1]).classList.toggle('bad', bad); if(bad) ok=false;
+    });
+    if(!ok){ DEMO.toast('필수 항목을 확인해 주세요'); return; }
+    DEMO.toast('✓ 문의가 접수되었습니다 (데모 — 실제 전송 안 함)'); f.reset();
+  });
+  if(location.hash==='#contact'){ setTimeout(function(){ var el=document.getElementById('contact'); if(el) el.scrollIntoView(); },80); }
+})();
+</script>
+</body>
+</html>
