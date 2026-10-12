@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>발견 항목 · 리바운드 웹케어 (제안용 데모)</title>
+<meta name="description" content="리바운드 웹케어 발견 항목 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>발견 항목</h2><p>무엇이 병목인지와 그 근거</p></div><div class="field"><b>BUG-01 고객 정보 수정 후 저장이 반영되지 않음(CRUD) <span class="chip">높음</span></b><p>근거 — 수정 API가 PUT 대신 POST 로 호출되어 신규 레코드를 만들고 기존 행은 그대로 남음. 합성 테스트 40건 중 40건 재현, 중복 고객 행 생성 확인.</p><p>조치 — 수정 라우트를 PUT /customers/:id 로 통일하고 ID 기준 UPDATE 로 교체. 중복 생성된 합성 데이터 정리 스크립트 동봉.</p></div><div class="field"><b>BUG-02 삭제 버튼이 화면에서만 지워지고 DB 에 남음 <span class="chip">높음</span></b><p>근거 — 프론트 상태만 갱신하고 DELETE 요청이 전송되지 않음. 새로고침 시 18건 중 18건 복귀.</p><p>조치 — 삭제 API 호출 후 응답 확인 뒤 상태 갱신으로 순서 변경. 실패 시 '삭제되지 않았습니다' 안내 추가.</p></div><div class="field"><b>BUG-03 일반 사용자가 관리자 메뉴 URL 직접 입력으로 진입 가능 <span class="chip">높음</span></b><p>근거 — 권한 검사가 메뉴 숨김(프론트)에만 있고 Node.js 미들웨어가 비어 있음. 관리자 전용 API 7개 중 7개가 일반 토큰으로 응답.</p><p>조치 — 서버 미들웨어에서 역할(role) 검사 후 403 반환. 프론트 라우트 가드는 보조 수단으로만 유지.</p></div><div class="field"><b>BUG-04 오픈 SNS 로그인 콜백 후 빈 화면 <span class="chip">높음</span></b><p>근거 — 운영 도메인의 콜백 주소가 SNS 개발자 콘솔에 미등록이고, 코드에는 로컬 주소가 하드코딩됨. 합성 시도 12건 중 12건 실패.</p><p>조치 — 콜백 주소를 환경변수로 분리하고 운영·로컬 각각 등록. 실패 시 로그인 화면으로 안내 메시지와 함께 복귀.</p></div><div class="field"><b>BUG-05 PostgreSQL 연결 풀 고갈로 간헐적 500 오류 <span class="chip">중간</span></b><p>근거 — 쿼리 후 커넥션 반환(release) 누락 3곳. 합성 부하 50회 연속 조회 시 21회째부터 응답 없음.</p><p>조치 — 쿼리 공통 함수로 묶어 반환을 강제하고, 웹빌더 환경 기준 풀 크기 상한 설정.</p></div><div class="field"><b>BUG-06 랜딩페이지 모바일에서 히어로 영역 가로 스크롤 발생 <span class="chip">중간</span></b><p>근거 — 고정 폭 1,200px 섹션과 overflow 미처리. 360px·768px 기준 2개 해상도에서 레이아웃 깨짐, 상단 메뉴 버튼 미동작.</p><p>조치 — 섹션을 유동 폭으로 교체하고 768px 이하 브레이크포인트 추가. 메뉴 토글 이벤트 재연결.</p></div><div class="field"><b>IMP-01 환경 설정 파일 부재로 배포 재현 불가 <span class="chip">낮음</span></b><p>근거 — .env 예시 파일과 실행 절차 문서가 없고, 서버 포트·DB 주소가 코드 3곳에 흩어져 있음.</p><p>조치 — .env.example 과 실행·배포 절차를 인수인계 문서에 정리. 설정값을 한 파일로 모음.</p></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("findings"); DEMO.footer();</script>
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>개요 · 리바운드 웹케어 (제안용 데모)</title>
+<meta name="description" content="리바운드 웹케어 개요 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="hero flow" style="background-image:url('assets/img/hero.svg')">
+<div class="hero-txt">
+<p class="eyebrow">Legacy Rescue Board for React / Node.js Services</p>
+<h1>6일, 버그 티켓으로 끝내는 인수</h1>
+<p>떠난 개발사의 코드를 6일 안에 읽고 고쳐야 합니다. 담당자는 해외에서 이메일과 화상으로만 검수합니다. 그래서 모든 오류를 티켓 번호로 묶어, 원인·수정·검증 결과를 비개발자도 읽을 수 있는 한 줄로 남깁니다.</p>
+</div></section><section class="wrap"><div class="stats"><div class="stat"><div class="n">6종</div><div class="l">파악된 핵심 오류</div></div><div class="stat"><div class="n">3~5건</div><div class="l">기능 개선 항목</div></div><div class="stat"><div class="n">4단계</div><div class="l">진단→수정→검증→배포</div></div><div class="stat"><div class="n">6일</div><div class="l">착수 후 완료 목표</div></div></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section><section class="wrap"><div class="sec-head"><h2>진단 요약</h2><p>고치기 전에 현재를 수치로 세운다</p></div><table class="tbl"><thead><tr><th>항목</th><th>심각도</th><th>근거</th></tr></thead><tbody><tr><td>BUG-01 고객 정보 수정 후 저장이 반영되지 않음(CRUD)</td><td><span class="chip">높음</span></td><td>수정 API가 PUT 대신 POST 로 호출되어 신규 레코드를 만들고 기존 행은 그대로 남음. 합성 테스트 40건 중 40건 재현, 중복 고객 행 생성 확인.</td></tr><tr><td>BUG-02 삭제 버튼이 화면에서만 지워지고 DB 에 남음</td><td><span class="chip">높음</span></td><td>프론트 상태만 갱신하고 DELETE 요청이 전송되지 않음. 새로고침 시 18건 중 18건 복귀.</td></tr><tr><td>BUG-03 일반 사용자가 관리자 메뉴 URL 직접 입력으로 진입 가능</td><td><span class="chip">높음</span></td><td>권한 검사가 메뉴 숨김(프론트)에만 있고 Node.js 미들웨어가 비어 있음. 관리자 전용 API 7개 중 7개가 일반 토큰으로 응답.</td></tr><tr><td>BUG-04 오픈 SNS 로그인 콜백 후 빈 화면</td><td><span class="chip">높음</span></td><td>운영 도메인의 콜백 주소가 SNS 개발자 콘솔에 미등록이고, 코드에는 로컬 주소가 하드코딩됨. 합성 시도 12건 중 12건 실패.</td></tr><tr><td>BUG-05 PostgreSQL 연결 풀 고갈로 간헐적 500 오류</td><td><span class="chip">중간</span></td><td>쿼리 후 커넥션 반환(release) 누락 3곳. 합성 부하 50회 연속 조회 시 21회째부터 응답 없음.</td></tr></tbody></table></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("index"); DEMO.footer();</script>
+
+</body>
+</html>
