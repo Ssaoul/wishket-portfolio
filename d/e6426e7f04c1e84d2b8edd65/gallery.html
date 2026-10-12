@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>사례 · 온율회계법인 (제안용 데모)</title>
+<meta name="description" content="온율회계법인 사례 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>사례</h2></div><div class="gallery"><div class="case" style="background-image:url('assets/img/case-0.svg')"><span class="badge">발행 보류</span><div class="cap"><div class="t">INS-2026-041 「개정 세법 주요 변경점」 발행 보류</div><div class="s">작성자가 검토 요청했으나 메타 설명과 OG 이미지가 비어 발행자 단계에서 반려. 누락 항목이 표시되어 보완 후 재요청.</div></div></div><div class="case" style="background-image:url('assets/img/case-1.svg')"><span class="badge">자동 종료</span><div class="cap"><div class="t">POP-0912 연말정산 안내 팝업 기간 만료</div><div class="s">노출 기간 2026-01-05~01-31 설정. 종료일 경과 후 자동 비노출 처리되고 관리자 목록에 '만료' 상태로 남음.</div></div></div><div class="case" style="background-image:url('assets/img/case-2.svg')"><span class="badge">비공개 처리</span><div class="cap"><div class="t">구성원 MBR-017 프로필 비공개 전환</div><div class="s">퇴직 구성원을 삭제하지 않고 비공개로 전환. 기존 프로필 주소는 구성원 목록으로 리다이렉트되어 404가 나지 않음.</div></div></div><div class="case" style="background-image:url('assets/img/case-3.svg')"><span class="badge">수정</span><div class="cap"><div class="t">연혁 2019년 항목 순서 교정</div><div class="s">연도·월 단위 정렬 오류를 관리자에서 드래그로 교정. 미리보기 확인 뒤 발행, 변경 이력이 남음.</div></div></div><div class="case" style="background-image:url('assets/img/case-4.svg')"><span class="badge">오류</span><div class="cap"><div class="t">구주소 /notice/view?id=88 접근 404</div><div class="s">이전 사이트 주소가 리다이렉트 목록에 없어 404 발생. 관리자 '리다이렉트 관리'에서 신주소 매핑을 추가해 해결.</div></div></div><div class="case" style="background-image:url('assets/img/case-5.svg')"><span class="badge">오류</span><div class="cap"><div class="t">INS-2026-038 외부 공유 링크 미리보기 불일치</div><div class="s">메신저 채널 공유 시 이전 제목이 표시됨. OG 태그 수정 후 외부 캐시 갱신이 필요함을 관리자 안내 문구로 표시.</div></div></div></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("gallery"); DEMO.footer();</script>
+<script>
+(function(){
+  var cur='전체', view=[], idx=0, D=DEMO.D;
+  var grid=document.getElementById('grid'), fl=document.getElementById('filters'), lb=document.getElementById('lb');
+  function draw(){
+    view=D.cases.filter(function(x){return cur==='전체'||x.type===cur;});
+    grid.innerHTML=view.map(function(x,i){
+      return '<div class="case" data-i="'+i+'" style="background-image:url(\''+x.img+'\')"><span class="badge">'+DEMO.esc(x.type)+'</span>'
+      +'<div class="cap"><div class="t">'+DEMO.esc(x.title)+'</div><div class="s">'+DEMO.esc(x.sub)+'</div></div></div>';
+    }).join('');
+  }
+  function open(i){
+    idx=i; var x=view[i]; if(!x) return;
+    document.getElementById('lbimg').src=x.img;
+    document.getElementById('lbcap').innerHTML='<b>'+DEMO.esc(x.title)+'</b> · '+DEMO.esc(x.type)+'<br><span style="opacity:.85">'+DEMO.esc(x.desc)+'</span>';
+    lb.classList.add('on');
+  }
+  fl.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+  grid.addEventListener('click', function(e){ var el=e.target.closest('.case'); if(el) open(+el.dataset.i); });
+  document.getElementById('lbx').onclick=function(){ lb.classList.remove('on'); };
+  lb.addEventListener('click', function(e){ if(e.target.id==='lb') lb.classList.remove('on'); });
+  document.getElementById('lbp').onclick=function(){ open((idx-1+view.length)%view.length); };
+  document.getElementById('lbn').onclick=function(){ open((idx+1)%view.length); };
+  document.addEventListener('keydown', function(e){
+    if(!lb.classList.contains('on')) return;
+    if(e.key==='Escape') lb.classList.remove('on');
+    if(e.key==='ArrowLeft') document.getElementById('lbp').click();
+    if(e.key==='ArrowRight') document.getElementById('lbn').click();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>

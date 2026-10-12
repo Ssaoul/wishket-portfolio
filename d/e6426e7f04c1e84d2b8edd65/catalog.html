@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>전체 항목 · 온율회계법인 (제안용 데모)</title>
+<meta name="description" content="온율회계법인 전체 항목 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>전체 항목</h2></div><div class="filters"><span class="chip">회계감사</span><span class="chip">세무자문</span><span class="chip">경영자문</span><span class="chip">가치평가·M&amp;A</span><span class="chip">가업승계</span></div><table class="tbl"><thead><tr><th>이름</th><th>분류</th><th>설명</th></tr></thead><tbody><tr><td>외부감사 및 검토</td><td><span class="chip">회계감사</span></td><td>법정감사·반기검토·내부회계관리제도 검토. 결산 일정에 맞춘 사전 점검표를 제공합니다.</td></tr><tr><td>법인세·부가세 신고 대행</td><td><span class="chip">세무자문</span></td><td>신고 일정 관리와 세액공제 검토. 수정신고·경정청구 대응을 포함합니다.</td></tr><tr><td>세무조사 대응</td><td><span class="chip">세무자문</span></td><td>조사 통지 접수부터 소명자료 작성, 불복 절차 검토까지 단계별로 지원합니다.</td></tr><tr><td>스타트업 경리·결산 아웃소싱</td><td><span class="chip">경영자문</span></td><td>월결산·급여·4대보험을 묶어 운영하고 투자 라운드용 재무자료를 정리합니다.</td></tr><tr><td>내부통제 진단</td><td><span class="chip">경영자문</span></td><td>구매·자금·인사 프로세스의 통제 공백을 점검하고 개선 과제를 우선순위로 제시합니다.</td></tr><tr><td>기업가치평가</td><td><span class="chip">가치평가·M&amp;A</span></td><td>비상장주식 평가, 투자유치·합병 비율 산정 보고서. 평가 목적별 방법을 사전에 합의합니다.</td></tr><tr><td>M&amp;A 재무실사</td><td><span class="chip">가치평가·M&amp;A</span></td><td>인수 대상의 재무·세무 실사 보고서와 거래 구조 검토 의견을 제공합니다.</td></tr><tr><td>가업승계 플랜</td><td><span class="chip">가업승계</span></td><td>증여·상속 시뮬레이션과 가업상속공제 요건 점검. 연도별 실행 계획을 함께 설계합니다.</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("catalog"); DEMO.footer();</script>
+<script>
+(function(){
+  var cur='전체', D=DEMO.D;
+  var grid=document.getElementById('grid'), fl=document.getElementById('filters');
+  function draw(){
+    var v=D.items.filter(function(x){return cur==='전체'||x.cat===cur;});
+    grid.innerHTML=v.map(function(x){
+      return '<article class="prod"><div class="pimg" style="background-image:url(\''+x.img+'\')"></div>'
+      +'<div class="pbody"><span class="chip">'+DEMO.esc(x.cat)+'</span>'
+      +'<h3 style="margin-top:10px">'+DEMO.esc(x.name)+'</h3>'
+      +'<div class="desc">'+DEMO.esc(x.desc)+'</div>'
+      +'<div class="meta"><span>'+DEMO.esc(x.meta)+'</span><b>자세히 →</b></div></div></article>';
+    }).join('');
+  }
+  fl.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>
