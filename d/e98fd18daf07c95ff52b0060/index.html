@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>개요 · 스튜디오키퍼 (제안용 데모)</title>
+<meta name="description" content="스튜디오키퍼 개요 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="hero flow" style="background-image:url('assets/img/hero.svg')">
+<div class="hero-txt">
+<p class="eyebrow">Music Academy Ops Handover &amp; Maintenance Console</p>
+<h1>넘겨받은 코드, 공백 없이 잇기</h1>
+<p>원장님이 직접 만든 Next.js·Supabase 시스템을 넘겨받는 순간이 가장 위험합니다. 학생 개인정보가 담긴 테이블의 RLS 정책을 먼저 읽고, 테스트를 돌려 현재 상태를 수치로 고정한 뒤에 손을 댑니다.</p>
+</div></section><section class="wrap"><div class="stats"><div class="stat"><div class="n">14개</div><div class="l">점검 대상 테이블(RLS 정책 포함)</div></div><div class="stat"><div class="n">3건</div><div class="l">RLS 미적용·과허용 발견(합성)</div></div><div class="stat"><div class="n">1~2시간</div><div class="l">장애 접수 → 1차 응답 목표</div></div><div class="stat"><div class="n">8시간/월</div><div class="l">월 기본 포함 작업 시간(예시)</div></div></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section><section class="wrap"><div class="sec-head"><h2>진단 요약</h2><p>고치기 전에 현재를 수치로 세운다</p></div><table class="tbl"><thead><tr><th>항목</th><th>심각도</th><th>근거</th></tr></thead><tbody><tr><td>학생 개인정보 테이블 중 RLS 미적용 테이블 존재</td><td><span class="chip">높음</span></td><td>점검 대상 14개 테이블 중 students_guardian_contact 등 2개 테이블에 RLS 정책이 없고, anon 키로 SELECT 시 전체 행 조회 가능(합성 점검 결과)</td></tr><tr><td>강사 역할 정책이 타 강사 수업 데이터까지 허용</td><td><span class="chip">높음</span></td><td>lessons 테이블 정책 USING 절이 auth.uid() IS NOT NULL 로만 제한되어 로그인한 강사 전원이 모든 수업·출결 기록 열람 가능</td></tr><tr><td>Playwright E2E 테스트 일부 실패 상태로 방치</td><td><span class="chip">중간</span></td><td>전체 27개 E2E 중 4개 실패(수강료 결제 완료 화면·사진 업로드 2건·모바일 로그인). 최근 통과 기록 6주 전</td></tr><tr><td>알림톡 발송 실패 재시도 로직 없음</td><td><span class="chip">중간</span></td><td>최근 30일 발송 로그 412건 중 9건 실패(템플릿 미승인 1건·수신 거부 5건·타임아웃 3건). 실패 건 재발송·담당자 알림 없음</td></tr><tr><td>메일 발송 도메인 인증 레코드 불일치</td><td><span class="chip">중간</span></td><td>메일 발송 서비스의 DKIM 레코드 1개가 DNS 와 불일치 → 수강료 안내 메일 스팸 분류 가능성</td></tr></tbody></table></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("index"); DEMO.footer();</script>
+
+</body>
+</html>

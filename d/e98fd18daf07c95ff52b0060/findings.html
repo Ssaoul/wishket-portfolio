@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>발견 항목 · 스튜디오키퍼 (제안용 데모)</title>
+<meta name="description" content="스튜디오키퍼 발견 항목 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>발견 항목</h2><p>무엇이 병목인지와 그 근거</p></div><div class="field"><b>학생 개인정보 테이블 중 RLS 미적용 테이블 존재 <span class="chip">높음</span></b><p>근거 — 점검 대상 14개 테이블 중 students_guardian_contact 등 2개 테이블에 RLS 정책이 없고, anon 키로 SELECT 시 전체 행 조회 가능(합성 점검 결과)</p><p>조치 — RLS 활성화 후 role·academy_id 기준 정책 추가. 적용 전 스테이징에서 강사·학부모·원장 역할별 조회 테스트 통과를 조건으로 프로덕션 반영</p></div><div class="field"><b>강사 역할 정책이 타 강사 수업 데이터까지 허용 <span class="chip">높음</span></b><p>근거 — lessons 테이블 정책 USING 절이 auth.uid() IS NOT NULL 로만 제한되어 로그인한 강사 전원이 모든 수업·출결 기록 열람 가능</p><p>조치 — instructor_id = auth.uid() 조건으로 정책 축소. 원장 계정은 별도 admin 정책으로 분리</p></div><div class="field"><b>Playwright E2E 테스트 일부 실패 상태로 방치 <span class="chip">중간</span></b><p>근거 — 전체 27개 E2E 중 4개 실패(수강료 결제 완료 화면·사진 업로드 2건·모바일 로그인). 최근 통과 기록 6주 전</p><p>조치 — 실패 원인 분류(실제 결함 vs 테스트 노후화) 후 결함 2건 먼저 수정, 테스트는 CI에서 PR마다 실행</p></div><div class="field"><b>알림톡 발송 실패 재시도 로직 없음 <span class="chip">중간</span></b><p>근거 — 최근 30일 발송 로그 412건 중 9건 실패(템플릿 미승인 1건·수신 거부 5건·타임아웃 3건). 실패 건 재발송·담당자 알림 없음</p><p>조치 — 타임아웃은 지연 재시도 1회, 수신 거부·템플릿 오류는 관리자 화면에 실패 사유 표시</p></div><div class="field"><b>메일 발송 도메인 인증 레코드 불일치 <span class="chip">중간</span></b><p>근거 — 메일 발송 서비스의 DKIM 레코드 1개가 DNS 와 불일치 → 수강료 안내 메일 스팸 분류 가능성</p><p>조치 — DNS 레코드 정정 후 발송 테스트. 도메인·외부 서비스 인증 만료일을 점검 체크리스트에 추가</p></div><div class="field"><b>환경변수가 배포 환경과 문서에서 어긋남 <span class="chip">낮음</span></b><p>근거 — 운영 매뉴얼 기재 환경변수 18개 vs 배포 환경 실제 설정 21개. 미문서화 3개(스토리지 버킷명·결제 웹훅 시크릿 등)</p><p>조치 — 환경변수 목록을 저장소 .env.example 로 단일화하고 변경 시 PR 로 추적</p></div><div class="field"><b>사진 업로드 용량 제한 미설정 <span class="chip">낮음</span></b><p>근거 — Storage 버킷 lesson_photos 에 파일 크기 제한 없음. 단일 파일 최대 38MB 업로드 기록 확인(합성)</p><p>조치 — 업로드 전 클라이언트 리사이즈(최대 1600px) + 버킷 정책 10MB 제한</p></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("findings"); DEMO.footer();</script>
+
+</body>
+</html>
