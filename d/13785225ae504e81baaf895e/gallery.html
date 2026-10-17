@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>사례 · 결담 스톤랩 (제안용 데모)</title>
+<meta name="description" content="결담 스톤랩 사례 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>사례</h2></div><div class="gallery"><div class="case" style="background-image:url('assets/img/case-0.svg')"><span class="badge">상업공간 · 외장</span><div class="cap"><div class="t">평촌 카페 외벽 리모델링</div><div class="s">FS-600 샌드 슬레이트 + AC-20 사용. 사용 자재를 체크해 두어 두 제품 상세의 '이 자재를 쓴 시공사례'에 자동으로 노출됩니다.</div></div></div><div class="case" style="background-image:url('assets/img/case-1.svg')"><span class="badge">상업공간 · 내장</span><div class="cap"><div class="t">인덕원 치과 대기실 곡면 기둥</div><div class="s">FS-1200 트래버틴 그레이로 원형 기둥 4개를 감쌌습니다. 같은 자재를 쓴 '평촌 오피스텔 로비'가 연계 사례로 함께 뜹니다.</div></div></div><div class="case" style="background-image:url('assets/img/case-2.svg')"><span class="badge">상업공간 · 집기</span><div class="cap"><div class="t">범계 편집숍 쇼케이스 전면</div><div class="s">DP-450 쇼케이스 보드와 TR-30 트림 사용. 관리자 화면에서 시공 설명·사진 6장을 등록한 그대로 공개 화면에 반영됩니다.</div></div></div><div class="case" style="background-image:url('assets/img/case-3.svg')"><span class="badge">주거공간 · 내장</span><div class="cap"><div class="t">과천 단독주택 현관 벽체</div><div class="s">사진 검수 대기 상태. 관리자에서 '비공개'로 저장돼 공개 목록에는 아직 나오지 않습니다.</div></div></div><div class="case" style="background-image:url('assets/img/case-4.svg')"><span class="badge">산업시설 · 외장</span><div class="cap"><div class="t">군포 물류센터 사무동 외벽</div><div class="s">사용 자재가 아직 지정되지 않아 제품 상세와의 연계 노출이 보류됐습니다. 관리자 목록에 '자재 미지정' 경고가 표시됩니다.</div></div></div><div class="case" style="background-image:url('assets/img/case-5.svg')"><span class="badge">접수 예외</span><div class="cap"><div class="t">견적의뢰 RQ-2610-0142</div><div class="s">시공 면적이 '3200 × 2400'으로 입력돼 mm 단위로 의심되는 값을 감지했습니다. 계산 전에 'm 단위가 맞나요?' 재확인 안내를 띄우고, 확인된 값으로만 접수했습니다.</div></div></div></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("gallery"); DEMO.footer();</script>
+<script>
+(function(){
+  var cur='전체', view=[], idx=0, D=DEMO.D;
+  var grid=document.getElementById('grid'), fl=document.getElementById('filters'), lb=document.getElementById('lb');
+  function draw(){
+    view=D.cases.filter(function(x){return cur==='전체'||x.type===cur;});
+    grid.innerHTML=view.map(function(x,i){
+      return '<div class="case" data-i="'+i+'" style="background-image:url(\''+x.img+'\')"><span class="badge">'+DEMO.esc(x.type)+'</span>'
+      +'<div class="cap"><div class="t">'+DEMO.esc(x.title)+'</div><div class="s">'+DEMO.esc(x.sub)+'</div></div></div>';
+    }).join('');
+  }
+  function open(i){
+    idx=i; var x=view[i]; if(!x) return;
+    document.getElementById('lbimg').src=x.img;
+    document.getElementById('lbcap').innerHTML='<b>'+DEMO.esc(x.title)+'</b> · '+DEMO.esc(x.type)+'<br><span style="opacity:.85">'+DEMO.esc(x.desc)+'</span>';
+    lb.classList.add('on');
+  }
+  fl.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+  grid.addEventListener('click', function(e){ var el=e.target.closest('.case'); if(el) open(+el.dataset.i); });
+  document.getElementById('lbx').onclick=function(){ lb.classList.remove('on'); };
+  lb.addEventListener('click', function(e){ if(e.target.id==='lb') lb.classList.remove('on'); });
+  document.getElementById('lbp').onclick=function(){ open((idx-1+view.length)%view.length); };
+  document.getElementById('lbn').onclick=function(){ open((idx+1)%view.length); };
+  document.addEventListener('keydown', function(e){
+    if(!lb.classList.contains('on')) return;
+    if(e.key==='Escape') lb.classList.remove('on');
+    if(e.key==='ArrowLeft') document.getElementById('lbp').click();
+    if(e.key==='ArrowRight') document.getElementById('lbn').click();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>

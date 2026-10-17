@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>전체 항목 · 결담 스톤랩 (제안용 데모)</title>
+<meta name="description" content="결담 스톤랩 전체 항목 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>전체 항목</h2></div><div class="filters"><span class="chip">유연석재 패널</span><span class="chip">디스플레이 패널</span><span class="chip">솔라 패널</span><span class="chip">기타자재</span></div><table class="tbl"><thead><tr><th>이름</th><th>분류</th><th>설명</th></tr></thead><tbody><tr><td>FS-600 샌드 슬레이트</td><td><span class="chip">유연석재 패널</span></td><td>규격 600×1200mm · 두께 3mm · 박스당 6장 · 로스율 8%. 곡면 기둥·아치 벽체에 시공 가능. 셀프견적 대상.</td></tr><tr><td>FS-1200 트래버틴 그레이</td><td><span class="chip">유연석재 패널</span></td><td>규격 1200×2400mm · 두께 4mm · 박스당 2장 · 로스율 12%. 대형 판재라 재단 손실이 커서 로스율을 높게 잡았습니다. 셀프견적 대상.</td></tr><tr><td>FS-300 러프 브릭 베이지</td><td><span class="chip">유연석재 패널</span></td><td>규격 300×600mm · 두께 3mm · 박스당 12장 · 로스율 6%. 외벽 줄눈 시공용. 단종 예정이라 셀프견적은 막고 상담신청으로 넘깁니다.</td></tr><tr><td>DP-900 라이트 월 패널</td><td><span class="chip">디스플레이 패널</span></td><td>규격 900×1800mm · 후면 조명 일체형. 전기 배선 조건이 현장마다 달라 자동 산출 대신 상담신청으로 접수합니다.</td></tr><tr><td>DP-450 쇼케이스 보드</td><td><span class="chip">디스플레이 패널</span></td><td>규격 450×900mm · 박스당 4장 · 로스율 5%. 매장 집기·카운터 전면용. 셀프견적 대상.</td></tr><tr><td>SP-1000 솔라 루버 패널</td><td><span class="chip">솔라 패널</span></td><td>규격 1000×1650mm · 외벽·차양 일체형. 규격 데이터가 미등록 상태라 셀프견적 버튼이 비활성화되고 '규격 등록 대기'로 표시됩니다.</td></tr><tr><td>AC-20 실리콘 전용 접착제</td><td><span class="chip">기타자재</span></td><td>1통 기준 시공면적 약 4㎡ (제조사 가이드 기준값, 현장 상태에 따라 다름). 유연석재 견적에 부자재로 자동 추가.</td></tr><tr><td>TR-30 알루미늄 마감 트림</td><td><span class="chip">기타자재</span></td><td>길이 2400mm · 모서리·단부 마감용. 입력한 둘레 길이를 기준으로 개수를 산출합니다.</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("catalog"); DEMO.footer();</script>
+<script>
+(function(){
+  var cur='전체', D=DEMO.D;
+  var grid=document.getElementById('grid'), fl=document.getElementById('filters');
+  function draw(){
+    var v=D.items.filter(function(x){return cur==='전체'||x.cat===cur;});
+    grid.innerHTML=v.map(function(x){
+      return '<article class="prod"><div class="pimg" style="background-image:url(\''+x.img+'\')"></div>'
+      +'<div class="pbody"><span class="chip">'+DEMO.esc(x.cat)+'</span>'
+      +'<h3 style="margin-top:10px">'+DEMO.esc(x.name)+'</h3>'
+      +'<div class="desc">'+DEMO.esc(x.desc)+'</div>'
+      +'<div class="meta"><span>'+DEMO.esc(x.meta)+'</span><b>자세히 →</b></div></div></article>';
+    }).join('');
+  }
+  fl.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>
