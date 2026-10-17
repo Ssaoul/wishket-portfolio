@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>소개 · 베르텍스 글로벌 (제안용 데모)</title>
+<meta name="description" content="베르텍스 글로벌 소개 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>퍼블리싱 다음에 필요한 일까지 같이 챙깁니다</h2></div><p>베르텍스 글로벌은 국내 사이트와 같은 구조로 글로벌 사이트를 리뉴얼하는 과정을 가정해 만든 가상 사례입니다. Figma 시안을 워드프레스 템플릿으로 옮기고, 기존 포트폴리오와 URL을 잃지 않도록 이전합니다. 메뉴 구조 변경, 플러그인 점검, 백업 같은 오픈 전 세팅도 범위에 넣었습니다. 오픈 후에는 담당자가 직접 콘텐츠를 고칠 수 있도록 편집 범위와 운영 가이드를 함께 넘겨드립니다.</p><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("about"); DEMO.footer();</script>
+<script>
+(function(){
+  var f=document.getElementById('form'); if(!f) return;
+  f.addEventListener('submit', function(e){
+    e.preventDefault(); var ok=true;
+    [['nm','f-nm'],['ph','f-ph'],['ms','f-ms']].forEach(function(p){
+      var bad=!document.getElementById(p[0]).value.trim();
+      document.getElementById(p[1]).classList.toggle('bad', bad); if(bad) ok=false;
+    });
+    if(!ok){ DEMO.toast('필수 항목을 확인해 주세요'); return; }
+    DEMO.toast('✓ 문의가 접수되었습니다 (데모 — 실제 전송 안 함)'); f.reset();
+  });
+  if(location.hash==='#contact'){ setTimeout(function(){ var el=document.getElementById('contact'); if(el) el.scrollIntoView(); },80); }
+})();
+</script>
+</body>
+</html>
