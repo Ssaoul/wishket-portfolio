@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>개요 · 카고레인 진단 리포트 (제안용 데모)</title>
+<meta name="description" content="카고레인 진단 리포트 개요 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="hero flow" style="background-image:url('assets/img/hero.svg')">
+<div class="hero-txt">
+<p class="eyebrow">Buyer-Journey UX Audit for a B2B Used-Car Export Platform</p>
+<h1>바이어 동선으로 읽는 견적 전환</h1>
+<p>해외 바이어는 차량을 검색하고, 상세 조건을 비교한 뒤 견적을 문의합니다. 이 세 단계 중 한 곳만 막혀도 문의는 들어오지 않습니다. 화면을 한 장씩 따로 평가하지 않고, 바이어 시나리오대로 PC와 모바일에서 끝까지 따라가며 막히는 지점을 찾습니다.</p>
+</div></section><section class="wrap"><div class="stats"><div class="stat"><div class="n">8개 영역</div><div class="l">발주 2-1~2-8 진단 범위 전체</div></div><div class="stat"><div class="n">5종</div><div class="l">해외 바이어 이용 시나리오</div></div><div class="stat"><div class="n">3단계</div><div class="l">즉시 / 다음 단계 / 중장기 우선순위</div></div><div class="stat"><div class="n">항목별</div><div class="l">개발업체 전달용 완료 확인 기준</div></div></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section><section class="wrap"><div class="sec-head"><h2>진단 요약</h2><p>고치기 전에 현재를 수치로 세운다</p></div><table class="tbl"><thead><tr><th>항목</th><th>심각도</th><th>근거</th></tr></thead><tbody><tr><td>검색 결과 0건일 때 빈 화면만 노출</td><td><span class="chip">높음</span></td><td>합성 시나리오 S-03(연식 2019~2021, 좌핸들, 디젤 SUV)에서 결과가 0건일 때 안내 문구, 조건 완화 제안, 문의 버튼이 모두 없음(안내 요소 0개). 이 상태에서 바이어가 다음에 할 수 있는 행동이 없음</td></tr><tr><td>언어를 바꾸면 검색 필터가 초기화됨</td><td><span class="chip">높음</span></td><td>필터 4개를 적용한 상태에서 EN→RU로 전환하자 5개 시나리오 모두에서 필터가 풀리고 목록 첫 페이지로 돌아감(필터 유지 0/5)</td></tr><tr><td>차량 상세에 수출 거래 조건이 부족함</td><td><span class="chip">높음</span></td><td>Stock No. STK-26-0412 상세 기준, 구매 검토에 필요한 8개 항목(FOB 가격, 선적항, 예상 선적일, 사고 이력, 검수 리포트, 말소 서류, 결제 조건, 차대번호 일부) 중 3개만 표기됨</td></tr><tr><td>견적 문의 폼의 입력 항목이 많음</td><td><span class="chip">중간</span></td><td>문의 폼 필수 항목 14개 중 6개(회사 주소, 팩스, 설립연도 등)는 첫 견적에 쓰이지 않는 정보. 모바일에서 버튼에 닿기까지 스크롤 5화면</td></tr><tr><td>문의 접수 후 다음 절차 안내가 없음</td><td><span class="chip">중간</span></td><td>제출 뒤 '접수되었습니다' 한 줄만 노출. 회신 예상 시간, 접수번호(예: INQ-261017-0093), 다음 단계(검수→결제→선적→서류) 안내가 없음</td></tr></tbody></table></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("index"); DEMO.footer();</script>
+
+</body>
+</html>

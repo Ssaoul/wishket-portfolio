@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>발견 항목 · 카고레인 진단 리포트 (제안용 데모)</title>
+<meta name="description" content="카고레인 진단 리포트 발견 항목 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>발견 항목</h2><p>무엇이 병목인지와 그 근거</p></div><div class="field"><b>검색 결과 0건일 때 빈 화면만 노출 <span class="chip">높음</span></b><p>근거 — 합성 시나리오 S-03(연식 2019~2021, 좌핸들, 디젤 SUV)에서 결과가 0건일 때 안내 문구, 조건 완화 제안, 문의 버튼이 모두 없음(안내 요소 0개). 이 상태에서 바이어가 다음에 할 수 있는 행동이 없음</p><p>조치 — 0건 화면에 '조건 1개 해제 시 N대' 제안, 유사 차량 추천, '원하는 차량 소싱 요청' 버튼을 추가. 완료 기준: 0건 화면에 안내 요소 3개 이상 노출</p></div><div class="field"><b>언어를 바꾸면 검색 필터가 초기화됨 <span class="chip">높음</span></b><p>근거 — 필터 4개를 적용한 상태에서 EN→RU로 전환하자 5개 시나리오 모두에서 필터가 풀리고 목록 첫 페이지로 돌아감(필터 유지 0/5)</p><p>조치 — 언어 파라미터와 필터 쿼리를 분리해 URL에 유지. 완료 기준: 5개 언어 전환 시나리오 모두 필터·페이지 위치 유지</p></div><div class="field"><b>차량 상세에 수출 거래 조건이 부족함 <span class="chip">높음</span></b><p>근거 — Stock No. STK-26-0412 상세 기준, 구매 검토에 필요한 8개 항목(FOB 가격, 선적항, 예상 선적일, 사고 이력, 검수 리포트, 말소 서류, 결제 조건, 차대번호 일부) 중 3개만 표기됨</p><p>조치 — 상세 상단에 '거래 조건 요약' 블록을 고정 배치. 완료 기준: 8개 항목 표기, 정보가 없는 항목은 '문의 시 제공'으로 명시</p></div><div class="field"><b>견적 문의 폼의 입력 항목이 많음 <span class="chip">중간</span></b><p>근거 — 문의 폼 필수 항목 14개 중 6개(회사 주소, 팩스, 설립연도 등)는 첫 견적에 쓰이지 않는 정보. 모바일에서 버튼에 닿기까지 스크롤 5화면</p><p>조치 — 1단계는 차량, 수량, 도착국가·항구, 연락 채널 선택 등 6개만 받고 나머지는 접수 후 보완 요청으로 넘김. 완료 기준: 필수 항목 6개 이하, 모바일 스크롤 2화면 이내</p></div><div class="field"><b>문의 접수 후 다음 절차 안내가 없음 <span class="chip">중간</span></b><p>근거 — 제출 뒤 '접수되었습니다' 한 줄만 노출. 회신 예상 시간, 접수번호(예: INQ-261017-0093), 다음 단계(검수→결제→선적→서류) 안내가 없음</p><p>조치 — 접수 완료 화면에 접수번호, 회신 예정 시간대, 4단계 거래 흐름 타임라인을 표시. 완료 기준: 3개 요소 노출 및 확인 메일에 같은 내용 포함</p></div><div class="field"><b>모바일 목록에서 필터 패널과 견적 버튼이 겹침 <span class="chip">중간</span></b><p>근거 — 360px 폭에서 필터 패널을 펼치면 하단 고정 '견적 문의' 버튼이 적용 버튼을 가림(점검 기기 해상도 3종 중 2종에서 재현)</p><p>조치 — 필터 패널이 열려 있는 동안 하단 고정 버튼을 숨기고, 패널 하단에 '적용(N대)' 버튼을 둠. 완료 기준: 360·390·412px 모두에서 겹침 0건</p></div><div class="field"><b>차량 이미지 로딩 지연 <span class="chip">낮음</span></b><p>근거 — 합성 측정 기준, 상세 첫 사진 원본이 약 2.1MB여서 모바일 4G 조건에서 첫 화면 표시(LCP)가 4.8초</p><p>조치 — 목록과 상세에 리사이즈 썸네일·WebP를 적용하고, 첫 사진 외에는 지연 로딩. 완료 기준: 모바일 LCP 2.5초 이하</p></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("findings"); DEMO.footer();</script>
+
+</body>
+</html>
