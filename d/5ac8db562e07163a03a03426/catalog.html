@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>전체 항목 · 모노레일 스튜디오 (제안용 데모)</title>
+<meta name="description" content="모노레일 스튜디오 전체 항목 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>전체 항목</h2></div><div class="filters"><span class="chip">룩북</span><span class="chip">캠페인</span><span class="chip">에디토리얼</span><span class="chip">필름</span></div><table class="tbl"><thead><tr><th>이름</th><th>분류</th><th>설명</th></tr></thead><tbody><tr><td>ARC-2701 울 니트 룩북 FW26</td><td><span class="chip">룩북</span></td><td>컷 24장 · 세로 3:4 위주. 업로드 시 주 색상 #B8A48C(오트밀) 추출 완료, 아카이브 1열 상단 고정.</td></tr><tr><td>ARC-2702 데님 캠페인 SS27 티저</td><td><span class="chip">캠페인</span></td><td>컷 12장 · 가로 3:2와 세로 4:5가 섞여 있음. 세로값은 원본 비율대로, 7열 배열 높이 자동 계산.</td></tr><tr><td>ARC-2703 레더 아우터 에디토리얼</td><td><span class="chip">에디토리얼</span></td><td>컷 18장 · 주 색상 #2B2420(다크 브라운). 어두운 배경이라 겹치는 구간에서 로고 반전 효과 확인용.</td></tr><tr><td>ARC-2704 리넨 셋업 촬영 비하인드</td><td><span class="chip">필름</span></td><td>GIF 1개(6.2MB) · 어바웃 Film design 영역 자동재생. 모바일에서는 첫 프레임 정지 이미지 먼저 노출.</td></tr><tr><td>ARC-2705 실크 블라우스 스틸컷</td><td><span class="chip">룩북</span></td><td>⚠ 업로드 보류 — 원본 23MB, 제한 20MB 초과. 자동 리사이즈(긴 변 2400px) 후 재등록 대기.</td></tr><tr><td>ARC-2706 화이트 셔츠 캠페인</td><td><span class="chip">캠페인</span></td><td>⚠ 주 색상 추출 실패 — 흰 배경 비중이 90% 이상이라 대표색이 무의미함. 중립 웜그레이 #E6E2DC로 대체, 관리자가 직접 지정 가능.</td></tr><tr><td>ARC-2707 액세서리 클로즈업 시리즈</td><td><span class="chip">에디토리얼</span></td><td>컷 30장 · 비공개 상태로 저장(촬영 브랜드 공개 승인 전). 아카이브 목록에서 제외, 관리자 화면에만 노출.</td></tr><tr><td>ARC-2708 트렌치코트 무빙 필름</td><td><span class="chip">필름</span></td><td>GIF 2개 · 정렬 순서 드래그로 3번 → 1번 변경. 저장 즉시 사용자 화면 반영.</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("catalog"); DEMO.footer();</script>
+<script>
+(function(){
+  var cur='전체', D=DEMO.D;
+  var grid=document.getElementById('grid'), fl=document.getElementById('filters');
+  function draw(){
+    var v=D.items.filter(function(x){return cur==='전체'||x.cat===cur;});
+    grid.innerHTML=v.map(function(x){
+      return '<article class="prod"><div class="pimg" style="background-image:url(\''+x.img+'\')"></div>'
+      +'<div class="pbody"><span class="chip">'+DEMO.esc(x.cat)+'</span>'
+      +'<h3 style="margin-top:10px">'+DEMO.esc(x.name)+'</h3>'
+      +'<div class="desc">'+DEMO.esc(x.desc)+'</div>'
+      +'<div class="meta"><span>'+DEMO.esc(x.meta)+'</span><b>자세히 →</b></div></div></article>';
+    }).join('');
+  }
+  fl.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>
