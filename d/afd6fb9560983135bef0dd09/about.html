@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>소개 · 청연메디서플라이 (제안용 데모)</title>
+<meta name="description" content="청연메디서플라이 소개 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>정신건강의학과 곁에서, 공급과 개원을 함께 봅니다</h2></div><p>청연메디서플라이는 정신건강의학과 병원에 의약품을 납품하고 개원·마케팅 컨설팅을 함께 제공하는 가상의 유통 기업입니다. 향정신성의약품은 보관과 기록 기준이 까다로워 공급 체계를 꼼꼼히 갖췄는지가 신뢰를 좌우합니다. 이 시안은 그 체계를 원장님이 휴대폰에서도 바로 확인하고, 상담을 남길 수 있게 구성했습니다. 화면에 나오는 기업명, 상담번호, 사례는 모두 제안용 합성 데이터입니다.</p><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("about"); DEMO.footer();</script>
+<script>
+(function(){
+  var f=document.getElementById('form'); if(!f) return;
+  f.addEventListener('submit', function(e){
+    e.preventDefault(); var ok=true;
+    [['nm','f-nm'],['ph','f-ph'],['ms','f-ms']].forEach(function(p){
+      var bad=!document.getElementById(p[0]).value.trim();
+      document.getElementById(p[1]).classList.toggle('bad', bad); if(bad) ok=false;
+    });
+    if(!ok){ DEMO.toast('필수 항목을 확인해 주세요'); return; }
+    DEMO.toast('✓ 문의가 접수되었습니다 (데모 — 실제 전송 안 함)'); f.reset();
+  });
+  if(location.hash==='#contact'){ setTimeout(function(){ var el=document.getElementById('contact'); if(el) el.scrollIntoView(); },80); }
+})();
+</script>
+</body>
+</html>
