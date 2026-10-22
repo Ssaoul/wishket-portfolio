@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>사례 · 온숨 (제안용 데모)</title>
+<meta name="description" content="온숨 사례 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>사례</h2></div><div class="gallery"><div class="case" style="background-image:url('assets/img/case-0.svg')"><span class="badge">예외 · 콘텐츠 미확정</span><div class="cap"><div class="t">공간 사진이 없을 때의 공간·시설 페이지</div><div class="s">실제 사진 대신 재질 이미지와 '준비 중인 공간' 문구로 구성합니다. 공간이 확정되면 같은 틀에 사진만 바꿔 넣으면 됩니다.</div></div></div><div class="case" style="background-image:url('assets/img/case-1.svg')"><span class="badge">예외 · 재고</span><div class="cap"><div class="t">사이즈 일부 품절 가운 주문</div><div class="s">L 사이즈를 선택하면 장바구니 버튼 대신 재입고 알림 신청으로 바뀝니다. 주문은 막고 안내만 남깁니다.</div></div></div><div class="case" style="background-image:url('assets/img/case-2.svg')"><span class="badge">확장 · 비활성</span><div class="cap"><div class="t">방문 예약 영역 선반영</div><div class="s">메뉴와 공간 페이지 하단에 예약 자리만 잡아 두었습니다. 지금은 '오픈 시 안내' 상태로 두고, 오픈하면 예약 위젯을 연결합니다.</div></div></div><div class="case" style="background-image:url('assets/img/case-3.svg')"><span class="badge">반응형</span><div class="cap"><div class="t">모바일에서 시설 상세 팝업</div><div class="s">PC에서는 팝업으로 뜨는 시설 상세가 모바일에서는 화면 아래에서 올라오는 시트로 바뀝니다. 닫기 버튼은 엄지가 닿는 위치에 둡니다.</div></div></div><div class="case" style="background-image:url('assets/img/case-4.svg')"><span class="badge">예외 · 결제 흐름</span><div class="cap"><div class="t">비회원 장바구니 → 로그인 요구</div><div class="s">비회원이 결제를 누르면 로그인과 비회원 주문 중에서 고르는 화면을 거칩니다. 장바구니 내용은 그대로 유지됩니다.</div></div></div><div class="case" style="background-image:url('assets/img/case-5.svg')"><span class="badge">예외 · 판매 상태</span><div class="cap"><div class="t">출시 예정 상품 노출</div><div class="s">가격과 구매 버튼 없이 '출시 예정' 라벨만 보여줍니다. 브랜드를 먼저 알리고 판매는 나중에 여는 상황을 가정했습니다.</div></div></div></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("gallery"); DEMO.footer();</script>
+<script>
+(function(){
+  var cur='전체', view=[], idx=0, D=DEMO.D;
+  var grid=document.getElementById('grid'), fl=document.getElementById('filters'), lb=document.getElementById('lb');
+  function draw(){
+    view=D.cases.filter(function(x){return cur==='전체'||x.type===cur;});
+    grid.innerHTML=view.map(function(x,i){
+      return '<div class="case" data-i="'+i+'" style="background-image:url(\''+x.img+'\')"><span class="badge">'+DEMO.esc(x.type)+'</span>'
+      +'<div class="cap"><div class="t">'+DEMO.esc(x.title)+'</div><div class="s">'+DEMO.esc(x.sub)+'</div></div></div>';
+    }).join('');
+  }
+  function open(i){
+    idx=i; var x=view[i]; if(!x) return;
+    document.getElementById('lbimg').src=x.img;
+    document.getElementById('lbcap').innerHTML='<b>'+DEMO.esc(x.title)+'</b> · '+DEMO.esc(x.type)+'<br><span style="opacity:.85">'+DEMO.esc(x.desc)+'</span>';
+    lb.classList.add('on');
+  }
+  fl.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+  grid.addEventListener('click', function(e){ var el=e.target.closest('.case'); if(el) open(+el.dataset.i); });
+  document.getElementById('lbx').onclick=function(){ lb.classList.remove('on'); };
+  lb.addEventListener('click', function(e){ if(e.target.id==='lb') lb.classList.remove('on'); });
+  document.getElementById('lbp').onclick=function(){ open((idx-1+view.length)%view.length); };
+  document.getElementById('lbn').onclick=function(){ open((idx+1)%view.length); };
+  document.addEventListener('keydown', function(e){
+    if(!lb.classList.contains('on')) return;
+    if(e.key==='Escape') lb.classList.remove('on');
+    if(e.key==='ArrowLeft') document.getElementById('lbp').click();
+    if(e.key==='ArrowRight') document.getElementById('lbn').click();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>
