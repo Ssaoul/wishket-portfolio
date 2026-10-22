@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>전체 항목 · 새길소비자네트워크 (제안용 데모)</title>
+<meta name="description" content="새길소비자네트워크 전체 항목 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>전체 항목</h2></div><div class="filters"><span class="chip">보도자료·성명</span><span class="chip">토론회·포럼</span><span class="chip">정책 자료</span><span class="chip">소비자보고서(Brief·칼럼)</span><span class="chip">공지사항</span></div><table class="tbl"><thead><tr><th>이름</th><th>분류</th><th>설명</th></tr></thead><tbody><tr><td>[보도 2026-1207] 생성형 AI 챗봇 환불 안내 누락 실태 성명</td><td><span class="chip">보도자료·성명</span></td><td>분류: AI · 해시태그 #AI환불분쟁. 사진 캡션 2건, 인용구 1건, 형광펜 강조 3곳. 발행과 동시에 메인 이슈 1번 테마에 노출됩니다.</td></tr><tr><td>[보도 2026-1205] 이동통신 약정 위약금 고지 방식 개선 촉구</td><td><span class="chip">보도자료·성명</span></td><td>분류: 통신 · 해시태그 #통신위약금. 기자 구독자에게 자동 발송했으나 2건이 반송됐습니다(수신함 용량 초과). 재발송 대기 중입니다.</td></tr><tr><td>[보도 2026-1203] 배달 플랫폼 수수료 전가 관련 입장문 (임시저장)</td><td><span class="chip">보도자료·성명</span></td><td>분류: 플랫폼·문화. 대표 이미지 캡션이 비어 있어 발행 전 검사에 걸렸고, 발행 버튼이 비활성 상태입니다.</td></tr><tr><td>[포럼 2026-F02] 자동차 리콜 정보 접근성 토론회</td><td><span class="chip">토론회·포럼</span></td><td>분류: 자동차 · 일시·장소·발제자 카드와 함께 자료집 PDF 32쪽을 연결했습니다. 해시태그 #리콜정보로 메인 카드뉴스와 묶입니다.</td></tr><tr><td>[보고서 2026-R01] 식품 유통기한 표시 소비자 인식 심층 보고서</td><td><span class="chip">소비자보고서(Brief·칼럼)</span></td><td>PDF 48쪽 · 브라우저 뷰어로 열람합니다. 모바일에서는 텍스트 레이어를 유지한 채 확대해 글씨가 깨지지 않게 했습니다. 다운로드·로그인은 필요 없습니다.</td></tr><tr><td>[Brief 2026-B03] 구독 서비스 자동결제 해지 동선 점검</td><td><span class="chip">소비자보고서(Brief·칼럼)</span></td><td>4쪽 분량의 Brief입니다. 본문 인용구 블록과 표 1개를 넣었고, 사회 분류 해시태그 #다크패턴에 연결했습니다.</td></tr><tr><td>[정책 2026-P01] 전자상거래 청약철회 제도 비교 자료</td><td><span class="chip">정책 자료</span></td><td>PDF 업로드 후 변환에 실패했습니다(스캔본이라 텍스트 레이어가 없음). 관리자에게 OCR 재처리 안내가 표시됩니다.</td></tr><tr><td>[공지 2026-N01] 홈페이지 개설 및 기자 구독 신청 안내</td><td><span class="chip">공지사항</span></td><td>공지사항 목록은 작성일 기준 최신순으로 고정했습니다. 상단 고정 공지 1건만 예외로 둘 수 있게 했습니다(관리자 설정).</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("catalog"); DEMO.footer();</script>
+<script>
+(function(){
+  var cur='전체', D=DEMO.D;
+  var grid=document.getElementById('grid'), fl=document.getElementById('filters');
+  function draw(){
+    var v=D.items.filter(function(x){return cur==='전체'||x.cat===cur;});
+    grid.innerHTML=v.map(function(x){
+      return '<article class="prod"><div class="pimg" style="background-image:url(\''+x.img+'\')"></div>'
+      +'<div class="pbody"><span class="chip">'+DEMO.esc(x.cat)+'</span>'
+      +'<h3 style="margin-top:10px">'+DEMO.esc(x.name)+'</h3>'
+      +'<div class="desc">'+DEMO.esc(x.desc)+'</div>'
+      +'<div class="meta"><span>'+DEMO.esc(x.meta)+'</span><b>자세히 →</b></div></div></article>';
+    }).join('');
+  }
+  fl.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>
