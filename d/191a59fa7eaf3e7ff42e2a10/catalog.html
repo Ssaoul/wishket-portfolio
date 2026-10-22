@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>전체 항목 · 온숨 ONSUM (제안용 데모)</title>
+<meta name="description" content="온숨 ONSUM 전체 항목 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>전체 항목</h2></div><div class="filters"><span class="chip">배스 타월</span><span class="chip">가운</span><span class="chip">사우나 모자</span><span class="chip">세트·기프트</span><span class="chip">저널(브랜드 콘텐츠)</span></div><table class="tbl"><thead><tr><th>이름</th><th>분류</th><th>설명</th></tr></thead><tbody><tr><td>온숨 와플 배스 타월 · 모래</td><td><span class="chip">배스 타월</span></td><td>면 100% 와플 조직, 70×140cm. 상세 팝업에서 소재·세탁법·사이즈표를 한 화면에 보여주는 구성. 대표가 웹빌더 상품 편집에서 문안만 바꾸면 반영됩니다.</td></tr><tr><td>온숨 와플 배스 타월 · 먹</td><td><span class="chip">배스 타월</span></td><td>같은 제품의 색상 옵션. 옵션별 대표 이미지를 따로 지정하는 예시로 넣었습니다.</td></tr><tr><td>온숨 라운지 가운 · 오프화이트</td><td><span class="chip">가운</span></td><td>S·M·L 3사이즈. 사이즈표를 이미지가 아닌 표로 두어 모바일에서도 읽히게 했습니다. ※ M 사이즈 품절 상태 표시 예시.</td></tr><tr><td>온숨 라운지 가운 · 숯</td><td><span class="chip">가운</span></td><td>발매 예정 상품. 가격 대신 '입고 알림 신청' 버튼이 노출되는 상태를 시안에 포함했습니다.</td></tr><tr><td>온숨 펠트 사우나 모자</td><td><span class="chip">사우나 모자</span></td><td>울 펠트 원단. 사용 방법은 효능이 아닌 '쓰는 법' 문장으로만 안내합니다(과장 표현 배제).</td></tr><tr><td>첫 쉼 세트(타월+모자)</td><td><span class="chip">세트·기프트</span></td><td>선물 포장 옵션 포함. 묶음 상품은 웹빌더 기본 옵션 기능으로 구현 가능한 범위에서만 설계했습니다.</td></tr><tr><td>저널 01 · 뜨거운 방과 차가운 물 사이</td><td><span class="chip">저널(브랜드 콘텐츠)</span></td><td>브랜드가 생각하는 휴식의 순서를 다룬 읽을거리. 공간이 없을 때 브랜드 분위기를 대신 전하는 핵심 섹션입니다.</td></tr><tr><td>저널 02 · 부산에서 쉼을 준비하며</td><td><span class="chip">저널(브랜드 콘텐츠)</span></td><td>오프라인 공간 준비 과정을 기록하는 연재 틀. 대표가 게시판형으로 직접 글을 올리는 구조입니다.</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("catalog"); DEMO.footer();</script>
+<script>
+(function(){
+  var cur='전체', D=DEMO.D;
+  var grid=document.getElementById('grid'), fl=document.getElementById('filters');
+  function draw(){
+    var v=D.items.filter(function(x){return cur==='전체'||x.cat===cur;});
+    grid.innerHTML=v.map(function(x){
+      return '<article class="prod"><div class="pimg" style="background-image:url(\''+x.img+'\')"></div>'
+      +'<div class="pbody"><span class="chip">'+DEMO.esc(x.cat)+'</span>'
+      +'<h3 style="margin-top:10px">'+DEMO.esc(x.name)+'</h3>'
+      +'<div class="desc">'+DEMO.esc(x.desc)+'</div>'
+      +'<div class="meta"><span>'+DEMO.esc(x.meta)+'</span><b>자세히 →</b></div></div></article>';
+    }).join('');
+  }
+  fl.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>
