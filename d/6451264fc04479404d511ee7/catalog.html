@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>전체 항목 · 결온병원 (제안용 데모)</title>
+<meta name="description" content="결온병원 전체 항목 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>전체 항목</h2></div><div class="filters"><span class="chip">지점</span><span class="chip">진료과</span><span class="chip">예약 관리</span><span class="chip">게시판</span><span class="chip">운영 환경</span></div><table class="tbl"><thead><tr><th>이름</th><th>분류</th><th>설명</th></tr></thead><tbody><tr><td>평택본점 · 정형외과</td><td><span class="chip">진료과</span></td><td>의료진 3인, 평일 09:00~18:00, 토 09:00~13:00. 진료과 상세의 의료진 카드와 예약 슬롯이 같은 진료시간 데이터를 씁니다.</td></tr><tr><td>송탄점 · 소아청소년과</td><td><span class="chip">진료과</span></td><td>점심시간(12:30~13:30)에는 예약 슬롯을 자동으로 막습니다. 지점 담당자가 점심시간을 바꾸면 예약 화면에 바로 반영됩니다.</td></tr><tr><td>안중점 · 피부과 (미개설)</td><td><span class="chip">지점</span></td><td>이 지점에는 개설되지 않은 진료과입니다. 진료과 메뉴에는 '타 지점 안내'가 뜨고, 예약 화면에서는 선택할 수 없습니다.</td></tr><tr><td>고덕점 · 지점 홈</td><td><span class="chip">지점</span></td><td>게이트웨이에서 지점을 고르면 이동하는 화면입니다. 지점마다 배너·공지·오시는 길을 따로 쓰고, 레이아웃은 같은 컴포넌트를 씁니다.</td></tr><tr><td>예약 대기열 (송탄점)</td><td><span class="chip">예약 관리</span></td><td>당일 접수 14건 중 확정 11건, 변경 요청 2건, 미응답 1건. 지점 관리자는 자기 지점 예약만 볼 수 있습니다.</td></tr><tr><td>공지사항 · 언론보도 · FAQ</td><td><span class="chip">게시판</span></td><td>게시판 하나에 유형 태그와 노출 지점을 지정합니다. '전 지점 공통' 공지는 본원 관리자만 올릴 수 있습니다.</td></tr><tr><td>추석 연휴 휴진 일괄 등록</td><td><span class="chip">예약 관리</span></td><td>휴진일을 날짜 범위로 등록하면 4개 지점의 해당 슬롯이 일괄로 마감되고, 이미 잡힌 예약은 변경 안내 대상으로 분류됩니다.</td></tr><tr><td>Staging 검수 대기</td><td><span class="chip">운영 환경</span></td><td>진료과 상세 원고 수정 3건이 Staging에 반영되었습니다. 검수 승인 전에는 Production에 노출되지 않습니다.</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("catalog"); DEMO.footer();</script>
+<script>
+(function(){
+  var cur='전체', D=DEMO.D;
+  var grid=document.getElementById('grid'), fl=document.getElementById('filters');
+  function draw(){
+    var v=D.items.filter(function(x){return cur==='전체'||x.cat===cur;});
+    grid.innerHTML=v.map(function(x){
+      return '<article class="prod"><div class="pimg" style="background-image:url(\''+x.img+'\')"></div>'
+      +'<div class="pbody"><span class="chip">'+DEMO.esc(x.cat)+'</span>'
+      +'<h3 style="margin-top:10px">'+DEMO.esc(x.name)+'</h3>'
+      +'<div class="desc">'+DEMO.esc(x.desc)+'</div>'
+      +'<div class="meta"><span>'+DEMO.esc(x.meta)+'</span><b>자세히 →</b></div></div></article>';
+    }).join('');
+  }
+  fl.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>
