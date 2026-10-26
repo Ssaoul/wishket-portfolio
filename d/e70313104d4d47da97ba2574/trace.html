@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>단계별 로그 · 모듈랙 플래너 (제안용 데모)</title>
+<meta name="description" content="모듈랙 플래너 단계별 로그 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>단계별 로그</h2><p>실패한 건이 어디서 왜 멈췄는지</p></div><table class="tbl"><thead><tr><th>단계</th><th>시각</th><th>수준</th><th>메시지</th></tr></thead><tbody><tr><td>구성 입력</td><td>14:27:03.112</td><td><span class="chip">info</span></td><td>CFG-261026-036 수신: A-L2 + B-L2 + C-L1 + D-L3 일렬 4모듈, 등기구 옵션 3개 선택</td></tr><tr><td>연결 해석</td><td>14:27:03.140</td><td><span class="chip">info</span></td><td>연결 지점 3곳 확인 → 공유 기둥 3개, 공유 상단봉 0개 (B-C 사이 높이 차로 봉 공유 불가)</td></tr><tr><td>부품 수량 산출</td><td>14:27:03.186</td><td><span class="chip">info</span></td><td>기둥 5개(단독 합산 8개 대비 -3), 커넥터 14개(-6), 행거봉 6개, 천장 부착 발 5개</td></tr><tr><td>부품 수량 산출</td><td>14:27:03.191</td><td><span class="chip">warn</span></td><td>B-C 연결부: 길이 L2→L1 전환 지점에 높이 보정 커넥터 1개 추가 (규칙 R-07)</td></tr><tr><td>조명·전원 검증</td><td>14:27:03.224</td><td><span class="chip">info</span></td><td>등기구 LT-40 × 3 = 120W 합산</td></tr><tr><td>조명·전원 검증</td><td>14:27:03.226</td><td><span class="chip">error</span></td><td>용량 초과: 120W &gt; 100W 상한. 등기구 1개를 행거봉으로 되돌리거나 저용량 등기구로 바꿔야 합니다</td></tr><tr><td>조명·전원 검증</td><td>14:27:03.229</td><td><span class="chip">error</span></td><td>전원 경로 끊김: C-L1 상단 커넥터가 '전선 없음' 부품이라 D 모듈 등기구에 전원이 닿지 않습니다</td></tr><tr><td>견적 산출</td><td>14:27:03.231</td><td><span class="chip">warn</span></td><td>검증 실패로 견적 산출 보류 — 구성안은 '수정 필요'로 저장, 고객 화면에 원인 2건 표시</td></tr><tr><td>구성 입력</td><td>14:29:10.508</td><td><span class="chip">info</span></td><td>CFG-261026-037 재요청: D 등기구 → 행거봉 교체, C 상단 커넥터 → 전선형으로 교체</td></tr><tr><td>조명·전원 검증</td><td>14:29:10.611</td><td><span class="chip">info</span></td><td>등기구 2개 80W ≤ 100W, 전원 시작점 천장 부착 발 F-02 1곳에서 전 경로 연결 확인</td></tr><tr><td>3D 반영·출력</td><td>14:29:10.702</td><td><span class="chip">warn</span></td><td>전선형 커넥터 CN-W2 CAD 파일 미수령 — 3D에서 해당 위치만 윤곽선 표시, 수량·견적은 정상 반영</td></tr><tr><td>견적 산출</td><td>14:29:10.735</td><td><span class="chip">info</span></td><td>부품 14종 58개 견적 확정, 부품표·견적서 생성 완료</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("trace"); DEMO.footer();</script>
+
+</body>
+</html>
