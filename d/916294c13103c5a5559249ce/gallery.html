@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>사례 · 도움닫기 마케팅 (제안용 데모)</title>
+<meta name="description" content="도움닫기 마케팅 사례 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>사례</h2></div><div class="gallery"><div class="case" style="background-image:url('assets/img/case-0.svg')"><span class="badge">매출 성과형</span><div class="cap"><div class="t">CASE-0412 · 생활용품 쇼핑몰 검색광고 재구성</div><div class="s">과제: 광고비는 늘었는데 주문이 따라오지 않았다. 실행: 키워드를 구매 의도별로 다시 묶었다. 결과: 전후 비교 차트와 주문 추이로 제시하고, 원본 광고 리포트 캡처를 근거 칸에 붙였다.</div></div></div><div class="case" style="background-image:url('assets/img/case-1.svg')"><span class="badge">전환 개선형</span><div class="cap"><div class="t">CASE-0427 · 지역 입시학원 상담 신청 전환</div><div class="s">과제: 유입은 있는데 상담 신청 폼에서 이탈이 많았다. 실행: 랜딩 문구와 신청 단계를 줄였다. 결과: 매출 대신 상담 신청 건수 추이로 보여주는 사례다.</div></div></div><div class="case" style="background-image:url('assets/img/case-2.svg')"><span class="badge">부분 성과</span><div class="cap"><div class="t">CASE-0433 · 식품 D2C 브랜드 SNS 소재 테스트</div><div class="s">초반 3주는 반응이 떨어져 소재를 전면 교체했다. 추이 차트에서 하락 구간을 지우지 않고 '교체 시점'을 표시해, 실패와 대응 과정을 함께 보여준다.</div></div></div><div class="case" style="background-image:url('assets/img/case-3.svg')"><span class="badge">정성 사례</span><div class="cap"><div class="t">CASE-0441 · 프랜차이즈 가맹점 지역 광고</div><div class="s">고객사가 매출 공개에 동의하지 않았다. 수치 없이 실행 범위와 운영 방식만 소개하고, 성과 칸은 '비공개 · 지수 표기 불가'로 명확히 표시한다.</div></div></div><div class="case" style="background-image:url('assets/img/case-4.svg')"><span class="badge">자료 보완 필요</span><div class="cap"><div class="t">CASE-0448 · 뷰티 브랜드 상세페이지 개선</div><div class="s">캡처 자료가 기간 일부만 남아 있어 전후 비교를 할 수 없다. 공개 전 고객사에 보완 자료를 요청해야 하는 항목으로 관리자 메모에 남겨 둔다.</div></div></div></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("gallery"); DEMO.footer();</script>
+<script>
+(function(){
+  var cur='전체', view=[], idx=0, D=DEMO.D;
+  var grid=document.getElementById('grid'), fl=document.getElementById('filters'), lb=document.getElementById('lb');
+  function draw(){
+    view=D.cases.filter(function(x){return cur==='전체'||x.type===cur;});
+    grid.innerHTML=view.map(function(x,i){
+      return '<div class="case" data-i="'+i+'" style="background-image:url(\''+x.img+'\')"><span class="badge">'+DEMO.esc(x.type)+'</span>'
+      +'<div class="cap"><div class="t">'+DEMO.esc(x.title)+'</div><div class="s">'+DEMO.esc(x.sub)+'</div></div></div>';
+    }).join('');
+  }
+  function open(i){
+    idx=i; var x=view[i]; if(!x) return;
+    document.getElementById('lbimg').src=x.img;
+    document.getElementById('lbcap').innerHTML='<b>'+DEMO.esc(x.title)+'</b> · '+DEMO.esc(x.type)+'<br><span style="opacity:.85">'+DEMO.esc(x.desc)+'</span>';
+    lb.classList.add('on');
+  }
+  fl.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+  grid.addEventListener('click', function(e){ var el=e.target.closest('.case'); if(el) open(+el.dataset.i); });
+  document.getElementById('lbx').onclick=function(){ lb.classList.remove('on'); };
+  lb.addEventListener('click', function(e){ if(e.target.id==='lb') lb.classList.remove('on'); });
+  document.getElementById('lbp').onclick=function(){ open((idx-1+view.length)%view.length); };
+  document.getElementById('lbn').onclick=function(){ open((idx+1)%view.length); };
+  document.addEventListener('keydown', function(e){
+    if(!lb.classList.contains('on')) return;
+    if(e.key==='Escape') lb.classList.remove('on');
+    if(e.key==='ArrowLeft') document.getElementById('lbp').click();
+    if(e.key==='ArrowRight') document.getElementById('lbn').click();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>

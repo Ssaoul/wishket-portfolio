@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>소개 · 도움닫기 마케팅 (제안용 데모)</title>
+<meta name="description" content="도움닫기 마케팅 소개 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>사례는 '보여주기'가 아니라 '읽히기'여야 합니다</h2></div><p>고객사는 바쁩니다. 캡처 열 장보다는 '무엇을 바꿨고 무엇이 달라졌는지' 한 줄과 그걸 뒷받침하는 차트 하나가 더 빨리 읽힙니다. 이 시안은 셀링포인트마다 근거 사례를 연결하고, 근거가 약한 곳은 약하다고 표시하는 구조로 짰습니다. 화면의 사례와 수치는 모두 제안용 합성 데이터이고, 실제 자료로 바꿔 넣는 일은 웹빌더 관리자에서 섹션 단위로 할 수 있습니다.</p><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("about"); DEMO.footer();</script>
+<script>
+(function(){
+  var f=document.getElementById('form'); if(!f) return;
+  f.addEventListener('submit', function(e){
+    e.preventDefault(); var ok=true;
+    [['nm','f-nm'],['ph','f-ph'],['ms','f-ms']].forEach(function(p){
+      var bad=!document.getElementById(p[0]).value.trim();
+      document.getElementById(p[1]).classList.toggle('bad', bad); if(bad) ok=false;
+    });
+    if(!ok){ DEMO.toast('필수 항목을 확인해 주세요'); return; }
+    DEMO.toast('✓ 문의가 접수되었습니다 (데모 — 실제 전송 안 함)'); f.reset();
+  });
+  if(location.hash==='#contact'){ setTimeout(function(){ var el=document.getElementById('contact'); if(el) el.scrollIntoView(); },80); }
+})();
+</script>
+</body>
+</html>

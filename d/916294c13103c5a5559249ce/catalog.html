@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>전체 항목 · 도움닫기 마케팅 (제안용 데모)</title>
+<meta name="description" content="도움닫기 마케팅 전체 항목 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>전체 항목</h2></div><div class="filters"><span class="chip">셀링포인트</span><span class="chip">사례 카드</span><span class="chip">성과 시각화</span><span class="chip">웹빌더 편집 범위</span></div><table class="tbl"><thead><tr><th>이름</th><th>분류</th><th>설명</th></tr></thead><tbody><tr><td>셀링포인트 ↔ 입증 자료 연결 블록</td><td><span class="chip">셀링포인트</span></td><td>셀링포인트 문구 하나마다 근거 사례 번호(CASE-xxxx)와 자료 유형을 붙인다. 근거가 없는 문구는 '입증 자료 준비 중'으로 표시해 빈 주장처럼 보이지 않게 한다.</td></tr><tr><td>사례 카드 4단 구조</td><td><span class="chip">사례 카드</span></td><td>과제 → 실행 → 결과 → 근거 순서로 고정한다. 캡처 원본은 '근거' 칸에 축소해 넣고, 누르면 크게 볼 수 있다.</td></tr><tr><td>업종·채널 필터 탭</td><td><span class="chip">사례 카드</span></td><td>고객사가 자기 업종 사례부터 보도록 쇼핑몰·교육·식품·로컬 매장 탭으로 나눈다. 해당 업종 사례가 없으면 가장 가까운 유형을 안내한다.</td></tr><tr><td>집행 전후 매출 비교 차트</td><td><span class="chip">성과 시각화</span></td><td>같은 기간 길이로 전과 후를 나란히 놓는다. 시즌 영향이 큰 사례는 '비교 기간에 성수기 포함'이라고 각주를 단다.</td></tr><tr><td>월별 추이 라인 차트</td><td><span class="chip">성과 시각화</span></td><td>단일 수치 대신 흐름을 보여준다. 초반에 하락한 구간도 지우지 않고 '소재 교체 시점' 표시와 함께 그대로 둔다.</td></tr><tr><td>수치 비공개 사례 처리 규칙</td><td><span class="chip">성과 시각화</span></td><td>고객사가 매출 공개에 동의하지 않은 사례는 절대값을 빼고 지수(집행 전 = 100)로만 표기한다. 축 라벨에 '지수'라고 적는다.</td></tr><tr><td>섹션 순서·노출 편집</td><td><span class="chip">웹빌더 편집 범위</span></td><td>히어로·셀링포인트·사례·성과·진행 방식·문의 6개 섹션은 웹빌더 관리자에서 순서를 바꾸거나 숨길 수 있다. 문구는 텍스트 위젯으로 직접 수정한다.</td></tr><tr><td>차트 이미지 교체 가이드</td><td><span class="chip">웹빌더 편집 범위</span></td><td>차트는 원본 디자인 파일에서 수치만 바꿔 다시 내보내는 방식이다. 웹빌더 안에서 차트를 직접 그리지 않으므로, 교체 순서를 1페이지 가이드로 넘긴다.</td></tr><tr><td>사례 카드 추가 템플릿</td><td><span class="chip">웹빌더 편집 범위</span></td><td>새 사례는 빈 카드 템플릿을 복제해 4칸만 채우면 된다. 근거 이미지 권장 크기와 파일명 규칙(CASE-번호_근거.jpg)을 함께 제공한다.</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("catalog"); DEMO.footer();</script>
+<script>
+(function(){
+  var cur='전체', D=DEMO.D;
+  var grid=document.getElementById('grid'), fl=document.getElementById('filters');
+  function draw(){
+    var v=D.items.filter(function(x){return cur==='전체'||x.cat===cur;});
+    grid.innerHTML=v.map(function(x){
+      return '<article class="prod"><div class="pimg" style="background-image:url(\''+x.img+'\')"></div>'
+      +'<div class="pbody"><span class="chip">'+DEMO.esc(x.cat)+'</span>'
+      +'<h3 style="margin-top:10px">'+DEMO.esc(x.name)+'</h3>'
+      +'<div class="desc">'+DEMO.esc(x.desc)+'</div>'
+      +'<div class="meta"><span>'+DEMO.esc(x.meta)+'</span><b>자세히 →</b></div></div></article>';
+    }).join('');
+  }
+  fl.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>
