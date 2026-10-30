@@ -1,0 +1,44 @@
+{
+  "title": "바디노트 — 바디케어 고객관리 웹앱 MVP 시안",
+  "roles": ["관리자", "관리사", "고객"],
+  "routes": [
+    { "hash": "#/", "name": "시연 가이드 · 요구사항 대응표", "role": "공통" },
+    { "hash": "#/staff/guide?c=c1&o=o1,o2,o7&role=staff", "name": "맞춤 관리 가이드 (관찰 항목 체크 → 근육·프로그램 후보)", "role": "관리사" },
+    { "hash": "#/customer/login?role=customer", "name": "고객 로그인 (모바일 우선)", "role": "고객" },
+    { "hash": "#/customer/home?role=customer", "name": "고객 홈 · 오늘의 홈운동 체크", "role": "고객" },
+    { "hash": "#/customer/history?role=customer", "name": "고객 이용 내역 (패키지·방문 이력)", "role": "고객" },
+    { "hash": "#/customer/exercise?role=customer", "name": "고객 홈운동 (영상·수행 체크)", "role": "고객" },
+    { "hash": "#/staff/customers?role=staff", "name": "고객 목록", "role": "관리사" },
+    { "hash": "#/staff/customers/new?role=staff", "name": "고객 등록 (상담·선호사항)", "role": "관리사" },
+    { "hash": "#/staff/customer/c1?role=staff", "name": "고객 상세 · 회차별 관리 이력", "role": "관리사" },
+    { "hash": "#/staff/program/p1?role=staff", "name": "프로그램 상세 (대상 근육·수기 방법·주의사항·운동 자료)", "role": "관리사" },
+    { "hash": "#/admin/library?tab=exercises&role=admin", "name": "자료 등록·수정 (운동 자료)", "role": "관리자" },
+    { "hash": "#/admin/rules?o=o7&role=admin", "name": "연결 기준 관리", "role": "관리자" },
+    { "hash": "#/admin/accounts?role=admin", "name": "계정·권한 관리", "role": "관리자" },
+    { "hash": "#/admin/library?role=admin", "name": "자료 등록·수정 (프로그램)", "role": "관리자" },
+    { "hash": "#/staff/programs?role=staff", "name": "프로그램 자료 목록", "role": "관리사" }
+  ],
+  "scenario": [
+    "관리사로 보기 → 맞춤 관리 가이드에서 고객 '김지은'을 고르고 '고개를 옆으로 돌릴 때 불편함', '어깨가 앞으로 말려 있음'을 체크한다 — 관련 근육(인체 맵)과 프로그램 후보가 즉시 표시된다.",
+    "후보 '목 옆라인 이완 관리'의 [상세 보기]로 대상 근육·수기 방법·주의사항·운동 영상을 확인하고 [최종 선택]한 뒤, 홈운동을 배정하고 이번 회차로 저장한다.",
+    "고객 상세로 이동해 방금 저장한 회차가 관리 이력 맨 위에 붙고 패키지 사용 횟수가 늘어난 것을 확인한다.",
+    "고객으로 보기 → 홈에서 새로 배정된 홈운동을 [오늘 했어요]로 체크하고, 이용 내역에 내부 관찰 기록이 보이지 않는 것을 확인한다.",
+    "관리자로 보기 → 연결 기준 관리에서 관찰 항목에 프로그램을 하나 더 연결해 저장하고, [가이드에서 확인]으로 후보에 반영된 것을 본다."
+  ],
+  "requirements": [
+    { "req": "고객 등록: 고객 등록, 상담 내용, 선호사항 기록", "hash": "#/staff/customers/new?role=staff" },
+    { "req": "관리 이력: 방문 회차별 관리 내용 저장 및 조회", "hash": "#/staff/customer/c1?role=staff" },
+    { "req": "관찰 항목 체크: 고객의 신체 특성 및 움직임 관찰 항목 복수 선택", "hash": "#/staff/guide?c=c1&role=staff" },
+    { "req": "후보 표시: 선택 조건에 따른 관련 근육 및 관리 프로그램 후보 표시 (사전 설정한 연결 기준 기반, AI 미적용)", "hash": "#/staff/guide?c=c1&o=o1,o2,o7&role=staff" },
+    { "req": "프로그램 상세 조회: 프로그램별 대상 근육, 수기 관리 방법, 주의사항, 운동 자료 조회", "hash": "#/staff/program/p1?role=staff" },
+    { "req": "최종 선택 저장: 관리사의 최종 프로그램 선택 및 고객 기록 저장", "hash": "#/staff/guide?c=c1&o=o1,o2,o7&role=staff" },
+    { "req": "노출 범위: 관리자·관리사만 조회 (고객 화면 비노출)", "hash": "#/customer/history?role=customer" },
+    { "req": "프로그램 자료 관리: 근육별 관리 방법 및 운동 자료 등록·수정", "hash": "#/admin/library?role=admin" },
+    { "req": "연결 기준 관리: 체크 항목과 관리 프로그램 간 연결 기준 관리 (개발 후 직접 추가·수정)", "hash": "#/admin/rules?o=o7&role=admin" },
+    { "req": "계정·권한 관리: 관리자 및 고객 계정 관리, 사용자별 접근 권한 설정 (고객 정보 보호)", "hash": "#/admin/accounts?role=admin" },
+    { "req": "로그인: 고객 로그인", "hash": "#/customer/login?role=customer" },
+    { "req": "이용 현황: 본인 패키지 이용 내역 및 방문·관리 이력 확인", "hash": "#/customer/history?role=customer" },
+    { "req": "홈운동: 관리사가 배정한 홈운동 프로그램과 영상 확인", "hash": "#/customer/exercise?role=customer" },
+    { "req": "수행 체크: 홈운동 수행 여부 체크", "hash": "#/customer/home?role=customer" }
+  ]
+}
