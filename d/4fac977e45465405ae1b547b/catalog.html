@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>전체 항목 · 결담 파트너스 (제안용 데모)</title>
+<meta name="description" content="결담 파트너스 전체 항목 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>전체 항목</h2></div><div class="filters"><span class="chip">경영 진단</span><span class="chip">사업 전략</span><span class="chip">조직·인사</span><span class="chip">운영 개선</span></div><table class="tbl"><thead><tr><th>이름</th><th>분류</th><th>설명</th></tr></thead><tbody><tr><td>대표자 경영 진단 프로그램</td><td><span class="chip">경영 진단</span></td><td>매출 구조, 비용, 의사결정 흐름을 인터뷰와 자료로 점검합니다. 우선 손봐야 할 과제를 정리한 진단 보고서를 드립니다.</td></tr><tr><td>재무 흐름 점검 세션</td><td><span class="chip">경영 진단</span></td><td>월별 현금 흐름과 고정비 구조를 함께 보면서 의사결정에 필요한 지표를 정합니다.</td></tr><tr><td>신규 사업 타당성 검토</td><td><span class="chip">사업 전략</span></td><td>새 사업 아이디어의 시장, 경쟁, 수익 구조를 따져 보고 진행·보류·수정 가운데 하나를 판단하도록 돕습니다.</td></tr><tr><td>중기 사업계획 수립</td><td><span class="chip">사업 전략</span></td><td>3개년 방향과 연간 실행 과제를 문서로 정리합니다. 분기마다 점검할 기준도 함께 세웁니다.</td></tr><tr><td>조직 구조 재설계</td><td><span class="chip">조직·인사</span></td><td>역할이 겹치는 부분과 보고 체계를 정리하고, 직무별 책임 범위를 명확히 합니다.</td></tr><tr><td>평가·보상 체계 정비</td><td><span class="chip">조직·인사</span></td><td>현재 평가 방식의 문제를 진단하고, 회사 규모에 맞는 평가 항목과 보상 기준을 제안합니다.</td></tr><tr><td>업무 프로세스 개선 워크숍</td><td><span class="chip">운영 개선</span></td><td>반복 업무와 병목 구간을 함께 찾고, 실무진이 바로 쓸 수 있는 개선안을 만듭니다.</td></tr><tr><td>월 단위 자문 (리테이너)</td><td><span class="chip">운영 개선</span></td><td>정해진 기간 동안 월 2회 정기 미팅으로 경영 현안을 함께 검토합니다.</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("catalog"); DEMO.footer();</script>
+<script>
+(function(){
+  var cur='전체', D=DEMO.D;
+  var grid=document.getElementById('grid'), fl=document.getElementById('filters');
+  function draw(){
+    var v=D.items.filter(function(x){return cur==='전체'||x.cat===cur;});
+    grid.innerHTML=v.map(function(x){
+      return '<article class="prod"><div class="pimg" style="background-image:url(\''+x.img+'\')"></div>'
+      +'<div class="pbody"><span class="chip">'+DEMO.esc(x.cat)+'</span>'
+      +'<h3 style="margin-top:10px">'+DEMO.esc(x.name)+'</h3>'
+      +'<div class="desc">'+DEMO.esc(x.desc)+'</div>'
+      +'<div class="meta"><span>'+DEMO.esc(x.meta)+'</span><b>자세히 →</b></div></div></article>';
+    }).join('');
+  }
+  fl.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>
