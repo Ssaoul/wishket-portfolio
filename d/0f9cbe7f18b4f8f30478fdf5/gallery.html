@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>사례 · 갤러리 틈과결 (제안용 데모)</title>
+<meta name="description" content="갤러리 틈과결 사례 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>사례</h2></div><div class="gallery"><div class="case" style="background-image:url('assets/img/case-0.svg')"><span class="badge">업로드 실패</span><div class="cap"><div class="t">작품 원본 그대로 업로드 시도</div><div class="s">촬영 원본(장변 7,200px · 장당 약 21MB) 12장을 한 번에 올리다 업로드가 중단된 사례. 운영 가이드에 '장변 2,000px · JPG · 장당 1MB 안팎' 규격과 변환 방법을 정리해 재업로드.</div></div></div><div class="case" style="background-image:url('assets/img/case-1.svg')"><span class="badge">레이아웃 예외</span><div class="cap"><div class="t">세로·가로 작품 혼재로 썸네일 잘림</div><div class="s">세로형 회화와 가로형 설치 전경이 섞여 목록 썸네일에서 작품 일부가 잘린 경우. 목록은 고정 비율, 상세는 원본 비율로 보이도록 분리 설정.</div></div></div><div class="case" style="background-image:url('assets/img/case-2.svg')"><span class="badge">운영 실수</span><div class="cap"><div class="t">종료된 전시가 '현재 전시'에 남음</div><div class="s">종료일 이후에도 분류를 바꾸지 않아 메인에 지난 전시가 노출된 경우. 담당자 체크리스트에 '전시 종료 시 분류 변경' 항목 추가.</div></div></div><div class="case" style="background-image:url('assets/img/case-3.svg')"><span class="badge">정상 운영</span><div class="cap"><div class="t">예정 전시 포스터 선공개</div><div class="s">오픈 3주 전 포스터와 전시 개요만 등록하고, 작품 이미지는 설치 완료 후 추가. 코드 수정 없이 담당자가 단독 처리.</div></div></div><div class="case" style="background-image:url('assets/img/case-4.svg')"><span class="badge">정보 오류</span><div class="cap"><div class="t">용산 공간 월요일 휴관 안내 누락</div><div class="s">종로·용산의 운영 시간이 달라 공통 안내문 하나로는 오해가 생긴 경우. 공간별 오시는 길·운영 시간 블록을 따로 두어 담당자가 각각 수정.</div></div></div><div class="case" style="background-image:url('assets/img/case-5.svg')"><span class="badge">정상 운영</span><div class="cap"><div class="t">메인 배너 교체</div><div class="s">새 전시 오픈일에 담당자가 관리자 화면에서 메인 배너 이미지와 문구, 연결 링크를 직접 교체. 매뉴얼 3쪽 분량 절차로 처리.</div></div></div></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("gallery"); DEMO.footer();</script>
+<script>
+(function(){
+  var cur='전체', view=[], idx=0, D=DEMO.D;
+  var grid=document.getElementById('grid'), fl=document.getElementById('filters'), lb=document.getElementById('lb');
+  function draw(){
+    view=D.cases.filter(function(x){return cur==='전체'||x.type===cur;});
+    grid.innerHTML=view.map(function(x,i){
+      return '<div class="case" data-i="'+i+'" style="background-image:url(\''+x.img+'\')"><span class="badge">'+DEMO.esc(x.type)+'</span>'
+      +'<div class="cap"><div class="t">'+DEMO.esc(x.title)+'</div><div class="s">'+DEMO.esc(x.sub)+'</div></div></div>';
+    }).join('');
+  }
+  function open(i){
+    idx=i; var x=view[i]; if(!x) return;
+    document.getElementById('lbimg').src=x.img;
+    document.getElementById('lbcap').innerHTML='<b>'+DEMO.esc(x.title)+'</b> · '+DEMO.esc(x.type)+'<br><span style="opacity:.85">'+DEMO.esc(x.desc)+'</span>';
+    lb.classList.add('on');
+  }
+  fl.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+  grid.addEventListener('click', function(e){ var el=e.target.closest('.case'); if(el) open(+el.dataset.i); });
+  document.getElementById('lbx').onclick=function(){ lb.classList.remove('on'); };
+  lb.addEventListener('click', function(e){ if(e.target.id==='lb') lb.classList.remove('on'); });
+  document.getElementById('lbp').onclick=function(){ open((idx-1+view.length)%view.length); };
+  document.getElementById('lbn').onclick=function(){ open((idx+1)%view.length); };
+  document.addEventListener('keydown', function(e){
+    if(!lb.classList.contains('on')) return;
+    if(e.key==='Escape') lb.classList.remove('on');
+    if(e.key==='ArrowLeft') document.getElementById('lbp').click();
+    if(e.key==='ArrowRight') document.getElementById('lbn').click();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>

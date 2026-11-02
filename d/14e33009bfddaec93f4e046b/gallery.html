@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>사례 · 갤러리 담연 (제안용 데모)</title>
+<meta name="description" content="갤러리 담연 사례 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>사례</h2></div><div class="gallery"><div class="case" style="background-image:url('assets/img/case-0.svg')"><span class="badge">관리자 편집 · 성공</span><div class="cap"><div class="t">전시 포스터 교체 — 담당자 혼자 3분</div><div class="s">메인 배너 슬롯에서 EX-2609 포스터를 내리고 EX-2611 포스터를 올렸습니다. 레이아웃과 여백은 고정돼 있어 담당자가 바꿀 수 있는 건 이미지·제목·기간 텍스트뿐입니다.</div></div></div><div class="case" style="background-image:url('assets/img/case-1.svg')"><span class="badge">대량 업로드 · 실패</span><div class="cap"><div class="t">원본 TIFF 업로드 반려</div><div class="s">작품 촬영 원본(TIFF, 장당 38MB) 12장을 한꺼번에 올리려다 용량 초과로 반려됐습니다. 가이드에 따라 긴 변 2,400px JPEG(장당 약 600KB)로 변환해 다시 올렸습니다.</div></div></div><div class="case" style="background-image:url('assets/img/case-2.svg')"><span class="badge">레이아웃 · 예외</span><div class="cap"><div class="t">세로형 작품 비율 깨짐</div><div class="s">세로가 긴 족자형 작품이 정사각형 썸네일에서 잘려 보였습니다. 작품 게시판 썸네일을 원본 비율 유지 방식으로 바꾸고, 상세 화면에서만 크게 보여주도록 수정했습니다.</div></div></div><div class="case" style="background-image:url('assets/img/case-3.svg')"><span class="badge">콘텐츠 검수 · 예외</span><div class="cap"><div class="t">캡션 누락 3건 경고</div><div class="s">EX-2606 작품 사진 3장에 작가명·제목·재료·크기가 빠져 있습니다. 공개 전 체크리스트에서 걸러 담당자에게 입력을 요청하도록 했습니다.</div></div></div><div class="case" style="background-image:url('assets/img/case-4.svg')"><span class="badge">반응형 · 성공</span><div class="cap"><div class="t">모바일에서 두 공간 안내 분리</div><div class="s">PC에서는 종로·용산을 두 칸으로 나란히 보여주고, 모바일에서는 탭으로 전환합니다. 공간마다 운영시간과 오시는 길을 따로 표시합니다.</div></div></div><div class="case" style="background-image:url('assets/img/case-5.svg')"><span class="badge">권한 범위 · 예외</span><div class="cap"><div class="t">레이아웃 직접 수정 시도 차단</div><div class="s">담당자가 메인 여백을 바꾸려 하자 '파트너 고정 영역' 안내가 떴습니다. 디자인이 깨지지 않도록 편집 범위를 콘텐츠로만 제한했습니다.</div></div></div></div><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("gallery"); DEMO.footer();</script>
+<script>
+(function(){
+  var cur='전체', view=[], idx=0, D=DEMO.D;
+  var grid=document.getElementById('grid'), fl=document.getElementById('filters'), lb=document.getElementById('lb');
+  function draw(){
+    view=D.cases.filter(function(x){return cur==='전체'||x.type===cur;});
+    grid.innerHTML=view.map(function(x,i){
+      return '<div class="case" data-i="'+i+'" style="background-image:url(\''+x.img+'\')"><span class="badge">'+DEMO.esc(x.type)+'</span>'
+      +'<div class="cap"><div class="t">'+DEMO.esc(x.title)+'</div><div class="s">'+DEMO.esc(x.sub)+'</div></div></div>';
+    }).join('');
+  }
+  function open(i){
+    idx=i; var x=view[i]; if(!x) return;
+    document.getElementById('lbimg').src=x.img;
+    document.getElementById('lbcap').innerHTML='<b>'+DEMO.esc(x.title)+'</b> · '+DEMO.esc(x.type)+'<br><span style="opacity:.85">'+DEMO.esc(x.desc)+'</span>';
+    lb.classList.add('on');
+  }
+  fl.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+  grid.addEventListener('click', function(e){ var el=e.target.closest('.case'); if(el) open(+el.dataset.i); });
+  document.getElementById('lbx').onclick=function(){ lb.classList.remove('on'); };
+  lb.addEventListener('click', function(e){ if(e.target.id==='lb') lb.classList.remove('on'); });
+  document.getElementById('lbp').onclick=function(){ open((idx-1+view.length)%view.length); };
+  document.getElementById('lbn').onclick=function(){ open((idx+1)%view.length); };
+  document.addEventListener('keydown', function(e){
+    if(!lb.classList.contains('on')) return;
+    if(e.key==='Escape') lb.classList.remove('on');
+    if(e.key==='ArrowLeft') document.getElementById('lbp').click();
+    if(e.key==='ArrowRight') document.getElementById('lbn').click();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>

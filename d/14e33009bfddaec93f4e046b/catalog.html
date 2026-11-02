@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>전체 항목 · 갤러리 담연 (제안용 데모)</title>
+<meta name="description" content="갤러리 담연 전체 항목 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>전체 항목</h2></div><div class="filters"><span class="chip">현재 전시</span><span class="chip">예정 전시</span><span class="chip">지난 전시</span><span class="chip">작가</span><span class="chip">소식</span></div><table class="tbl"><thead><tr><th>이름</th><th>분류</th><th>설명</th></tr></thead><tbody><tr><td>EX-2611 「물의 결, 종이의 결」</td><td><span class="chip">현재 전시</span></td><td>종로 공간 1·2층 · 2026.11.06–12.20 · 한지 부조 24점. 메인 배너와 포스터는 담당자가 직접 교체했습니다.</td></tr><tr><td>EX-2612 「느린 정오」</td><td><span class="chip">예정 전시</span></td><td>용산 공간 · 2026.12.11 개막 예정 · 포스터만 등록한 상태입니다. 작품 이미지는 개막 1주 전에 공개하도록 비공개로 저장해 두었습니다.</td></tr><tr><td>EX-2609 「회색의 온도」</td><td><span class="chip">지난 전시</span></td><td>용산 공간 · 2026.09.04–10.25 · 회화 18점 아카이브. 전시가 끝나면 날짜 기준으로 지난 전시 목록에 자동으로 정렬됩니다.</td></tr><tr><td>EX-2606 「선 너머의 방」</td><td><span class="chip">지난 전시</span></td><td>종로 공간 · 2026.06.12–08.02 · 설치 6점. 작품 사진 3장이 캡션 없이 올라가 있어 '캡션 누락' 경고가 표시됩니다.</td></tr><tr><td>AR-014 윤서하</td><td><span class="chip">작가</span></td><td>한지·먹 기반 부조 작업. 참여 전시 EX-2611 · 대표작 이미지 6장 · 작가 약력은 담당자가 텍스트로 직접 수정합니다.</td></tr><tr><td>AR-021 마도윤</td><td><span class="chip">작가</span></td><td>유화·대형 캔버스 작업. 프로필 이미지가 정사각형이 아니라 목록 카드에서 잘려 보여 재업로드가 필요합니다.</td></tr><tr><td>NW-1103 연말 휴관 안내</td><td><span class="chip">소식</span></td><td>12.29–1.2 두 공간 모두 휴관합니다. 텍스트만 있는 공지 게시물이며, 상단 띠배너 노출 기간을 함께 설정했습니다.</td></tr><tr><td>NW-1027 아티스트 토크 신청</td><td><span class="chip">소식</span></td><td>EX-2611 연계 토크 · 종로 공간 · 정원 30명. 신청은 사이트 문의 폼으로 받습니다.</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("catalog"); DEMO.footer();</script>
+<script>
+(function(){
+  var cur='전체', D=DEMO.D;
+  var grid=document.getElementById('grid'), fl=document.getElementById('filters');
+  function draw(){
+    var v=D.items.filter(function(x){return cur==='전체'||x.cat===cur;});
+    grid.innerHTML=v.map(function(x){
+      return '<article class="prod"><div class="pimg" style="background-image:url(\''+x.img+'\')"></div>'
+      +'<div class="pbody"><span class="chip">'+DEMO.esc(x.cat)+'</span>'
+      +'<h3 style="margin-top:10px">'+DEMO.esc(x.name)+'</h3>'
+      +'<div class="desc">'+DEMO.esc(x.desc)+'</div>'
+      +'<div class="meta"><span>'+DEMO.esc(x.meta)+'</span><b>자세히 →</b></div></div></article>';
+    }).join('');
+  }
+  fl.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>
