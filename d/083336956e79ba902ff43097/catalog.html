@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>전체 항목 · 서담 어드바이저리 (제안용 데모)</title>
+<meta name="description" content="서담 어드바이저리 전체 항목 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>전체 항목</h2></div><div class="filters"><span class="chip">경영 진단</span><span class="chip">사업 구조화</span><span class="chip">조직·인사</span><span class="chip">성장 전략</span></div><table class="tbl"><thead><tr><th>이름</th><th>분류</th><th>설명</th></tr></thead><tbody><tr><td>대표자 1:1 경영 진단</td><td><span class="chip">경영 진단</span></td><td>매출 구조·비용 흐름·의사결정 체계를 2회 인터뷰로 점검하고 우선순위 과제를 정리합니다.</td></tr><tr><td>재무 흐름 점검 세션</td><td><span class="chip">경영 진단</span></td><td>월별 현금 흐름과 고정비 비중을 함께 보며 위험 신호를 짚는 단기 프로그램입니다.</td></tr><tr><td>사업 모델 재정비</td><td><span class="chip">사업 구조화</span></td><td>주력 상품과 수익원을 다시 나누고, 버릴 것과 키울 것을 대표자와 함께 결정합니다.</td></tr><tr><td>법인 전환 준비 컨설팅</td><td><span class="chip">사업 구조화</span></td><td>개인사업자에서 법인으로 넘어갈 때 필요한 절차와 검토 항목을 단계별로 안내합니다.</td></tr><tr><td>조직 구조 설계</td><td><span class="chip">조직·인사</span></td><td>10~30인 규모 조직의 역할 분담과 보고 체계를 정리해 대표자 의존도를 낮춥니다.</td></tr><tr><td>평가·보상 기준 수립</td><td><span class="chip">조직·인사</span></td><td>직무별 평가 항목과 보상 기준 초안을 만들고 내부 공유 방식까지 함께 설계합니다.</td></tr><tr><td>신규 시장 진입 검토</td><td><span class="chip">성장 전략</span></td><td>진입하려는 시장의 경쟁 구도와 필요 자원을 정리해 진행 여부 판단을 돕습니다.</td></tr><tr><td>연간 실행 계획 워크숍</td><td><span class="chip">성장 전략</span></td><td>분기별 목표와 담당자를 정하는 반일 워크숍입니다. (관리자 설정: 현재 모집 마감 표시 중)</td></tr></tbody></table><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("catalog"); DEMO.footer();</script>
+<script>
+(function(){
+  var cur='전체', D=DEMO.D;
+  var grid=document.getElementById('grid'), fl=document.getElementById('filters');
+  function draw(){
+    var v=D.items.filter(function(x){return cur==='전체'||x.cat===cur;});
+    grid.innerHTML=v.map(function(x){
+      return '<article class="prod"><div class="pimg" style="background-image:url(\''+x.img+'\')"></div>'
+      +'<div class="pbody"><span class="chip">'+DEMO.esc(x.cat)+'</span>'
+      +'<h3 style="margin-top:10px">'+DEMO.esc(x.name)+'</h3>'
+      +'<div class="desc">'+DEMO.esc(x.desc)+'</div>'
+      +'<div class="meta"><span>'+DEMO.esc(x.meta)+'</span><b>자세히 →</b></div></div></article>';
+    }).join('');
+  }
+  fl.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); cur=b.dataset.f; draw();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>

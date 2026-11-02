@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>소개 · 서담 어드바이저리 (제안용 데모)</title>
+<meta name="description" content="서담 어드바이저리 소개 — 제안용 데모 · 합성 데이터.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<main>
+<section class="wrap"><div class="sec-head"><h2>서두르지 않고, 정확하게 판단하도록</h2></div><p>서담 어드바이저리는 혼자 결정해야 하는 대표자 곁에서 판단의 근거를 함께 정리하는 컨설팅 팀입니다. 정해진 답을 파는 대신, 대표자의 사업에서 실제로 무엇이 막혀 있는지부터 묻습니다. 진단에서 실행 계획까지 4단계로 진행하며, 각 단계가 끝날 때마다 다음으로 넘어갈지 함께 결정합니다. 이 화면의 회사·후기·상담 내역은 모두 제안용 합성 데이터입니다.</p><p class="note">⚠ 이 화면의 모든 값은 <b>합성 데이터</b>입니다. 납품물이 아니라 제안용 시안입니다.</p></section>
+</main>
+<script src="assets/js/site.js"></script>
+<script>DEMO.chrome("about"); DEMO.footer();</script>
+<script>
+(function(){
+  var f=document.getElementById('form'); if(!f) return;
+  f.addEventListener('submit', function(e){
+    e.preventDefault(); var ok=true;
+    [['nm','f-nm'],['ph','f-ph'],['ms','f-ms']].forEach(function(p){
+      var bad=!document.getElementById(p[0]).value.trim();
+      document.getElementById(p[1]).classList.toggle('bad', bad); if(bad) ok=false;
+    });
+    if(!ok){ DEMO.toast('필수 항목을 확인해 주세요'); return; }
+    DEMO.toast('✓ 문의가 접수되었습니다 (데모 — 실제 전송 안 함)'); f.reset();
+  });
+  if(location.hash==='#contact'){ setTimeout(function(){ var el=document.getElementById('contact'); if(el) el.scrollIntoView(); },80); }
+})();
+</script>
+</body>
+</html>
